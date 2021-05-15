@@ -1,0 +1,81 @@
+{
+    "id": ObjectId("507f1f77bcf86cd799439011"),
+    "apellido": "Lorem",
+    "nombre": "Lorem",
+    "dni": 1,
+    "direccion": {
+        "calle": "Lorem",
+        "numero": -75,
+        "localidad": "Lorem"
+    },
+    "telefonos": [
+        88
+    ],
+    "tipo": "Lorem",
+    "email": "sample@email.com",
+    "contrasenia": "Lorem"
+}
+
+{
+    "id": ObjectId("507f1f77bcf86cd799439011"),
+    "nombre_producto": "Lorem",
+    "descripcion": "Lorem",
+    "categoria": "Lorem",
+    "opciones_venta": [
+        {
+            "cantidad": "Lorem",
+            "precio": 75
+        }
+    ],
+    "provision": {
+        "tamanio": "Lorem",
+        "gramaje": -71
+    },
+    "etiquetas": [
+        {
+            "nombre": "Lorem",
+            "imagen": "./resource.txt#frag01"
+        }
+    ],
+    "oferta": {
+        "activa": true,
+        "precio_oferta": 33
+    }
+}
+
+{
+    "id": ObjectId("507f1f77bcf86cd799439011"),
+    "fecha": ISODate("2016-04-08T15:06:21.595Z"),
+    "carrito": [
+        ObjectId("507f1f77bcf86cd799439011")
+    ],
+    "usuario": {
+        "nombre": "Lorem",
+        "apellido": "Lorem"
+    },
+    "total_carrito": -21,
+    "observacion": "Lorem",
+    "imagen": "./resource.txt#frag01"
+}
+
+{
+    "id": ObjectId("507f1f77bcf86cd799439011"),
+    "numero": 70,
+    "productos": [
+        {
+            "nombre_producto": "Lorem",
+            "cantidad": "Lorem",
+            "tamanio": "Lorem",
+            "gramaje": 23
+        }
+    ],
+    "estado": "Lorem",
+    "cliente": {
+        "nombre": "Lorem",
+        "apellido": "Lorem",
+        "email": "sample@email.com",
+        "telefono": -87
+    },
+    "prioridad": 26,
+    "entrega": ISODate("2016-04-08T15:06:21.595Z")
+}
