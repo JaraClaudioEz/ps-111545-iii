@@ -4,8 +4,8 @@ const ObjectId = mongodb.ObjectID
 let productos
 
 export default class ProductosDAO {
-    static async injectDB(conn) { 
-        if (productos) { 
+    static async injectDB(conn) {
+        if (productos) {
             return
         }
         try {
@@ -16,11 +16,11 @@ export default class ProductosDAO {
     }
 
     static async getProductos({
-        
-        filtros = null, 
+
+        filtros = null,
         pag = 0,
         productosPorPagina = 20,
-        } = {}) {
+    } = {}) {
 
         let query
         if (filtros) {
@@ -28,7 +28,7 @@ export default class ProductosDAO {
                 query = { $text: { $search: filtros["nombre_producto"] } } //Configurar mongodb 
             }
             else if ("categoria" in filtros) {
-                query = { "categoria": { $eq: filtros["categoria"] } } 
+                query = { "categoria": { $eq: filtros["categoria"] } }
             }/*
             else if ("zipcode" in filtros) {
                 query = { "address.zipcode": { $eq: filtros["zipcode"] } } 
@@ -56,58 +56,31 @@ export default class ProductosDAO {
         }
     }
 
-    static async getRestaurantById(id){
+    static async getProductoPorId(id) {
         try {
-            const pipeline = [
-                    {
-                        $match: {
-                            _id: new ObjectId(id),
-                        },
-                    },
-                    {
-                        $lookup: {
-                            from: "reviews",
-                            let: {
-                                id: "_id",
-                            },
-                            pipeline: [
-                                {
-                                    $match: {
-                                        $expr: {
-                                            $eq: ["$restaurant_id", "$$id"],
-                                        },
-                                    },
-                                },
-                                {
-                                    $sort: {
-                                        date: -1,
-                                    },
-                                },
-                            ],
-                            as: "reviews",
-                        },
-                    },
-                    {
-                        $addFields: {
-                            reviews: "$reviews",
-                        },
-                    },
-            ]
-            return await restaurants.aggregate(pipeline).next()
+            const query = {_id: new ObjectId(id),}
+            return await productos.findOne(query)
+            /*
+            return await productos.findOne({
+                $match: {
+                    _id: new ObjectId(id),
+                },
+            })
+            */
         } catch (e) {
-            console.error(`Something went wrong in getRestaurantById: ${e}`)
+            console.error(`Something went wrong in getProductosPorId: ${e}`)
             throw e
         }
     }
 
-    static async getCuisines(){
-        let cuisines = []
+    static async getCategorias() {
+        let categorias = []
         try {
-            cuisines = await restaurants.distinct("cuisine")
-            return cuisines
+            categorias = await productos.distinct("categoria")
+            return categorias
         } catch (e) {
-            console.error(`Unable to get cuisines: ${e}`)
-            return cuisines
+            console.error(`Unable to get categorias: ${e}`)
+            return categorias
         }
     }
 }

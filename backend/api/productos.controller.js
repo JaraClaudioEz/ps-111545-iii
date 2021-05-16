@@ -30,25 +30,25 @@ export default class ProductosController {
         res.json(response)
     }
 
-    static async apiGetRestaurantById(req, res, next) {
+    static async apiGetProductoPorId(req, res, next) {
         try {
             let id = req.params.id || {} //A query is after a ?, a param is after a / and body is in the body of the request
-            let restaurant = await RestaurantsDAO.getRestaurantById(id)
-            if (!restaurant) {
+            let producto = await ProductosDAO.getProductoPorId(id)
+            if (!producto) {
                 res.status(404).json({ error: "Not found" })
                 return
             }
-            res.json(restaurant)
+            res.json(producto)
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({ error: e })
         }
     }
 
-    static async apiGetRestaurantCuisines(req, res, next) {
+    static async apiGetCategoriasProducto(req, res, next) {
         try {
-            let cuisines = await RestaurantsDAO.getCuisines()
-            res.json(cuisines)
+            let categorias = await ProductosDAO.getCategorias()
+            res.json(categorias)
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({ error: e })
