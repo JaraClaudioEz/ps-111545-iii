@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.route("/productos")
     .get(ProductosCtrl.apiGetProductos)
-    //.post(ProductosCtrl.apiPostProducto)
+    .post(ProductosCtrl.apiPostProducto)
     //.put(ProductosCtrl.apiUpdateProducto)
     //.delete(ProductosCtrl.apiDeleteProducto)
 

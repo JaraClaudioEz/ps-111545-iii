@@ -60,18 +60,21 @@ export default class ProductosDAO {
         try {
             const query = {_id: new ObjectId(id),}
             return await productos.findOne(query)
-            /*
-            return await productos.findOne({
-                $match: {
-                    _id: new ObjectId(id),
-                },
-            })
-            */
+            
         } catch (e) {
             console.error(`Something went wrong in getProductosPorId: ${e}`)
             throw e
         }
     }
+
+    static async addProducto(nuevoProducto) {
+        try {
+          return await productos.insertOne(nuevoProducto)
+        } catch (e) {
+          console.error(`Unable to post producto: ${e}`)
+          return { error: e }
+        }
+      }
 
     static async getCategorias() {
         let categorias = []

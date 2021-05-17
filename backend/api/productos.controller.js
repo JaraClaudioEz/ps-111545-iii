@@ -2,10 +2,10 @@ import ProductosDAO from "../dao/productosDAO.js"
 
 export default class ProductosController {
     static async apiGetProductos(req, res, next) {
-        
+
         const productosPorPagina = req.query.productosPorPagina ? parseInt(req.productosPorPagina, 10) : 20
         const pag = req.query.pag ? parseInt(req.query.pag, 10) : 0
-        
+
         let filtros = {}
         if (req.query.categoria) {
             filtros.categoria = req.query.categoria
@@ -52,6 +52,23 @@ export default class ProductosController {
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({ error: e })
+        }
+    }
+
+    static async apiPostProducto(req, res, next) {
+        try {
+            const nuevoProducto = req.body
+            /*
+            const userInfo = {
+                name: req.body.name,
+                _id: req.body.user_id
+            }
+            const date = new Date()
+            */
+            const RespuestaProducto = await ProductosDAO.addProducto(nuevoProducto)      
+            res.json({ status: "success" })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
         }
     }
 }
