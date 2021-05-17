@@ -35,7 +35,7 @@ export default class ProductosController {
             let id = req.params.id || {} //A query is after a ?, a param is after a / and body is in the body of the request
             let producto = await ProductosDAO.getProductoPorId(id)
             if (!producto) {
-                res.status(404).json({ error: "Not found" })
+                res.status(404).json({ error: "No se encontró" })
                 return
             }
             res.json(producto)
@@ -65,8 +65,43 @@ export default class ProductosController {
             }
             const date = new Date()
             */
-            const RespuestaProducto = await ProductosDAO.addProducto(nuevoProducto)      
-            res.json({ status: "success" })
+            const respuestaProducto = await ProductosDAO.addProducto(nuevoProducto)
+            res.json({ status: "Agregado", id: respuestaProducto.insertedId })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
+        }
+    }
+
+    static async apiUpdateProducto(req, res, next) {
+        try {
+            const idProducto = req.body._id
+            const producto = req.body
+
+            const respuestaProducto = await ProductosDAO.updateProducto(idProducto, producto)
+
+            var { error } = respuestaProducto
+            if (error) {
+                res.status(400).json({ error })
+            }
+
+            if (respuestaProducto.modifiedCount === 0) {
+                throw new Error(
+                    "No hubo cambios",
+                )
+            }
+
+            res.json({ status: "Modificado", id: idProducto })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
+        }
+    }
+
+    static async apiDeleteProducto(req, res, next) {
+        try {
+            const idProducto = req.query.id
+            //console.log(idProducto)
+            const respuestaProducto = await ProductosDAO.deleteProducto(idProducto)
+            res.json({ status: "Eliminado", id: idProducto })
         } catch (e) {
             res.status(500).json({ error: e.message })
         }

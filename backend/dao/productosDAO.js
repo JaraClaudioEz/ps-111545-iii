@@ -58,9 +58,9 @@ export default class ProductosDAO {
 
     static async getProductoPorId(id) {
         try {
-            const query = {_id: new ObjectId(id),}
+            const query = { _id: new ObjectId(id), }
             return await productos.findOne(query)
-            
+
         } catch (e) {
             console.error(`Something went wrong in getProductosPorId: ${e}`)
             throw e
@@ -69,12 +69,41 @@ export default class ProductosDAO {
 
     static async addProducto(nuevoProducto) {
         try {
-          return await productos.insertOne(nuevoProducto)
+            return await productos.insertOne(nuevoProducto)
         } catch (e) {
-          console.error(`Unable to post producto: ${e}`)
-          return { error: e }
+            console.error(`Unable to post producto: ${e}`)
+            return { error: e }
         }
-      }
+    }
+
+    static async updateProducto(idProducto, producto) {
+        try {
+
+            const { _id, ...updatedProducto } = producto
+
+            const updateResponse = await productos.updateOne(
+                { _id: ObjectId(idProducto) },
+                { $set: updatedProducto },
+            )
+
+            return updateResponse
+        } catch (e) {
+            console.error(`Unable to update producto: ${e}`)
+            return { error: e }
+        }
+    }
+
+    static async deleteProducto(idProducto) {
+
+        try {
+            const deleteResponse = await productos.deleteOne({ _id: ObjectId(idProducto) })
+
+            return deleteResponse
+        } catch (e) {
+            console.error(`Unable to delete producto: ${e}`)
+            return { error: e }
+        }
+    }
 
     static async getCategorias() {
         let categorias = []
