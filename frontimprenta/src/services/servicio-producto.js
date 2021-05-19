@@ -1,16 +1,16 @@
 import http from "../http-commons";
 
 class ProductoDataService {
-    getListadoProductos(page = 0) {
-        return http.get(`?page=${page}`);
+    getListadoProductos(pag = 0) {
+        return http.get(`/productos?pag=${pag}`);
     }
 
     getProducto(id) {
-        return http.get(`/id/${id}`);
+        return http.get(`/productos/id/${id}`);
     }
 
-    find(query, by = "name", page = 0) { 
-        return http.get(`?${by}=${query}&page=${page}`);
+    find(query, by = "nombre", pag = 0) { 
+        return http.get(`/productos?${by}=${query}&pag=${pag}`);
     }
 
     addProducto(data) {

@@ -31,9 +31,9 @@ function App() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse">
-            <ul className="navbar-nav mr-auto">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to={"/productos"} className="nav-link">
+                <Link to={"/imprenta"} className="nav-link">
                   Productos
               </Link>
               </li>
@@ -57,13 +57,7 @@ function App() {
         <Switch>
           <Route exact path={["/", "/imprenta"]} component={ListaProductos} />
           <Route
-            path="/restaurants/:id/review"
-            render={(props) => (
-              <Producto {...props} user={user} />
-            )}
-          />
-          <Route
-            path="/restaurants/:id"
+            path="/productos/id/:id"
             render={(props) => (
               <Producto {...props} user={user} />
             )}

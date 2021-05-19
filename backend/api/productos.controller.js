@@ -10,8 +10,8 @@ export default class ProductosController {
         if (req.query.categoria) {
             filtros.categoria = req.query.categoria
         }
-        else if (req.query.nombre_producto) {
-            filtros.nombre_producto = req.query.nombre_producto
+        else if (req.query.nombre) {
+            filtros.nombre_producto = req.query.nombre
         }
 
         const { listaProductos, totalProductos } = await ProductosDAO.getProductos({
