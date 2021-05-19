@@ -3,7 +3,6 @@ import { Switch, Route, Link } from "react-router-dom";
 import logo from "./assets/IntegralLogo.png";
 //import {Navbar} from "react-bootstrap";
 
-//import AddReview from "./components/add-review";
 import Login from "./components/login";
 import Producto from "./components/producto";
 import ListaProductos from "./components/lista-productos";
