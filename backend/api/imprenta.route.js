@@ -10,7 +10,7 @@ router.route("/productos")
     .put(ProductosCtrl.apiUpdateProducto)
     .delete(ProductosCtrl.apiDeleteProducto)
 
-router.route("/id/:id").get(ProductosCtrl.apiGetProductoPorId) 
+router.route("/productos/id/:id").get(ProductosCtrl.apiGetProductoPorId) 
 router.route("/categorias").get(ProductosCtrl.apiGetCategoriasProducto) 
 
 export default router

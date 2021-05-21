@@ -25,14 +25,11 @@ export default class ProductosDAO {
         let query
         if (filtros) {
             if ("nombre_producto" in filtros) {
-                query = { $text: { $search: filtros["nombre_producto"] } } //Configurar mongodb 
+                query = { $text: { $search: filtros["nombre_producto"] } } //Configurado en mongodb 
             }
             else if ("categoria" in filtros) {
                 query = { "categoria": { $eq: filtros["categoria"] } }
-            }/*
-            else if ("zipcode" in filtros) {
-                query = { "address.zipcode": { $eq: filtros["zipcode"] } } 
-            }*/
+            }
         }
 
         let cursor

@@ -1,12 +1,11 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import logo from "./assets/IntegralLogo.png";
-//import {Navbar} from "react-bootstrap";
 
 import Login from "./components/login";
 import Producto from "./components/producto";
 import ListaProductos from "./components/lista-productos";
-//import ListaProductos from "./components/lista-productos";
+import AddProducto from "./components/agregar-producto";
 
 function App() {
 
@@ -57,7 +56,19 @@ function App() {
         <Switch>
           <Route exact path={["/", "/imprenta"]} component={ListaProductos} />
           <Route
-            path="/productos/id/:id"
+            path="/productos/agregar/:id"
+            render={(props) => (
+              <AddProducto {...props} user={user} />
+            )}
+          />
+          <Route
+            path="/productos/agregar"
+            render={(props) => (
+              <AddProducto {...props} user={user} />
+            )}
+          />
+          <Route
+            path="/productos/:id"
             render={(props) => (
               <Producto {...props} user={user} />
             )}
