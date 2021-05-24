@@ -54,7 +54,7 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/imprenta"]} component={ListaProductos} />
+          <Route exact path={["/", "/imprenta"]} component={ListaProductos} usuario={user} />
           <Route
             path="/productos/agregar/:id"
             render={(props) => (

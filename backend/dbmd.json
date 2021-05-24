@@ -23,24 +23,27 @@
     "categoria": "Lorem",
     "opciones_venta": [
         {
-            "cantidad": "Lorem",
-            "precio": 75
+            "especificaciones": "lorem",
+            "provision": "Lorem",
+            "precio": 75,
+            "imagen": "./resource.txt#frag01",
+            "oferta": true,
+            "precio_oferta": 33
         }
     ],
-    "provision": {
-        "tamanio": "Lorem",
-        "gramaje": -71
-    },
-    "etiquetas": [
-        {
-            "nombre": "Lorem",
-            "imagen": "./resource.txt#frag01"
-        }
-    ],
-    "oferta": {
-        "activa": true,
-        "precio_oferta": 33
-    }
+}
+
+{
+    "id": ObjectId("507f1f77bcf86cd799439011"),
+    "categoria": "Lorem",
+    "nombre_producto": "Lorem",
+    "descripcion": "Lorem",
+    "especificaciones": "lorem",
+    "provision": "Lorem",
+    "precio": 75,
+    "imagen": "./resource.txt#frag01",
+    "oferta": true,
+    "precio_oferta": 33
 }
 
 {
