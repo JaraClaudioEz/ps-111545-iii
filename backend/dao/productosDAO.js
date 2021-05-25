@@ -55,7 +55,7 @@ export default class ProductosDAO {
 
     static async getProductoPorId(id) {
         try {
-            const query = { _id: new ObjectId(id), }
+            const query = { _id: ObjectId(id), }
             return await productos.findOne(query)
 
         } catch (e) {

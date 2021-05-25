@@ -62,7 +62,7 @@ function App() {
             )}
           />
           <Route
-            path="/productos/agregar"
+            exact path="/productos/agregar"
             render={(props) => (
               <AddProducto {...props} user={user} />
             )}

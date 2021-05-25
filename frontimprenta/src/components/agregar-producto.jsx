@@ -25,7 +25,7 @@ const AddProducto = props => {
         //setProducto(props.location.state.productoActual)
     }
 
-    const [categorias, setCategorias] = useState(["Todas"]);
+    const [categorias, setCategorias] = useState(["Seleccione..."]);
     const [searchCategoria, setSearchCategoria] = useState("");
     const [producto, setProducto] = useState(estadoInicialProducto);
     const [submitted, setSubmitted] = useState(false);
@@ -45,8 +45,12 @@ const AddProducto = props => {
         ProductoDataService.getCategorias()
             .then(response => {
                 console.log(response.data);
-                setCategorias(response.data);
-
+                if(editar){
+                    setCategorias(response.data);
+                }
+                else{
+                    setCategorias(["Seleccione..."].concat(response.data));
+                }
             })
             .catch(e => {
                 console.log(e);
@@ -54,7 +58,10 @@ const AddProducto = props => {
     };
 
     useEffect(() => {
-        obtenerProducto(props.match.params.id);
+        traerCategorias();
+        if(editar){
+            obtenerProducto(props.match.params.id);
+        }
     }, [props.match.params.id]);
 
 
@@ -65,12 +72,11 @@ const AddProducto = props => {
     const onChangeSearchCategoria = e => {
         const searchCategoria = e.target.value;
         setSearchCategoria(searchCategoria);
-    
       };
 
     const saveProducto = () => {
 
-        const data = {
+        let data = {
             _id: producto._id,
             nombre: producto.nombre_producto,
             descripcion: producto.descripcion,
@@ -119,10 +125,13 @@ const AddProducto = props => {
             {props.user ? (
                 <div className="submit-form">
                     {submitted ? (
-                        <div>
+                        <div className="row">
                             <h4>Producto agregado!</h4>
                             <Link to={"/productos/" + producto._id} className="btn btn-success">
                                 Ver Producto
+                            </Link>
+                            <Link to={"/productos"} className="btn btn-success">
+                                Ver Listado
                             </Link>
                         </div>
                     ) : (
