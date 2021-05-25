@@ -75,6 +75,7 @@ export default class ProductosDAO {
 
     static async updateProducto(idProducto, producto) {
         try {
+            /*
             const updatedProducto = {
                 //$set: {
                 nombre_producto: producto.nombre_producto,
@@ -88,12 +89,13 @@ export default class ProductosDAO {
                 imagen: producto.imagen
                 //}
             };
+            */
 
-            //const { _id, ...updatedProducto } = producto
+            const { _id, ...updatedProducto } = producto
 
-            const updateResponse = await productos.replaceOne(
+            const updateResponse = await productos.updateOne(
                 { _id: ObjectId(idProducto) },
-                { updatedProducto },
+                { $set: updatedProducto },
             )
 
             return updateResponse

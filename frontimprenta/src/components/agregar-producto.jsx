@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 const AddProducto = props => {
 
     const estadoInicialProducto = {
-        id: null,
-        nombre: "",
+        _id: null,
+        nombre_producto: "",
         descripcion: "",
         especificaciones: "",
         provision: "",
@@ -19,16 +19,14 @@ const AddProducto = props => {
 
     let editar = false;
 
+    const [categorias, setCategorias] = useState(["Seleccione..."]);
+    const [producto, setProducto] = useState(estadoInicialProducto);
+    const [submitted, setSubmitted] = useState(false);
 
     if (props.location.state && props.location.state.productoActual) {
         editar = true;
         //setProducto(props.location.state.productoActual)
     }
-
-    const [categorias, setCategorias] = useState(["Seleccione..."]);
-    const [searchCategoria, setSearchCategoria] = useState("");
-    const [producto, setProducto] = useState(estadoInicialProducto);
-    const [submitted, setSubmitted] = useState(false);
 
     const obtenerProducto = id => {
         ProductoDataService.getProducto(id)
@@ -45,10 +43,10 @@ const AddProducto = props => {
         ProductoDataService.getCategorias()
             .then(response => {
                 console.log(response.data);
-                if(editar){
+                if (editar) {
                     setCategorias(response.data);
                 }
-                else{
+                else {
                     setCategorias(["Seleccione..."].concat(response.data));
                 }
             })
@@ -59,26 +57,22 @@ const AddProducto = props => {
 
     useEffect(() => {
         traerCategorias();
-        if(editar){
+        if (editar) {
             obtenerProducto(props.match.params.id);
         }
     }, [props.match.params.id]);
 
 
     const handleInputChange = event => {
-        setProducto(event.target.value);
+        const value = event.target.value;
+        setProducto({ ...producto, [event.target.name]: value });
     };
-
-    const onChangeSearchCategoria = e => {
-        const searchCategoria = e.target.value;
-        setSearchCategoria(searchCategoria);
-      };
 
     const saveProducto = () => {
 
         let data = {
             _id: producto._id,
-            nombre: producto.nombre_producto,
+            nombre_producto: producto.nombre_producto,
             descripcion: producto.descripcion,
             especificaciones: producto.especificaciones,
             provision: producto.provision,
@@ -88,17 +82,9 @@ const AddProducto = props => {
             precio_oferta: producto.precio_oferta,
             imagen: producto.imagen
         };
-        /*
-        var data = {
-            text: producto.nombre,
-            name: props.user.name,
-            user_id: props.user.id,
-            producto_id: props.match.params.id
-        };
-        */
 
         if (editar) {
-            data._id = props.location.state.productoActual._id
+            //data._id = props.location.state.productoActual._id
             ProductoDataService.updateProducto(data)
                 .then(response => {
                     setSubmitted(true);
@@ -130,7 +116,7 @@ const AddProducto = props => {
                             <Link to={"/productos/" + producto._id} className="btn btn-success">
                                 Ver Producto
                             </Link>
-                            <Link to={"/productos"} className="btn btn-success">
+                            <Link to={"/imprenta"} className="btn btn-success">
                                 Ver Listado
                             </Link>
                         </div>
@@ -146,38 +132,39 @@ const AddProducto = props => {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            id="text"
+                                            id="nombre_producto"
                                             required
                                             value={producto.nombre_producto}
                                             onChange={handleInputChange}
-                                            name="text"
+                                            name="nombre_producto"
                                             placeholder="Producto"
                                         />
                                         <div id="ayudaProducto" className="form-text">Introduza el nombre del producto.</div>
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Categoría:</label>
-                                        <select onChange={onChangeSearchCategoria}>
+                                        <select name="categoria" onChange={handleInputChange} value={producto.categoria}>
                                             {categorias.map(categoria => {
                                                 return (
                                                     <option value={categoria}> {categoria.substr(0, 20)} </option>
                                                 )
                                             })}
                                         </select>
+                                        <div id="ayudaCategoria" className="form-text">Seleccione la categoría a la cual pertenece le producto.</div>
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Provisión del Producto:</label>
                                         <input
                                             type="text"
                                             className="form-control"
-                                            id="prov"
+                                            id="provision"
                                             required
                                             value={producto.provision}
                                             onChange={handleInputChange}
-                                            name="prov"
+                                            name="provision"
                                             placeholder="Provisión"
                                         />
-                                        <div id="ayudaEspecificaciones" className="form-text">Introduza cómo se desea vender el producto. Ejemplo 1000 tarjetas, por metro, etc.</div>
+                                        <div id="ayudaProvision" className="form-text">Introduza cómo se desea vender el producto. Ejemplo 1000 tarjetas, por metro, etc.</div>
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Precio del Producto:</label>
@@ -194,18 +181,18 @@ const AddProducto = props => {
                                                 placeholder="Precio"
                                             />
                                         </div>
-                                        <div id="ayudaEspecificaciones" className="form-text">Introduza el precio del producto para la provision introducida anteriormente.</div>
+                                        <div id="ayudaPrecio" className="form-text">Introduza el precio del producto para la provision introducida anteriormente.</div>
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Especificaciones del Producto:</label>
                                         <input
                                             type="text"
                                             className="form-control"
-                                            id="esp"
+                                            id="especificaciones"
                                             required
                                             value={producto.especificaciones}
                                             onChange={handleInputChange}
-                                            name="esp"
+                                            name="especificaciones"
                                             placeholder="Especificaciones"
                                         />
                                         <div id="ayudaEspecificaciones" className="form-text">Introduza las especificaciones del producto. Por ejemplo calidad, gramaje, material, etc.</div>
@@ -215,11 +202,11 @@ const AddProducto = props => {
                                         <textarea
                                             type="text"
                                             className="form-control"
-                                            id="desc"
+                                            id="descripcion"
                                             required
                                             value={producto.descripcion}
                                             onChange={handleInputChange}
-                                            name="desc"
+                                            name="descripcion"
                                             placeholder="Descripción"
                                         />
                                         <div id="ayudaDescripcion" className="form-text">Describa el producto, ventajas, usos. Información extra que desee mostrar.</div>
@@ -227,16 +214,24 @@ const AddProducto = props => {
                                     <div className="mb-3">
                                         <div className="input-group">
                                             <div className="input-group-text">
-                                                <input className="form-check-input mt-0" type="radio" value={producto.oferta} />
+                                                <input
+                                                    className="form-check-input mt-0"
+                                                    type="radio"
+                                                    id="oferta"
+                                                    value={true}
+                                                    checked={producto.oferta === true}
+                                                    onChange={handleInputChange}
+                                                    name="oferta"
+                                                />
                                             </div>
                                             <input
                                                 type="number"
                                                 className="form-control"
-                                                id="precioOferta"
+                                                id="precio_oferta"
                                                 required
                                                 value={producto.precio_oferta}
                                                 onChange={handleInputChange}
-                                                name="precioOferta"
+                                                name="precio_oferta"
                                                 placeholder="Precio"
                                             />
                                         </div>
