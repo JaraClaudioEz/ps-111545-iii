@@ -15,6 +15,7 @@ class ProductoDataService {
 
     addProducto(data) {
         return http.post("/productos", data);
+        console.log(data);
     }
 
     updateProducto(data) {

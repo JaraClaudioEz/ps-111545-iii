@@ -55,6 +55,17 @@ const ListaProductos = props => {
     traerProductos();
   }
 
+  function eliminarProducto(id) {
+    ProductoDataService.deleteProducto(id)
+      .then(response => {
+        refreshList()
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
   const find = (query, by) => {
     ProductoDataService.find(query, by)
       .then(response => {
@@ -80,106 +91,110 @@ const ListaProductos = props => {
 
   return (
     <div className="container">
-      
+
+      <div className="container-fluid">
         <div className="row">
           <h1>Listado de Productos</h1>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Especificaciones</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Precio Oferta</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                productos.map(producto => (
-                  <tr key={producto._id}>
-                    <td>{producto.nombre_producto}</td>
-                    <td>{producto.categoria}</td>
-                    <td>{producto.especificaciones}</td>
-                    <td>{producto.precio}</td>
-                    <td>{producto.precio_oferta}</td>
-                    <td><Link to={"/productos/agregar/" + producto._id} className="btn btn-success">Editar</Link></td>
-                    <td><button className="btn btn-danger">Eliminar</button></td>
-                    <td />
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
+          <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto</Link>
         </div>
-      
-        <div className="container-fluid">
-          <div className="row pb-3">
-            <div className="input-group col-lg-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Búsqueda por nombre"
-                value={searchNombre}
-                onChange={onChangeSearchNombre}
-              />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={findByNombre}
-                >
-                  Buscar
+
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Especificaciones</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Precio Oferta</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              productos.map(producto => (
+                <tr key={producto._id}>
+                  <td>{producto.nombre_producto}</td>
+                  <td>{producto.categoria}</td>
+                  <td>{producto.especificaciones}</td>
+                  <td>{producto.precio}</td>
+                  <td>{producto.precio_oferta}</td>
+                  <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
+                  <td><button className="btn btn-danger" type="button" onClick={() => {eliminarProducto(producto._id)}}>Eliminar</button></td>
+                  <td />
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div className="container-fluid">
+        <div className="row pb-3">
+          <div className="input-group col-lg-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Búsqueda por nombre"
+              value={searchNombre}
+              onChange={onChangeSearchNombre}
+            />
+            <div className="input-group-append">
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                onClick={findByNombre}
+              >
+                Buscar
               </button>
-              </div>
-            </div>
-            <div className="input-group col-lg-4">
-              <select onChange={onChangeSearchCategoria}>
-                {categorias.map(categoria => {
-                  return (
-                    <option value={categoria}> {categoria.substr(0, 20)} </option>
-                  )
-                })}
-              </select>
-              <div className="input-group-append">
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={findByCategoria}
-                >
-                  Buscar
-              </button>
-              </div>
             </div>
           </div>
+          <div className="input-group col-lg-4">
+            <select onChange={onChangeSearchCategoria}>
+              {categorias.map(categoria => {
+                return (
+                  <option value={categoria}> {categoria.substr(0, 20)} </option>
+                )
+              })}
+            </select>
+            <div className="input-group-append">
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                onClick={findByCategoria}
+              >
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
 
-          <div className="row">
-            {productos.map((producto) => {
-              return (
-                <div className="col-lg-4 pb-1">
-                  <div className="card">
-                    <img src={logo} className="card-img-top" alt="logo" />
-                    <div className="card-body">
-                      <h5 className="card-title">{producto.nombre_producto}</h5>
-                      <p className="card-text">
-                        <strong>Categoría: </strong>{producto.categoria}<br />
-                        <strong>Descripción: </strong>{producto.descripcion}
-                      </p>
-                      <div className="row">
-                        <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-                          Ver Producto
+        <div className="row">
+          {productos.map((producto) => {
+            return (
+              <div className="col-lg-4 pb-1">
+                <div className="card">
+                  <img src={logo} className="card-img-top" alt="logo" />
+                  <div className="card-body">
+                    <h5 className="card-title">{producto.nombre_producto}</h5>
+                    <p className="card-text">
+                      <strong>Categoría: </strong>{producto.categoria}<br />
+                      <strong>Descripción: </strong>{producto.descripcion}
+                    </p>
+                    <div className="row">
+                      <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+                        Ver Producto
                         </Link>
-                        <button className="btn btn-primary col-lg-5 mx-1 mb-1" type="button">Agrerar al Carrito</button>
-                      </div>
+                      <button className="btn btn-primary col-lg-5 mx-1 mb-1" type="button">Agrerar al Carrito</button>
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-      
+      </div>
+
     </div>
   );
 }

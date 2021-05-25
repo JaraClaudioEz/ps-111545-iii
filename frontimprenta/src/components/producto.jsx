@@ -8,9 +8,13 @@ const Producto = props => {
     id: null,
     nombre: "",
     descripcion: "",
-    provision: {},
+    especificaciones: "",
+    provision: "",
     categoria: "",
-    opciones: [{}]
+    precio: 0,
+    oferta: false,
+    precio_oferta: 0,
+    imagen: ""
   };
 
   const [producto, setProducto] = useState(estadoInicialProducto);
@@ -41,7 +45,7 @@ const Producto = props => {
           <div className="container">
             <h5>{producto.nombre}</h5>
             <p>
-              <strong>Categoría: </strong>{producto.categoria}<br />
+              <strong>Especificaciones: </strong>{producto.especificaciones}<br />
               <strong>Descripción: </strong>{producto.descripcion}
             </p>
             <Link to={"/imprenta"} className="btn btn-primary">
