@@ -15,7 +15,6 @@ class ProductoDataService {
 
     addProducto(data) {
         return http.post("/productos", data);
-        //console.log(data);
     }
 
     updateProducto(data) {
@@ -28,6 +27,10 @@ class ProductoDataService {
 
     getCategorias(id) {
         return http.get(`/categorias`);
+    }
+
+    addImagen(formData){
+        return http.post(`/productos/imagen`, formData)
     }
 }
 

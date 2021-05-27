@@ -75,22 +75,7 @@ export default class ProductosDAO {
 
     static async updateProducto(idProducto, producto) {
         try {
-            /*
-            const updatedProducto = {
-                //$set: {
-                nombre_producto: producto.nombre_producto,
-                descripcion: producto.descripcion,
-                especificaciones: producto.especificaciones,
-                provision: producto.provision,
-                categoria: producto.categoria,
-                precio: producto.precio,
-                oferta: producto.oferta,
-                precio_oferta: producto.precio_oferta,
-                imagen: producto.imagen
-                //}
-            };
-            */
-
+            
             const { _id, ...updatedProducto } = producto
 
             const updateResponse = await productos.updateOne(

@@ -23,6 +23,9 @@ const AddProducto = props => {
     const [producto, setProducto] = useState(estadoInicialProducto);
     const [submitted, setSubmitted] = useState(false);
 
+    const [fileData, setFileData] = useState();
+    const [images, setFile] = useState("");
+
     if (props.location.state && props.location.state.productoActual) {
         editar = true;
         //setProducto(props.location.state.productoActual)
@@ -66,6 +69,28 @@ const AddProducto = props => {
     const handleInputChange = event => {
         const value = event.target.value;
         setProducto({ ...producto, [event.target.name]: value });
+    };
+
+    const handleFileChange = ({ target }) => {
+        setFileData(target.files[0]);
+        setFile(target.value);
+    };
+
+    const handleSubmit = async () => {
+        //e.preventDefault();
+
+        const formdata = new FormData();
+
+        formdata.append("image", fileData);
+
+        await ProductoDataService.addImagen(formdata)
+            .then(response => {
+                
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
     };
 
     const saveProducto = () => {
@@ -241,17 +266,20 @@ const AddProducto = props => {
                                         <label className="form-label">Imagen del Producto:</label>
                                         <div className="input-group">
                                             <input
-                                                type="text"
+                                                type="file"
                                                 className="form-control"
                                                 id="imagen"
                                                 required
-                                                value={producto.imagen}
-                                                onChange={handleInputChange}
+                                                value={images.name}
+                                                onChange={handleFileChange}
                                                 name="imagen"
                                                 placeholder="Imagen"
-                                                disabled
                                             />
-                                            <button className="btn btn-outline-secondary" type="button" id="subirImagen">Cargar Imagen</button>
+                                            <button
+                                                className="btn btn-outline-secondary"
+                                                onClick={handleSubmit}
+                                                type="button"
+                                                id="subirImagen">Cargar Imagen</button>
                                         </div>
                                         <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
                                     </div>
