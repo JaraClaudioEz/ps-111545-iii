@@ -106,4 +106,21 @@ export default class ProductosController {
             res.status(500).json({ error: e.message })
         }
     }
+
+    static async apiPostImagen(req, res, next) {
+        try {
+            const nuevoProducto = req.body
+            /*
+            const userInfo = {
+                name: req.body.name,
+                _id: req.body.user_id
+            }
+            const date = new Date()
+            */
+            const respuestaProducto = await ProductosDAO.addProducto(nuevoProducto)
+            res.json({ status: "Agregado", id: respuestaProducto.insertedId })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
+        }
+    }
 }

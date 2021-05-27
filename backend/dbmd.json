@@ -41,7 +41,10 @@
     "especificaciones": "lorem",
     "provision": "Lorem",
     "precio": 75,
-    "imagen": "./resource.txt#frag01",
+    "imagen": {
+        "url": "./resource.txt#frag01",
+        "id": "public_id"
+    }
     "oferta": true,
     "precio_oferta": 33
 }

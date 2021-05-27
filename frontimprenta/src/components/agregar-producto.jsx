@@ -14,7 +14,10 @@ const AddProducto = props => {
         precio: 0,
         oferta: false,
         precio_oferta: 0,
-        imagen: ""
+        imagen: {
+            url: "",
+            id: ""
+        }
     };
 
     let editar = false;
@@ -105,7 +108,10 @@ const AddProducto = props => {
             precio: producto.precio,
             oferta: producto.oferta,
             precio_oferta: producto.precio_oferta,
-            imagen: producto.imagen
+            imagen: {
+                url: producto.imagen.url,
+                id: producto.imagen.id
+            }
         };
 
         if (editar) {
@@ -267,6 +273,7 @@ const AddProducto = props => {
                                         <div className="input-group">
                                             <input
                                                 type="file"
+                                                accept=".jpg, .png, .jpeg"
                                                 className="form-control"
                                                 id="imagen"
                                                 required

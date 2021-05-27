@@ -5,7 +5,7 @@ import logo from "../assets/IntegralLogo.png";
 
 const Producto = props => {
   const estadoInicialProducto = {
-    id: null,
+    _id: null,
     nombre: "",
     descripcion: "",
     especificaciones: "",
@@ -14,7 +14,10 @@ const Producto = props => {
     precio: 0,
     oferta: false,
     precio_oferta: 0,
-    imagen: ""
+    imagen: {
+      url: "",
+      id: ""
+  }
   };
 
   const [producto, setProducto] = useState(estadoInicialProducto);
