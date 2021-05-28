@@ -273,7 +273,7 @@ const AddProducto = props => {
                                         <div className="input-group">
                                             <input
                                                 type="file"
-                                                accept=".jpg, .png, .jpeg"
+                                                accept=".jpg,.png,.jpeg"
                                                 className="form-control"
                                                 id="imagen"
                                                 required

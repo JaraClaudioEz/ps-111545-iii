@@ -13,7 +13,7 @@ router.route("/productos")
 router.route("/productos/id/:id").get(ProductosCtrl.apiGetProductoPorId)
 router.route("/categorias").get(ProductosCtrl.apiGetCategoriasProducto)
 
-router.route("/imagenes")
-    .post(ProductosCtrl.apiPostImagen)
+//router.route("/imagenes")
+//    .post(ProductosCtrl.apiPostImagen)
 
 export default router

@@ -2,7 +2,6 @@ import app from "./server.js"
 import mongodb from "mongodb"
 import dotenv from "dotenv"
 import ProductosDAO from "./dao/productosDAO.js"
-//import ReviewsDAO from "./dao/reviewsDAO.js"
 
 dotenv.config()
 const MongoClient = mongodb.MongoClient
@@ -13,7 +12,8 @@ MongoClient.connect(
     {
         poolSize: 50,
         wtimeout: 2500,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     }
 )
     .catch(err => {

@@ -1,4 +1,9 @@
 import ProductosDAO from "../dao/productosDAO.js"
+import cloudinary from "../utils/cloudinary.config.js"
+import upload from "../utils/multer.js"
+
+//const cloudinary = require('../utils/cloudinary.config');
+//const upload = require("../utils/multer").default;
 
 export default class ProductosController {
     static async apiGetProductos(req, res, next) {
@@ -109,16 +114,16 @@ export default class ProductosController {
 
     static async apiPostImagen(req, res, next) {
         try {
-            const nuevoProducto = req.body
-            /*
-            const userInfo = {
-                name: req.body.name,
-                _id: req.body.user_id
+            
+            console.log(req.file);
+            const result = await cloudinary.uploader.upload(req.file);
+
+            const imagen = {
+                url: result.secure_url,
+                id: result.public_id
             }
-            const date = new Date()
-            */
-            const respuestaProducto = await ProductosDAO.addProducto(nuevoProducto)
-            res.json({ status: "Agregado", id: respuestaProducto.insertedId })
+
+            res.json({ status: "Imagen cargada.", data: imagen })
         } catch (e) {
             res.status(500).json({ error: e.message })
         }
