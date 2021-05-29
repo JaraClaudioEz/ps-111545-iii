@@ -30,11 +30,11 @@ class ProductoDataService {
     }
 
     addImagen(formData){
-        return http.post(`/imagenes`, formData)
+        return http.post("/imagenes", formData)
     }
 
-    updateImagen(formData){
-        return http.put(`/imagenes`, formData)
+    updateImagen(formData, id){
+        return http.put(`/imagenes/${id}`, formData)
     }
 
     deleteImagen(id) { 

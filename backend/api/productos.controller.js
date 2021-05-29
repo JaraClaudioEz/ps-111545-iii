@@ -97,7 +97,7 @@ export default class ProductosController {
 
             res.json({ status: "Modificado", id: idProducto })
         } catch (e) {
-            res.status(500).json({ error: e.message })
+            res.status(500).json({ text: "Algo esta mal" ,error: e.message })
         }
     }
 

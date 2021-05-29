@@ -43,7 +43,7 @@ const Producto = props => {
       {producto ? (
         <div className="container-fluid">
           <div className="container">
-            <img src={logo} class="card-img-top" alt="logo" />
+            <img src={producto.imagen.url = ""? logo : producto.imagen.url} className="card-img-top" alt="logo" />
           </div>
           <div className="container">
             <h5>{producto.nombre}</h5>

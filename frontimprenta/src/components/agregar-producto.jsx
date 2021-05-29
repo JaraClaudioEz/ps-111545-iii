@@ -84,16 +84,42 @@ const AddProducto = props => {
 
         const formdata = new FormData();
 
-        formdata.append("image", fileData);
+        formdata.append("imagen", fileData);
 
-        await ProductoDataService.addImagen(formdata)
-            .then(response => {
-                
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+        if (editar) {
+            const id = producto.imagen.id
+
+            await ProductoDataService.updateImagen(formdata, id)
+                .then(response => {
+                    console.log(response);
+                    const imagen = {
+                        url: response.data.url,
+                        id: response.data.id
+                    }
+
+                    setProducto({ ...producto, imagen: imagen })
+                    console.log(producto);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
+        else {
+            await ProductoDataService.addImagen(formdata)
+                .then(response => {
+                    console.log(response);
+                    const imagen = {
+                        url: response.data.url,
+                        id: response.data.id
+                    }
+
+                    setProducto({...producto, imagen: imagen })
+                    console.log(producto);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
     };
 
     const saveProducto = () => {
@@ -116,13 +142,14 @@ const AddProducto = props => {
 
         if (editar) {
             //data._id = props.location.state.productoActual._id
+            console.log(data);
             ProductoDataService.updateProducto(data)
                 .then(response => {
                     setSubmitted(true);
                     console.log(response.data);
                 })
                 .catch(e => {
-                    console.log(e);
+                    console.log({message: "Acá esta el error", error: e});
                 });
         } else {
             ProductoDataService.addProducto(data)

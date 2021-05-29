@@ -9,7 +9,7 @@ const ListaProductos = props => {
   const [searchCategoria, setSearchCategoria] = useState("");
   const [categorias, setCategorias] = useState(["Todas"]);
 
-  const { usuario } = useParams()
+  //const { usuario } = useParams()
 
   useEffect(() => {
     traerProductos();
@@ -55,7 +55,16 @@ const ListaProductos = props => {
     traerProductos();
   }
 
-  function eliminarProducto(id) {
+  function eliminarProducto(id, idImagen) {
+
+    ProductoDataService.deleteImagen(idImagen)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
     ProductoDataService.deleteProducto(id)
       .then(response => {
         refreshList()
@@ -120,7 +129,7 @@ const ListaProductos = props => {
                   <td>{producto.precio}</td>
                   <td>{producto.precio_oferta}</td>
                   <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
-                  <td><button className="btn btn-danger" type="button" onClick={() => {eliminarProducto(producto._id)}}>Eliminar</button></td>
+                  <td><button className="btn btn-danger" type="button" onClick={() => { eliminarProducto(producto._id, producto.imagen.id) }}>Eliminar</button></td>
                   <td />
                 </tr>
               ))
