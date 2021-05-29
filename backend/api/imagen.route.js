@@ -1,20 +1,31 @@
 import express from "express"
+import dotenv from "dotenv"
 import cloudinary from "../utils/cloudinary.config.js";
 import multer from "../utils/multer.js";
+
 //import User, { find, findById, findByIdAndUpdate } from "../model/user";
 
+dotenv.config()
 const router = express.Router()
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 
 router.post("/", multer.single("imagen"), async (req, res) => {
   try {
+    //console.log(req.file);
     // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
 
     const imagen = {
       url: result.secure_url,
       id: result.public_id,
     };
-    
+
     res.json(imagen);
   } catch (err) {
     console.log(err);

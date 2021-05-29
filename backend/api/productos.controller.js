@@ -1,6 +1,6 @@
 import ProductosDAO from "../dao/productosDAO.js"
-import cloudinary from "../utils/cloudinary.config.js"
-import upload from "../utils/multer.js"
+//import cloudinary from "../utils/cloudinary.config.js"
+//import upload from "../utils/multer.js"
 
 //const cloudinary = require('../utils/cloudinary.config');
 //const upload = require("../utils/multer").default;
@@ -112,6 +112,7 @@ export default class ProductosController {
         }
     }
 
+    /*
     static async apiPostImagen(req, res, next) {
         try {
             
@@ -128,4 +129,5 @@ export default class ProductosController {
             res.status(500).json({ error: e.message })
         }
     }
+    */
 }
