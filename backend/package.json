@@ -18,13 +18,14 @@
   },
   "homepage": "https://github.com/JaraClaudioEz/ps-111545-iii#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cloudinary": "^1.25.1",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.6",
-    "multer": "^1.4.2",
-    "multer-storage-cloudinary": "^4.0.0"
+    "multer": "^1.4.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
