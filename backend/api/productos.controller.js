@@ -83,21 +83,28 @@ export default class ProductosController {
             const producto = req.body
 
             const respuestaProducto = await ProductosDAO.updateProducto(idProducto, producto)
-
+            /*
             var { error } = respuestaProducto
             if (error) {
                 res.status(400).json({ error })
             }
-
+            
             if (respuestaProducto.modifiedCount === 0) {
                 throw new Error(
-                    "No hubo cambios",
+                    error = "Sin cambios",
                 )
             }
+            */
 
-            res.json({ status: "Modificado", id: idProducto })
+            if (respuestaProducto.modifiedCount === 0) {
+                res.json({ status: "Sin cambios", id: idProducto })
+            }
+            else {
+                res.json({ status: "Modificado", id: idProducto })
+            }
+
         } catch (e) {
-            res.status(500).json({ text: "Algo esta mal" ,error: e.message })
+            res.status(500).json({ text: error, error: e.message })
         }
     }
 

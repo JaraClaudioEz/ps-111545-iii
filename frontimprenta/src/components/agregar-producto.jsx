@@ -91,7 +91,7 @@ const AddProducto = props => {
 
             await ProductoDataService.updateImagen(formdata, id)
                 .then(response => {
-                    console.log(response);
+
                     const imagen = {
                         url: response.data.url,
                         id: response.data.id
@@ -113,7 +113,7 @@ const AddProducto = props => {
                         id: response.data.id
                     }
 
-                    setProducto({...producto, imagen: imagen })
+                    setProducto({ ...producto, imagen: imagen })
                     console.log(producto);
                 })
                 .catch(e => {
@@ -145,11 +145,14 @@ const AddProducto = props => {
             console.log(data);
             ProductoDataService.updateProducto(data)
                 .then(response => {
+                    if (alert.confirm("No se realizaro cambios!")) {
+                        setSubmitted(true);
+                    }
                     setSubmitted(true);
                     console.log(response.data);
                 })
                 .catch(e => {
-                    console.log({message: "Acá esta el error", error: e});
+                    console.log({ message: "Error al cargar el producto.", error: e });
                 });
         } else {
             ProductoDataService.addProducto(data)
