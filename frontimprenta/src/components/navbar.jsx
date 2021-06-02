@@ -16,33 +16,42 @@ const Navbar = () => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: "#e3f2fd" }}>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">
                         <img src={logo} alt="Integral Imagen" width="35%" height="30%" className="d-inline-block align-text-top" />
                     </a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse">
+                    <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link to={"/imprenta"} className="nav-link">
+                                <Link to={"/productos"} className="nav-link">
                                     Productos
-                                    </Link>
+                                </Link>
                             </li>
-                            <li className="nav-item" >
+                            <li className="nav-item">
+                                <Link to={"/pedidos"} className="nav-link">
+                                    Pedidos
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 {user ? (
-                                    <a onClick={logout} className="nav-link" style={{ cursor: 'pointer' }}>
+                                    <a onClick={logout} className="nav-link">
                                         Logout {user.name}
                                     </a>
                                 ) : (
-                                    <Link to={"/login"} className="nav-link">
+                                    <Link to={"/autorizacion"} className="nav-link" className="btn btn-primary">
                                         Login
                                     </Link>
                                 )}
                             </li>
                         </ul>
+                        <form className="d-flex">
+                            <input className="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
+                            <button className="btn btn-outline-success" type="submit">Buscar</button>
+                        </form>
                     </div>
                 </div>
             </nav>

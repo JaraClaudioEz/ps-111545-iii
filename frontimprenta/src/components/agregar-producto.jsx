@@ -145,7 +145,7 @@ const AddProducto = props => {
             console.log(data);
             ProductoDataService.updateProducto(data)
                 .then(response => {
-                    if (alert.confirm("No se realizaro cambios!")) {
+                    if (alert("No se realizaro cambios!")) {
                         setSubmitted(true);
                     }
                     setSubmitted(true);

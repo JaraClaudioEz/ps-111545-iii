@@ -3,11 +3,13 @@ import { Switch, Route, Link } from "react-router-dom";
 
 import Login from "./components/login";
 import Navbar from "./components/navbar";
+import Inicio from "./components/inicio";
 import Producto from "./components/producto";
 import ListaProductos from "./components/lista-productos";
 import AddProducto from "./components/agregar-producto";
+import Autorizacion from "./components/autorizacion";
 
-function App() {
+const App = () => {
 
   const [user, setUser] = React.useState(null);
   async function login(user = null) {
@@ -18,12 +20,17 @@ function App() {
   }
 
   return (
-
-
     <div className="container mt-3">
       <Navbar />
+      
       <Switch>
-        <Route exact path={["/", "/imprenta"]} component={ListaProductos} usuario={user} />
+        <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
+        <Route
+          exact path="/productos"
+          render={(props) => (
+            <ListaProductos {...props} user={user} />
+          )}
+        />
         <Route
           path="/productos/agregar/:id"
           render={(props) => (
@@ -43,12 +50,13 @@ function App() {
           )}
         />
         <Route
-          path="/login"
+          path="/autorizacion"
           render={(props) => (
-            <Login {...props} login={login} />
+            <Autorizacion {...props} login={Autorizacion} />
           )}
         />
       </Switch>
+      
     </div>
   );
 }
