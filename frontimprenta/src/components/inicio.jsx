@@ -5,7 +5,7 @@ const Inicio = () => {
   return (
     <div className="container-fluid">
       <Link to={"/productos"} className="btn btn-primary blck">Lista de Productos</Link>
-      <p>lala</p>
+      <h1>IMPRENTA INTEGRAL IMAGEN</h1>
     </div>
   );
 }

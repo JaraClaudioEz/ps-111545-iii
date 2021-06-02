@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GoogleLogin } from 'react-google-login';
 
 const Autorizacion = () => {
 
@@ -19,6 +20,23 @@ const Autorizacion = () => {
     }
 
     const handleMostrarPass = () => setMostrarPass((prevMostrarPass) => !prevMostrarPass)
+
+    const googleSuccess = async (res) => {
+        //console.log(res);
+        const resultado = res?.profileObj;
+        const token = res?.tokenId;
+
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const googleFailure = (error) => {
+        console.log(error);
+        console.log("No se pudo iniciar sesión con Google");
+    }
 
     return (
         <div className="container-fluid">
@@ -122,6 +140,15 @@ const Autorizacion = () => {
                             <button type="submit" className="btn btn-primary">
                                 {registrado ? "Registrarse" : "Iniciar Sesión"}
                             </button>
+                            <GoogleLogin 
+                                clientId="849202159020-cc8hh5juek0gbur3mglf240sg8j4em6f.apps.googleusercontent.com"
+                                render={(renderProps) => (
+                                    <button className="btn btn-primary" onClick={renderProps.onClick} >Iniciar Sesión con Google</button>
+                                )}
+                                onSuccess={googleSuccess}
+                                onFailure={googleFailure}
+                                cookiePolicy="single_host_origin"
+                            />
                         </div>
                         <div className="d-grid d-flex justify-content-end">
                         <button type="button" className="btn btn-link" onClick={cambiarModo}>

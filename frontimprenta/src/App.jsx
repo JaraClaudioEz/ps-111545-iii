@@ -1,7 +1,6 @@
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
-import Login from "./components/login";
 import Navbar from "./components/navbar";
 import Inicio from "./components/inicio";
 import Producto from "./components/producto";
