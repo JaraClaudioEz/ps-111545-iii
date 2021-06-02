@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 const Autorizacion = () => {
 
     const [mostrarPass, setMostrarPass] = useState(false);
-
-    const registrado = true;
+    const [registrado, setRegistrado] = useState(false);
 
     const handleSubmit = () => {
 
@@ -12,6 +11,11 @@ const Autorizacion = () => {
 
     const handleInputChange = () => {
 
+    }
+
+    const cambiarModo = () => {
+        setRegistrado((prevRegistrado) => !prevRegistrado);
+        handleMostrarPass(false);
     }
 
     const handleMostrarPass = () => setMostrarPass((prevMostrarPass) => !prevMostrarPass)
@@ -94,6 +98,35 @@ const Autorizacion = () => {
                                     )
                                 }
                             </div>
+                            {
+                                registrado && (
+                                    <div className="p-2 bg-light border">
+                                        <label className="form-label">Repetir Constraseña:</label>
+                                        <div className="input-group mb-3">
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                id="confirmPass"
+                                                required
+                                                value=""
+                                                onChange={handleInputChange}
+                                                name="confirmPass"
+                                                placeholder="Repetir contraseña"
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                        <div className="d-grid gap-2">
+                            <button type="submit" className="btn btn-primary">
+                                {registrado ? "Registrarse" : "Iniciar Sesión"}
+                            </button>
+                        </div>
+                        <div className="d-grid d-flex justify-content-end">
+                        <button type="button" className="btn btn-link" onClick={cambiarModo}>
+                                {registrado ? "Ya tiene cuenta? Inicie sesión." : "No tiene cuenta? Registrarse."}
+                            </button>
                         </div>
                     </form>
                 </div>
