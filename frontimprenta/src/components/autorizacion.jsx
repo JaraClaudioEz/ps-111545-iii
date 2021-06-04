@@ -4,21 +4,49 @@ import { useHistory } from 'react-router-dom';
 
 const Autorizacion = () => {
 
+    const estadoInicialUsuario = {
+        nombre: "",
+        apellido: "",
+        email: "",
+        password: "",
+        confirmPass: "",
+    };
+
+    const [usuario, setUsuario] = useState(estadoInicialUsuario);
     const [mostrarPass, setMostrarPass] = useState(false);
     const [registrado, setRegistrado] = useState(false);
     const history = useHistory();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        if(registrado){
 
+            try {
+                
+                history.push("/")
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        else{
+
+            try {
+                
+                history.push("/")
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 
-    const handleInputChange = () => {
-
+    const handleInputChange = (e) => {
+        setUsuario({...usuario, [e.target.name]: e.target.value})
     }
 
     const cambiarModo = () => {
         setRegistrado((prevRegistrado) => !prevRegistrado);
-        handleMostrarPass(false);
+        //handleMostrarPass(true);
     }
 
     const handleMostrarPass = () => setMostrarPass((prevMostrarPass) => !prevMostrarPass)
@@ -62,7 +90,7 @@ const Autorizacion = () => {
                                                 className="form-control"
                                                 id="nombre"
                                                 required
-                                                value=""
+                                                value={usuario.nombre}
                                                 onChange={handleInputChange}
                                                 name="nombre"
                                                 placeholder="Nombre"
@@ -75,7 +103,7 @@ const Autorizacion = () => {
                                                 className="form-control"
                                                 id="apellido"
                                                 required
-                                                value=""
+                                                value={usuario.apellido}
                                                 onChange={handleInputChange}
                                                 name="apellido"
                                                 placeholder="Apellido"
@@ -91,7 +119,7 @@ const Autorizacion = () => {
                                     className="form-control"
                                     id="email"
                                     required
-                                    value=""
+                                    value={usuario.email}
                                     onChange={handleInputChange}
                                     name="email"
                                     placeholder="Dirección de Email"
@@ -105,7 +133,7 @@ const Autorizacion = () => {
                                         className="form-control"
                                         id="password"
                                         required
-                                        value=""
+                                        value={usuario.password}
                                         onChange={handleInputChange}
                                         name="password"
                                         placeholder="Contraseña"
@@ -130,7 +158,7 @@ const Autorizacion = () => {
                                                 className="form-control"
                                                 id="confirmPass"
                                                 required
-                                                value=""
+                                                value={usuario.confirmPass}
                                                 onChange={handleInputChange}
                                                 name="confirmPass"
                                                 placeholder="Repetir contraseña"
