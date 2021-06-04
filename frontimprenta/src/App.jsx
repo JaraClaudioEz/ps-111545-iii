@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/navbar";
 import Inicio from "./components/inicio";
@@ -10,7 +10,12 @@ import Autorizacion from "./components/autorizacion";
 
 const App = () => {
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
+  const [user, setUser] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('perfil')));
+  }, [location]);
 
   return (
     <div className="container mt-3">
