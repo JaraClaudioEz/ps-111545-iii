@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
+import { useHistory } from 'react-router-dom';
 
 const Autorizacion = () => {
 
     const [mostrarPass, setMostrarPass] = useState(false);
     const [registrado, setRegistrado] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = () => {
 
@@ -27,7 +29,9 @@ const Autorizacion = () => {
         const token = res?.tokenId;
 
         try {
-            
+            localStorage.setItem('perfil', JSON.stringify({resultado, token}))
+            history.push('/imprenta')
+            //console.log(localStorage.getItem('perfil'));
         } catch (error) {
             console.log(error);
         }
@@ -143,7 +147,9 @@ const Autorizacion = () => {
                             <GoogleLogin 
                                 clientId="849202159020-cc8hh5juek0gbur3mglf240sg8j4em6f.apps.googleusercontent.com"
                                 render={(renderProps) => (
-                                    <button className="btn btn-primary" onClick={renderProps.onClick} >Iniciar Sesión con Google</button>
+                                    <button className="btn btn-primary" onClick={renderProps.onClick} >
+                                        {registrado ? "Registrarse con Google" : "Iniciar Sesión con Google"}
+                                    </button>
                                 )}
                                 onSuccess={googleSuccess}
                                 onFailure={googleFailure}

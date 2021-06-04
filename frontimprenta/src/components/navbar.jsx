@@ -1,18 +1,31 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useLocation } from "react-router-dom";
 import logo from "../assets/IntegralLogo.png";
 
 const Navbar = () => {
 
-    const [user, setUser] = React.useState(null);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
+    const history = useHistory();
+    const location = useLocation();
 
+    //console.log(user);
+    /*
     async function login(user = null) {
         setUser(user)
     }
+    */
 
     async function logout() {
-        setUser(null)
+        localStorage.clear();
+        //localStorage.setItem('perfil', null)
+        setUser(null);
+        history.push('/');
     }
+
+    useEffect(() => {
+        const token = user?.token;
+        setUser(JSON.parse(localStorage.getItem('perfil')));
+    }, [location])
 
     return (
         <div>
@@ -38,11 +51,11 @@ const Navbar = () => {
                             </li>
                             <li className="nav-item">
                                 {user ? (
-                                    <a onClick={logout} className="nav-link">
-                                        Logout {user.name}
+                                    <a onClick={logout} className="nav-link" style={{ cursor: 'pointer' }}>
+                                        Logout {user.resultado.name}
                                     </a>
                                 ) : (
-                                    <Link to={"/autorizacion"} className="nav-link" className="btn btn-primary">
+                                    <Link to={"/autorizacion"} className="nav-link">
                                         Login
                                     </Link>
                                 )}

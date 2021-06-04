@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductoDataService from "../services/servicio-producto";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../assets/IntegralLogo.png";
 
 const ListaProductos = props => {
@@ -9,7 +9,8 @@ const ListaProductos = props => {
   const [searchCategoria, setSearchCategoria] = useState("");
   const [categorias, setCategorias] = useState(["Todas"]);
 
-  //const { usuario } = useParams()
+  const usuario = props.usuario
+  console.log(usuario);
 
   useEffect(() => {
     traerProductos();
@@ -100,44 +101,6 @@ const ListaProductos = props => {
 
   return (
     <div className="container">
-
-      <div className="container-fluid">
-        <div className="row">
-          <h1>Listado de Productos</h1>
-          <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto</Link>
-        </div>
-
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Producto</th>
-              <th scope="col">Categoria</th>
-              <th scope="col">Especificaciones</th>
-              <th scope="col">Precio</th>
-              <th scope="col">Precio Oferta</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              productos.map(producto => (
-                <tr key={producto._id}>
-                  <td>{producto.nombre_producto}</td>
-                  <td>{producto.categoria}</td>
-                  <td>{producto.especificaciones}</td>
-                  <td>{producto.precio}</td>
-                  <td>{producto.precio_oferta}</td>
-                  <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
-                  <td><button className="btn btn-danger" type="button" onClick={() => { eliminarProducto(producto._id, producto.imagen.id) }}>Eliminar</button></td>
-                  <td />
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-
       <div className="container-fluid">
         <div className="row pb-3">
           <div className="input-group col-lg-4">
@@ -177,7 +140,45 @@ const ListaProductos = props => {
             </div>
           </div>
         </div>
+      </div>
+      {usuario ? (
+        <div className="container-fluid">
+          <div className="row">
+            <h1>Listado de Productos</h1>
+            <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto</Link>
+          </div>
 
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Especificaciones</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Precio Oferta</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                productos.map(producto => (
+                  <tr key={producto._id}>
+                    <td>{producto.nombre_producto}</td>
+                    <td>{producto.categoria}</td>
+                    <td>{producto.especificaciones}</td>
+                    <td>{producto.precio}</td>
+                    <td>{producto.precio_oferta}</td>
+                    <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
+                    <td><button className="btn btn-danger" type="button" onClick={() => { eliminarProducto(producto._id, producto.imagen.id) }}>Eliminar</button></td>
+                    <td />
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      ) : (
         <div className="row">
           {productos.map((producto) => {
             return (
@@ -202,8 +203,7 @@ const ListaProductos = props => {
             );
           })}
         </div>
-      </div>
-
+      )}
     </div>
   );
 }

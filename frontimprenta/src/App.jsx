@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar";
@@ -10,42 +10,36 @@ import Autorizacion from "./components/autorizacion";
 
 const App = () => {
 
-  const [user, setUser] = React.useState(null);
-  async function login(user = null) {
-    setUser(user)
-  }
-  async function logout() {
-    setUser(null)
-  }
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
 
   return (
     <div className="container mt-3">
       <Navbar />
-      
+
       <Switch>
         <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
         <Route
           exact path="/productos"
           render={(props) => (
-            <ListaProductos {...props} user={user} />
+            <ListaProductos {...props} usuario={user} />
           )}
         />
         <Route
           path="/productos/agregar/:id"
           render={(props) => (
-            <AddProducto {...props} user={user} />
+            <AddProducto {...props} usuario={user} />
           )}
         />
         <Route
           path="/productos/agregar"
           render={(props) => (
-            <AddProducto {...props} user={user} />
+            <AddProducto {...props} usuario={user} />
           )}
         />
         <Route
           path="/productos/:id"
           render={(props) => (
-            <Producto {...props} user={user} />
+            <Producto {...props} usuario={user} />
           )}
         />
         <Route
@@ -55,7 +49,7 @@ const App = () => {
           )}
         />
       </Switch>
-      
+
     </div>
   );
 }
