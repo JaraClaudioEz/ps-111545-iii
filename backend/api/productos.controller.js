@@ -104,7 +104,7 @@ export default class ProductosController {
             }
 
         } catch (e) {
-            res.status(500).json({ text: error, error: e.message })
+            res.status(500).json({ error: e.message })
         }
     }
 

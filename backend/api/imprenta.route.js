@@ -16,4 +16,6 @@ router.route("/categorias").get(ProductosCtrl.apiGetCategoriasProducto)
 //router.route("/imagenes")
 //    .post(ProductosCtrl.apiPostImagen)
 
+
+
 export default router
