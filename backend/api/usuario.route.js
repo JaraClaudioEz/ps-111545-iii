@@ -1,5 +1,7 @@
 import express from "express";
+
 import UsuariosCtrl from "./usuarios.controller.js";
+import autorizacion from "../middleware/autorizacion.js"
 
 const router = express.Router();
 

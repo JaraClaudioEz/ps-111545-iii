@@ -20,7 +20,7 @@ export default class UsuariosController {
                 return res.status(400).json({ message: "Credenciales no válidas." });
             }
 
-            const token = jwt.sign({ email: usuarioExistente.email, id: usuarioExistente._id }, 'secretdeprueba', { expiresIn: "1h" });
+            const token = jwt.sign({ email: usuarioExistente.email, id: usuarioExistente._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
 
             res.status(200).json({ result: usuarioExistente, token });
         } catch (error) {
@@ -46,7 +46,7 @@ export default class UsuariosController {
             const hashedPassword = await bcrypt.hash(password, 12);
 
             const result = await Usuario.create({ email, password: hashedPassword, nombre: `${nombre} ${apellido}` })
-            const token = jwt.sign({ email: result.email, id: result._id }, 'secretdeprueba', { expiresIn: "1h" }); //PASAR SECRET A .ENV!
+            const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" }); //PASAR SECRET A .ENV!
 
             res.status(200).json({ result, token });
         } catch (error) {

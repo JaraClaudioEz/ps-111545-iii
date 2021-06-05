@@ -142,10 +142,11 @@ const AddProducto = props => {
 
         if (editar) {
             //data._id = props.location.state.productoActual._id
-            console.log(data);
+            //console.log(data);
             ProductoDataService.updateProducto(data)
                 .then(response => {
-                    if (alert("No se realizaro cambios!")) {
+                    if (response.data.status === "Sin cambios") {
+                        alert("No se realizaro cambios!")
                         setSubmitted(true);
                     }
                     setSubmitted(true);
@@ -169,7 +170,7 @@ const AddProducto = props => {
 
     return (
         <div className="container">
-            {props.user ? (
+            {props.usuario ? (
                 <div className="submit-form">
                     {submitted ? (
                         <div className="row">
@@ -177,7 +178,7 @@ const AddProducto = props => {
                             <Link to={"/productos/" + producto._id} className="btn btn-success">
                                 Ver Producto
                             </Link>
-                            <Link to={"/imprenta"} className="btn btn-success">
+                            <Link to={"/productos"} className="btn btn-success">
                                 Ver Listado
                             </Link>
                         </div>
