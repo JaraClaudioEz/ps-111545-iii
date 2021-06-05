@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 
+import UsuarioDataService from "../services/servicio-usuario.js";
+
 const Autorizacion = () => {
 
     const estadoInicialUsuario = {
@@ -17,25 +19,29 @@ const Autorizacion = () => {
     const [registrado, setRegistrado] = useState(false);
     const history = useHistory();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         if(registrado){
 
             try {
-                
-                history.push("/")
+                const { data } = await UsuarioDataService.signUpUsuario(usuario);
+                console.log(data);
+                localStorage.setItem('perfil', JSON.stringify(data))
+                history.push("/imprenta")
             } catch (error) {
-                console.log(error);
+                console.log({message: "que paso", error});
             }
         }
         else{
 
             try {
-                
-                history.push("/")
+                const { data } = await UsuarioDataService.signInUsuario(usuario);
+                console.log(data);
+                localStorage.setItem('perfil', JSON.stringify(data))
+                history.push("/imprenta")
             } catch (error) {
-                console.log(error);
+                console.log({message: "no registrado", error});
             }
         }
     }

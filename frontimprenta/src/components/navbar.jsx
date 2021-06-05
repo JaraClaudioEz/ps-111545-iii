@@ -52,7 +52,7 @@ const Navbar = () => {
                             <li className="nav-item">
                                 {user ? (
                                     <a onClick={logout} className="nav-link" style={{ cursor: 'pointer' }}>
-                                        Logout {user.resultado.name}
+                                        Logout 
                                     </a>
                                 ) : (
                                     <Link to={"/autorizacion"} className="nav-link">

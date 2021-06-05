@@ -25,7 +25,7 @@ class ProductoDataService {
         return http.delete(`/productos?id=${id}`);
     }
 
-    getCategorias(id) {
+    getCategorias() {
         return http.get(`/categorias`);
     }
 

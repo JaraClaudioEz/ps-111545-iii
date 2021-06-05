@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const autoriacion = async (req, res, next) => {
+const autorizacion = async (req, res, next) => {
     try {
         const token = req.headers.autoriacion.split(" ")[1];
         const isCustomAuth = token.length < 500;
@@ -24,4 +24,4 @@ const autoriacion = async (req, res, next) => {
     }
 }
 
-export default autoriacion;
+export default autorizacion;

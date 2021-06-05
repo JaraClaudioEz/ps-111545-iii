@@ -10,7 +10,7 @@ const ListaProductos = props => {
   const [categorias, setCategorias] = useState(["Todas"]);
 
   const usuario = props.usuario
-  console.log(usuario);
+  //console.log(usuario);
 
   useEffect(() => {
     traerProductos();
