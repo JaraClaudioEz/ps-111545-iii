@@ -1,6 +1,8 @@
 import mongodb from "mongodb"
 const ObjectId = mongodb.ObjectID
 
+import Producto from "../models/producto.js";
+
 let productos
 
 export default class ProductosDAO {
@@ -31,10 +33,10 @@ export default class ProductosDAO {
                 query = { "categoria": { $eq: filtros["categoria"] } }
             }
         }
-
+        /*
         let cursor
         try {
-            cursor = await productos.find(query)
+            cursor = await Producto.find(query)
         } catch (e) {
             console.error(`Unable to issue find command, ${e}`)
             return { listaProductos: [], totalProductos: 0 }
@@ -44,19 +46,30 @@ export default class ProductosDAO {
 
         try {
             const listaProductos = await displayCursor.toArray()
-            const totalProductos = await productos.countDocuments(query)
+            const totalProductos = await Producto.countDocuments(query)
 
             return { listaProductos, totalProductos }
         } catch (e) {
             console.error(`Unable to convert cursor to array or problem counting documents, ${e}`)
             return { listaProductos: [], totalProductos: 0 }
         }
+        */
+        try {
+            const listaProductos = await Producto.find(query).limit(productosPorPagina).skip(productosPorPagina * pag)
+            const totalProductos = await Producto.countDocuments(query)
+
+            return { listaProductos, totalProductos }
+        } catch (e) {
+            console.error(`No se pudo traer listado productos, ${e}`)
+            return { listaProductos: [], totalProductos: 0 }
+        }
+
     }
 
     static async getProductoPorId(id) {
         try {
             const query = { _id: ObjectId(id), }
-            return await productos.findOne(query)
+            return await Producto.findOne(query)
 
         } catch (e) {
             console.error(`Something went wrong in getProductosPorId: ${e}`)
@@ -66,7 +79,7 @@ export default class ProductosDAO {
 
     static async addProducto(nuevoProducto) {
         try {
-            return await productos.insertOne(nuevoProducto)
+            return await Producto.create(nuevoProducto)
         } catch (e) {
             console.error(`Unable to post producto: ${e}`)
             return { error: e }
@@ -78,7 +91,7 @@ export default class ProductosDAO {
             
             const { _id, ...updatedProducto } = producto
 
-            const updateResponse = await productos.updateOne(
+            const updateResponse = await Producto.updateOne(
                 { _id: ObjectId(idProducto) },
                 { $set: updatedProducto },
             )
@@ -93,7 +106,7 @@ export default class ProductosDAO {
     static async deleteProducto(idProducto) {
 
         try {
-            const deleteResponse = await productos.deleteOne({ _id: ObjectId(idProducto) })
+            const deleteResponse = await Producto.deleteOne({ _id: ObjectId(idProducto) })
 
             return deleteResponse
         } catch (e) {
@@ -105,7 +118,7 @@ export default class ProductosDAO {
     static async getCategorias() {
         let categorias = []
         try {
-            categorias = await productos.distinct("categoria")
+            categorias = await Producto.distinct("categoria")
             return categorias
         } catch (e) {
             console.error(`Unable to get categorias: ${e}`)

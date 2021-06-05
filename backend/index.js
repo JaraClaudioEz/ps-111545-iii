@@ -2,12 +2,12 @@ import app from "./server.js";
 import mongodb from "mongodb";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import ProductosDAO from "./dao/productosDAO.js";
-import UsuariosDAO from "./dao/usuariosDAO.js";
+//import ProductosDAO from "./dao/productosDAO.js";
+//import UsuariosDAO from "./dao/usuariosDAO.js";
 
 dotenv.config();
 
-const MongoClient = mongodb.MongoClient
+//const MongoClient = mongodb.MongoClient
 const port = process.env.PORT || 8000
 
 mongoose.connect(
