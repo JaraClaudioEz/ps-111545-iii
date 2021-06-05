@@ -46,11 +46,11 @@ export default class UsuariosController {
             const hashedPassword = await bcrypt.hash(password, 12);
 
             const result = await Usuario.create({ email, password: hashedPassword, nombre: `${nombre} ${apellido}` })
-            const token = jwt.sign({ email: result.email, id: result._id }, 'secretdeprueba', { expiresIn: "1h" });
+            const token = jwt.sign({ email: result.email, id: result._id }, 'secretdeprueba', { expiresIn: "1h" }); //PASAR SECRET A .ENV!
 
             res.status(200).json({ result, token });
         } catch (error) {
-            res.status(500).json({ message: "Algo anduvo mal al registrarse." });
+            res.status(500).json({ message: "Algo anduvo mal al registrarse.", error: error });
         }
 
     }
@@ -59,7 +59,7 @@ export default class UsuariosController {
 
     }
 
-    static async apiPutUsuario(req, res, next) {
+    static async apiUpdateUsuario(req, res, next) {
 
     }
 

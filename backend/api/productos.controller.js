@@ -1,9 +1,4 @@
 import ProductosDAO from "../dao/productosDAO.js"
-//import cloudinary from "../utils/cloudinary.config.js"
-//import upload from "../utils/multer.js"
-
-//const cloudinary = require('../utils/cloudinary.config');
-//const upload = require("../utils/multer").default;
 
 export default class ProductosController {
     static async apiGetProductos(req, res, next) {

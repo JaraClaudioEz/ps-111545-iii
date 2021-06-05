@@ -1,13 +1,16 @@
-import app from "./server.js"
-import mongodb from "mongodb"
-import dotenv from "dotenv"
-import ProductosDAO from "./dao/productosDAO.js"
+import app from "./server.js";
+import mongodb from "mongodb";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import ProductosDAO from "./dao/productosDAO.js";
+import UsuariosDAO from "./dao/usuariosDAO.js";
 
-dotenv.config()
+dotenv.config();
+
 const MongoClient = mongodb.MongoClient
 const port = process.env.PORT || 8000
 
-MongoClient.connect(
+mongoose.connect(
     process.env.RESTIMPRENTA_DB_URI,
     {
         poolSize: 50,
@@ -21,9 +24,11 @@ MongoClient.connect(
         process.exit(1)
     })
     .then(async client => {
-        await ProductosDAO.injectDB(client)
-        //await ReviewsDAO.injectDB(client)
+        //await ProductosDAO.injectDB(client)
+        //await UsuariosDAO.injectDB(client)
         app.listen(port, () => {
             console.log(`Listening on port ${port}`);
         })
     })
+
+mongoose.set('useFindAndModify', false);
