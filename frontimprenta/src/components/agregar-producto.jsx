@@ -80,6 +80,7 @@ const AddProducto = props => {
     };
 
     const handleSubmit = async () => {
+        
         //e.preventDefault();
 
         const formdata = new FormData();
@@ -325,6 +326,9 @@ const AddProducto = props => {
                                 <button onClick={saveProducto} className="btn btn-success">
                                     {editar ? "Modificar" : "Agregar"}
                                 </button>
+                                <Link to={"/productos"} className="btn btn-danger">
+                                    Cancelar
+                                </Link>
                             </div>
                             <div className="col-lg-3"></div>
                         </div>

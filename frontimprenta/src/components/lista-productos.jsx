@@ -56,7 +56,7 @@ const ListaProductos = props => {
     traerProductos();
   }
 
-  function eliminarProducto(id, idImagen) {
+  const eliminarProducto = (id, idImagen) => {
 
     ProductoDataService.deleteImagen(idImagen)
       .then(response => {
