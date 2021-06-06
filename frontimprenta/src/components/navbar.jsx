@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
+import decode from "jwt-decode";
+
 import logo from "../assets/IntegralLogo.png";
 
 const Navbar = () => {
@@ -25,6 +27,12 @@ const Navbar = () => {
     useEffect(() => {
         const token = user?.token;
         setUser(JSON.parse(localStorage.getItem('perfil')));
+
+        if(token){
+            const decodedToken = decode(token);
+
+            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+        }
     }, [location])
 
     return (

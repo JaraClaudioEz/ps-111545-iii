@@ -1,6 +1,15 @@
 import http from "../http-commons";
 
 class UsuarioDataService {
+    constructor(){
+        http.interceptors.request.use((req) => {
+            if(localStorage.getItem('perfil')){
+                req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('perfil')).token}`;
+            }
+            return req;
+        });
+    }
+
     getListadoUsuarios(pag = 0) {
         return http.get(`/usuarios?pag=${pag}`);
     }

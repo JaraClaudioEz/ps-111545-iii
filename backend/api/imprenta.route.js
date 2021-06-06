@@ -6,8 +6,8 @@ const router = express.Router()
 
 router.route("/productos")
     .get(ProductosCtrl.apiGetProductos)
-    .post(ProductosCtrl.apiPostProducto)
-    .put(ProductosCtrl.apiUpdateProducto)
+    .post(autorizacion, ProductosCtrl.apiPostProducto)
+    .put(autorizacion, ProductosCtrl.apiUpdateProducto)
     .delete(autorizacion, ProductosCtrl.apiDeleteProducto)
 
 router.route("/productos/id/:id").get(ProductosCtrl.apiGetProductoPorId)

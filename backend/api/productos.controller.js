@@ -66,6 +66,7 @@ export default class ProductosController {
             const date = new Date()
             */
             const respuestaProducto = await ProductosDAO.addProducto(nuevoProducto)
+            
             res.json({ status: "Agregado", id: respuestaProducto.insertedId })
         } catch (e) {
             res.status(500).json({ error: e.message })

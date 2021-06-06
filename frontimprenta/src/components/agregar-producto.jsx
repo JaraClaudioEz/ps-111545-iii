@@ -147,7 +147,7 @@ const AddProducto = props => {
             ProductoDataService.updateProducto(data)
                 .then(response => {
                     if (response.data.status === "Sin cambios") {
-                        alert("No se realizaro cambios!")
+                        alert("No se realizaron cambios!")
                         setSubmitted(true);
                     }
                     setSubmitted(true);
