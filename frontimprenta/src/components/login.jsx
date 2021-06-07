@@ -1,3 +1,4 @@
+//DEPRECATED
 import React, { useState } from "react";
 
 const Login = props => {

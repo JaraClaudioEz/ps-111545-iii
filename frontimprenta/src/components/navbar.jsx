@@ -59,12 +59,12 @@ const Navbar = () => {
                             </li>
                             <li className="nav-item">
                                 {user ? (
-                                    <a onClick={logout} className="nav-link" style={{ cursor: 'pointer' }}>
-                                        Logout 
+                                    <a onClick={logout} className="nav-link btn btn-success" style={{ cursor: 'pointer' }}>
+                                        Cerrar Sesión 
                                     </a>
                                 ) : (
-                                    <Link to={"/autorizacion"} className="nav-link">
-                                        Login
+                                    <Link to={"/autorizacion"} className="nav-link btn btn-danger">
+                                        Iniciar Sesión
                                     </Link>
                                 )}
                             </li>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductoDataService from "../services/servicio-producto";
 import { Link } from "react-router-dom";
+
 import logo from "../assets/IntegralLogo.png";
 
 const Producto = props => {

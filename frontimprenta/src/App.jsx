@@ -7,6 +7,7 @@ import Producto from "./components/producto";
 import ListaProductos from "./components/lista-productos";
 import AddProducto from "./components/agregar-producto";
 import Autorizacion from "./components/autorizacion";
+import Usuario from "./components/usuario";
 
 const App = () => {
 
@@ -51,6 +52,12 @@ const App = () => {
           path="/autorizacion"
           render={(props) => (
             <Autorizacion {...props} login={Autorizacion} />
+          )}
+        />
+        <Route
+          path="/usuario"
+          render={(props) => (
+            <Usuario {...props} usuario={user} />
           )}
         />
       </Switch>
