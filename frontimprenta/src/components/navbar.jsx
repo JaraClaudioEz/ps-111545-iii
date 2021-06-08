@@ -10,12 +10,6 @@ const Navbar = () => {
     const history = useHistory();
     const location = useLocation();
 
-    //console.log(user);
-    /*
-    async function login(user = null) {
-        setUser(user)
-    }
-    */
 
     async function logout() {
         localStorage.clear();
@@ -28,10 +22,10 @@ const Navbar = () => {
         const token = user?.token;
         setUser(JSON.parse(localStorage.getItem('perfil')));
 
-        if(token){
+        if (token) {
             const decodedToken = decode(token);
 
-            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+            if (decodedToken.exp * 1000 < new Date().getTime()) logout();
         }
     }, [location])
 
@@ -52,18 +46,55 @@ const Navbar = () => {
                                     Productos
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link to={"/pedidos"} className="nav-link">
-                                    Pedidos
-                                </Link>
-                            </li>
+                            <div>
+                                {
+                                    user === null ? (
+                                        <span></span>
+                                    ) : (
+                                        <li className="nav-item">
+                                            {
+                                                user && user.tipo === "admin" ? (
+                                                    <Link to={"/pedidos"} className="nav-link">
+                                                        Ver Pedidos
+                                                    </Link>
+                                                ) : (
+                                                    <Link to={"/pedido"} className="nav-link">
+                                                        Mi Pedido
+                                                    </Link>
+                                                )
+                                            }
+                                        </li>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    user === null ? (
+                                        <span></span>
+                                    ) : (
+                                        <li className="nav-item">
+                                            {
+                                                user && user.tipo === "admin" ? (
+                                                    <Link to={"/usuarios"} className="nav-link">
+                                                        Clientes
+                                                    </Link>
+                                                ) : (
+                                                    <Link to={"/usuario"} className="nav-link">
+                                                        Mi Perfil
+                                                    </Link>
+                                                )
+                                            }
+                                        </li>
+                                    )
+                                }
+                            </div>
                             <li className="nav-item">
                                 {user ? (
-                                    <a onClick={logout} className="nav-link btn btn-success" style={{ cursor: 'pointer' }}>
-                                        Cerrar Sesión 
+                                    <a onClick={logout} className="nav-link btn btn-danger" style={{ cursor: 'pointer' }}>
+                                        Cerrar Sesión
                                     </a>
                                 ) : (
-                                    <Link to={"/autorizacion"} className="nav-link btn btn-danger">
+                                    <Link to={"/autorizacion"} className="nav-link btn btn-success">
                                         Iniciar Sesión
                                     </Link>
                                 )}
@@ -76,7 +107,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
-        </div>
+        </div >
     );
 };
 

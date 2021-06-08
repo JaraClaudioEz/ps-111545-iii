@@ -159,6 +159,7 @@ const ListaProductos = props => {
                 <th scope="col">Precio Oferta</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
@@ -170,6 +171,7 @@ const ListaProductos = props => {
                     <td>{producto.especificaciones}</td>
                     <td>{producto.precio}</td>
                     <td>{producto.precio_oferta}</td>
+                    <td><Link to={{ pathname: "/productos/" + producto._id, state: { productoActual: producto } }} className="btn btn-primary">Ver</Link></td>
                     <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
                     <td><button className="btn btn-danger" type="button" onClick={() => { eliminarProducto(producto._id, producto.imagen.id) }}>Eliminar</button></td>
                     <td />

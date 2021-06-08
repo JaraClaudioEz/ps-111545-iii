@@ -8,6 +8,9 @@ import ListaProductos from "./components/lista-productos";
 import AddProducto from "./components/agregar-producto";
 import Autorizacion from "./components/autorizacion";
 import Usuario from "./components/usuario";
+import Pedido from "./components/pedido";
+import ListaPedidos from "./components/lista-pedidos";
+import ListaUsuarios from "./components/lista-usuarios";
 
 const App = () => {
 
@@ -49,9 +52,27 @@ const App = () => {
           )}
         />
         <Route
+          path="/pedidos"
+          render={(props) => (
+            <ListaPedidos {...props} usuario={user} />
+          )}
+        />
+        <Route
+          path="/pedido"
+          render={(props) => (
+            <Pedido {...props} usuario={user} />
+          )}
+        />
+        <Route
           path="/autorizacion"
           render={(props) => (
             <Autorizacion {...props} login={Autorizacion} />
+          )}
+        />
+        <Route
+          path="/usuarios"
+          render={(props) => (
+            <ListaUsuarios {...props} usuario={user} />
           )}
         />
         <Route

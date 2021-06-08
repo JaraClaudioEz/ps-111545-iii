@@ -17,7 +17,7 @@ const Usuario = props => {
         telefono: 0
     };
 
-    const [user, setUser] = useState(estadoInicialUsuario);
+    const [user, setUser] = useState(props.usuario);
 
     const handleInputChange = event => {
         const { name, value } = event.target;

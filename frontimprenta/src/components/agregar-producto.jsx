@@ -176,11 +176,11 @@ const AddProducto = props => {
                     {submitted ? (
                         <div className="row">
                             <h4>Producto agregado!</h4>
-                            <Link to={"/productos/" + producto._id} className="btn btn-success">
-                                Ver Producto
+                            <Link to={"/productos/agregar"} className="btn btn-primary">
+                                Agregar nuevo Producto
                             </Link>
                             <Link to={"/productos"} className="btn btn-success">
-                                Ver Listado
+                                Volver al Listado
                             </Link>
                         </div>
                     ) : (
