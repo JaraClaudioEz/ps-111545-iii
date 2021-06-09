@@ -30,7 +30,7 @@ const Autorizacion = () => {
                 localStorage.setItem('perfil', JSON.stringify(data))
                 history.push("/imprenta")
             } catch (error) {
-                console.log({message: "que paso", error});
+                console.log({message: "No se pudo registrar nuevo usuario", error});
             }
         }
         else{
@@ -41,7 +41,7 @@ const Autorizacion = () => {
                 localStorage.setItem('perfil', JSON.stringify(data))
                 history.push("/imprenta")
             } catch (error) {
-                console.log({message: "no registrado", error});
+                console.log({message: "Error al iniciar sesion, verifique sus credenciales", error});
             }
         }
     }
@@ -59,11 +59,11 @@ const Autorizacion = () => {
 
     const googleSuccess = async (res) => {
         //console.log(res);
-        const resultado = res?.profileObj;
+        const result = res?.profileObj;
         const token = res?.tokenId;
 
         try {
-            localStorage.setItem('perfil', JSON.stringify({resultado, token}))
+            localStorage.setItem('perfil', JSON.stringify({result, token}))
             history.push('/imprenta')
             //console.log(localStorage.getItem('perfil'));
         } catch (error) {

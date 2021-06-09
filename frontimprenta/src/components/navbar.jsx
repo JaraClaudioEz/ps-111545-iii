@@ -10,7 +10,6 @@ const Navbar = () => {
     const history = useHistory();
     const location = useLocation();
 
-
     async function logout() {
         localStorage.clear();
         //localStorage.setItem('perfil', null)
@@ -53,7 +52,7 @@ const Navbar = () => {
                                     ) : (
                                         <li className="nav-item">
                                             {
-                                                user && user.tipo === "admin" ? (
+                                                user && user?.result.tipo === "admin" ? (
                                                     <Link to={"/pedidos"} className="nav-link">
                                                         Ver Pedidos
                                                     </Link>
@@ -74,7 +73,7 @@ const Navbar = () => {
                                     ) : (
                                         <li className="nav-item">
                                             {
-                                                user && user.tipo === "admin" ? (
+                                                user && user?.result.tipo === "admin" ? (
                                                     <Link to={"/usuarios"} className="nav-link">
                                                         Clientes
                                                     </Link>

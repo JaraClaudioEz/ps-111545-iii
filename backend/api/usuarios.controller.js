@@ -31,22 +31,35 @@ export default class UsuariosController {
 
     static async apiSignupUsuario(req, res, next) {
 
-        const { email, password, confirmPass, nombre, apellido } = req.body;
+        const nuevoUsuario = req.body;
 
         try {
-            const usuarioExistente = await Usuario.findOne({ email });
+            const usuarioExistente = await Usuario.findOne({ email: nuevoUsuario.email });
             if (usuarioExistente) {
                 return res.status(400).json({ message: "El usuario ya existe." });
             };
 
-            if (password !== confirmPass) {
+            if (nuevoUsuario.password !== nuevoUsuario.confirmPass) {
                 return res.status(400).json({ message: "Las contraseñas no coinciden." });
             }
 
-            const hashedPassword = await bcrypt.hash(password, 12);
+            const hashedPassword = await bcrypt.hash(nuevoUsuario.password, 12);
 
-            const result = await Usuario.create({ email, password: hashedPassword, nombre: `${nombre} ${apellido}` })
-            const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" }); //PASAR SECRET A .ENV!
+            const usuario = {
+                nombre: `${nuevoUsuario.nombre} ${nuevoUsuario.apellido}`,
+                email: nuevoUsuario.email,
+                password: hashedPassword,
+                tipo: "cliente",
+                direccion: {
+                    calle: "",
+                    numero: "",
+                    localidad: ""
+                },
+                telefono: null
+            }
+            const result = await Usuario.create(usuario)
+            //const result = await Usuario.create({ email, password: hashedPassword, nombre: `${nombre} ${apellido}` })
+            const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
 
             res.status(200).json({ result, token });
         } catch (error) {
