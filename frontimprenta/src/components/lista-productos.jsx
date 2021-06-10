@@ -142,7 +142,7 @@ const ListaProductos = props => {
           </div>
         </div>
       </div>
-      {usuario ? (
+      {usuario?.result.tipo === "admin" ? (
         <div className="container-fluid">
           <div className="row">
             <h1>Listado de Productos</h1>

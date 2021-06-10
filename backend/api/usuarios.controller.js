@@ -73,7 +73,26 @@ export default class UsuariosController {
     }
 
     static async apiUpdateUsuario(req, res, next) {
+        const updatedUsuario = req.body;
+        const idUsuario = req.body._id
+        
+        try {
+            const { _id, ...usuario } = updatedUsuario
 
+            const result = await Producto.updateOne(
+                { _id: ObjectId(idUsuario) },
+                { $set: usuario },
+            )
+
+            if (result.modifiedCount === 0) {
+                res.json({ status: "Sin cambios", id: idUsuario })
+            }
+            else {
+                res.status(200).json({ status: "Modificado", id: idUsuario })
+            }
+        } catch (error) {
+            
+        }
     }
 
     static async apiDeleteUsuario(req, res, next) {
