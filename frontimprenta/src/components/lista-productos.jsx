@@ -187,7 +187,7 @@ const ListaProductos = props => {
             return (
               <div className="col-lg-4 pb-1">
                 <div className="card">
-                  <img src={logo} className="card-img-top" alt="logo" />
+                  <img src={producto?.imagen.url === "" ? logo : producto.imagen.url} className="card-img-top" alt="logo" />
                   <div className="card-body">
                     <h5 className="card-title">{producto.nombre_producto}</h5>
                     <p className="card-text">

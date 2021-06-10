@@ -46,6 +46,7 @@ export default class UsuariosController {
             const hashedPassword = await bcrypt.hash(nuevoUsuario.password, 12);
 
             const usuario = {
+                googleId: "No Tiene",
                 nombre: `${nuevoUsuario.nombre} ${nuevoUsuario.apellido}`,
                 email: nuevoUsuario.email,
                 password: hashedPassword,
@@ -66,6 +67,39 @@ export default class UsuariosController {
             res.status(500).json({ message: "Algo anduvo mal al registrarse.", error: error });
         }
 
+    }
+
+    static async apiSaveUsuarioGoogle(req, res, next) {
+        const nuevoUsuario = req.body;
+
+        try {
+            const usuarioExistente = await Usuario.findOne({ email: nuevoUsuario.email });
+            if (usuarioExistente) {
+                return res.status(400).json({ message: "El usuario ya existe." });
+            };
+
+            const rand = Math.random().toString(16).substr(2, 16); 
+
+            const usuario = {
+                googleId: nuevoUsuario.googleId,
+                nombre: nuevoUsuario.nombre,
+                email: nuevoUsuario.email,
+                password: rand,
+                tipo: "cliente",
+                direccion: {
+                    calle: "",
+                    numero: "",
+                    localidad: ""
+                },
+                telefono: null
+            }
+            
+            const result = await Usuario.create(usuario)
+
+            res.status(200).json({ message: "Creado", idGoogle: nuevoUsuario.googleId });
+        } catch (error) {
+            res.status(500).json({ message: "Algo anduvo mal al registrarse.", error: error });
+        }
     }
 
     static async apiGetUsuario(req, res, next) {

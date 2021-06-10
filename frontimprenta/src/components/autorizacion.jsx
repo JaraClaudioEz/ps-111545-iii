@@ -21,8 +21,8 @@ const Autorizacion = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if(registrado){
+
+        if (registrado) {
 
             try {
                 const { data } = await UsuarioDataService.signUpUsuario(usuario);
@@ -30,10 +30,10 @@ const Autorizacion = () => {
                 localStorage.setItem('perfil', JSON.stringify(data))
                 history.push("/imprenta")
             } catch (error) {
-                console.log({message: "No se pudo registrar nuevo usuario", error});
+                console.log({ message: "No se pudo registrar nuevo usuario", error });
             }
         }
-        else{
+        else {
 
             try {
                 const { data } = await UsuarioDataService.signInUsuario(usuario);
@@ -41,13 +41,13 @@ const Autorizacion = () => {
                 localStorage.setItem('perfil', JSON.stringify(data))
                 history.push("/imprenta")
             } catch (error) {
-                console.log({message: "Error al iniciar sesion, verifique sus credenciales", error});
+                console.log({ message: "Error al iniciar sesion, verifique sus credenciales", error });
             }
         }
     }
 
     const handleInputChange = (e) => {
-        setUsuario({...usuario, [e.target.name]: e.target.value})
+        setUsuario({ ...usuario, [e.target.name]: e.target.value })
     }
 
     const cambiarModo = () => {
@@ -58,14 +58,28 @@ const Autorizacion = () => {
     const handleMostrarPass = () => setMostrarPass((prevMostrarPass) => !prevMostrarPass)
 
     const googleSuccess = async (res) => {
-        //console.log(res);
+        
         const result = res?.profileObj;
         const token = res?.tokenId;
 
+        const data = {
+            googleId: result.googleId,
+            nombre: result.name,
+            email: result.email,
+        };
+
+
         try {
-            localStorage.setItem('perfil', JSON.stringify({result, token}))
+            
+            if(registrado){
+                //console.log(data);
+                const estado = await UsuarioDataService.saveUsuarioGoogle(data);
+                //console.log(estado);
+            }
+
+            localStorage.setItem('perfil', JSON.stringify({ result, token }))
             history.push('/imprenta')
-            //console.log(localStorage.getItem('perfil'));
+
         } catch (error) {
             console.log(error);
         }
@@ -178,7 +192,7 @@ const Autorizacion = () => {
                             <button type="submit" className="btn btn-primary">
                                 {registrado ? "Registrarse" : "Iniciar Sesión"}
                             </button>
-                            <GoogleLogin 
+                            <GoogleLogin
                                 clientId="849202159020-cc8hh5juek0gbur3mglf240sg8j4em6f.apps.googleusercontent.com"
                                 render={(renderProps) => (
                                     <button className="btn btn-primary" onClick={renderProps.onClick} >
@@ -191,7 +205,7 @@ const Autorizacion = () => {
                             />
                         </div>
                         <div className="d-grid d-flex justify-content-end">
-                        <button type="button" className="btn btn-link" onClick={cambiarModo}>
+                            <button type="button" className="btn btn-link" onClick={cambiarModo}>
                                 {registrado ? "Ya tiene cuenta? Inicie sesión." : "No tiene cuenta? Registrarse."}
                             </button>
                         </div>

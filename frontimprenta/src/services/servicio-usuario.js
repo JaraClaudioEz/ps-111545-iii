@@ -30,6 +30,10 @@ class UsuarioDataService {
         return http.post("/usuarios/signup", formData);
     }
 
+    saveUsuarioGoogle(formData) {
+        return http.post("/usuarios/google", formData);
+    }
+
     updateUsuario(data) {
         return http.put("/usuarios", data);
     }
