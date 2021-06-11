@@ -14,8 +14,8 @@ class UsuarioDataService {
         return http.get(`/usuarios?pag=${pag}`);
     }
 
-    getUsuario(id) {
-        return http.get(`/usuarios/id/${id}`);
+    getUsuario(email) {
+        return http.get(`/usuarios/email/${email}`);
     }
 
     find(query, by = "nombre", pag = 0) { 

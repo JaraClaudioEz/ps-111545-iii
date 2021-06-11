@@ -78,7 +78,7 @@ export default class UsuariosController {
                 return res.status(400).json({ message: "El usuario ya existe." });
             };
 
-            const rand = Math.random().toString(16).substr(2, 16); 
+            const rand = Math.random().toString(16).substr(2, 16);
 
             const usuario = {
                 googleId: nuevoUsuario.googleId,
@@ -93,7 +93,7 @@ export default class UsuariosController {
                 },
                 telefono: null
             }
-            
+
             const result = await Usuario.create(usuario)
 
             res.status(200).json({ message: "Creado", idGoogle: nuevoUsuario.googleId });
@@ -104,12 +104,26 @@ export default class UsuariosController {
 
     static async apiGetUsuario(req, res, next) {
 
+        const email = req.params.email || {}
+
+        try {
+
+            const usuario = await Usuario.findOne({ email });
+            if (!usuario) {
+                return res.status(404).json({ message: "El usuario no existe." });
+            };
+
+            res.json(usuario)
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e })
+        }
     }
 
     static async apiUpdateUsuario(req, res, next) {
         const updatedUsuario = req.body;
         const idUsuario = req.body._id
-        
+
         try {
             const { _id, ...usuario } = updatedUsuario
 
@@ -125,7 +139,7 @@ export default class UsuariosController {
                 res.status(200).json({ status: "Modificado", id: idUsuario })
             }
         } catch (error) {
-            
+
         }
     }
 

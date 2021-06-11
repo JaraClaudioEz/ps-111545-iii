@@ -10,6 +10,7 @@ router.route("/")
     .put(UsuariosCtrl.apiUpdateUsuario)
     .delete(UsuariosCtrl.apiDeleteUsuario)
 
+router.route("/email/:email").get(UsuariosCtrl.apiGetUsuario)
 router.route("/signin").post(UsuariosCtrl.apiSigninUsuario);
 router.route("/signup").post(UsuariosCtrl.apiSignupUsuario);
 router.route("/google").post(UsuariosCtrl.apiSaveUsuarioGoogle);
