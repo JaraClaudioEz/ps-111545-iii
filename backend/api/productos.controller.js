@@ -92,7 +92,7 @@ export default class ProductosController {
             }
             */
 
-            if (respuestaProducto.modifiedCount === 0) {
+            if (respuestaProducto.nModified === 0) {
                 res.json({ status: "Sin cambios", id: idProducto })
             }
             else {

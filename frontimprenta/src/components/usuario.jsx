@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 
+
 import UsuarioDataService from "../services/servicio-usuario.js";
 
 const Usuario = props => {
 
+    const estadoInicialUsuario = {
+        _id: props.usuario.result._id,
+        googleId: props.usuario.result.googleId,
+        nombre: props.usuario.result.nombre,
+        email: props.usuario.result.email,
+        password: props.usuario.result.password,
+        tipo: props.usuario.result.tipo,
+        direccion: {
+            calle: props.usuario.result.direccion.calle,
+            numero: props.usuario.result.direccion.numero,
+            localidad: props.usuario.result.direccion.localidad
+        },
+        telefono: props.usuario.result.telefono
+    };
+    /*
     const estadoInicialUsuario = {
         _id: null,
         googleId: "",
@@ -20,46 +36,75 @@ const Usuario = props => {
         },
         telefono: 0
     };
-
+    */
     const [user, setUser] = useState(estadoInicialUsuario);
     //const [googleUser, setGoogleUser] = useState(false);
     const history = useHistory();
 
     //const cambiarTipoUsuario = () => setGoogleUser((prevGoogleUser) => !prevGoogleUser)
 
+    /*
     const obtenerUsuario = async (email) => {
-        await UsuarioDataService.getUsuario(email)
+
+        //setUser(perfil.result);
+        //console.log(user);
+        /*
+        const email = perfil.result.email;
+        
+        UsuarioDataService.getUsuario(email)
             .then(response => {
                 setUser(response.data);
                 //console.log(response.data);
             })
             .catch(e => {
-                console.log({e});
+                console.log({ e });
             });
+        try {
+            const { data } = await UsuarioDataService.getUsuario(email);
+            console.log(data);
+            setUser(data);
+        } catch (error) {
+            console.log(error);
+        }
+
     };
+    */
 
     const handleInputChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value })
+    }
+
+    const handleDireccionInputChange = (e) => {
+        setUser({ ...user, direccion: { ...user.direccion, [e.target.name]: e.target.value } })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
+            //const token = props.usuario.token;
             const { data } = await UsuarioDataService.updateUsuario(user);
-            console.log(data);
-            localStorage.setItem('perfil', JSON.stringify(data))
-            history.push("/imprenta")
+
+            if (data.status === "Sin cambios") {
+                alert("No se realizaron cambios.")
+            }
+            else {
+                localStorage.setItem('perfil', JSON.stringify(data))
+                history.push("/imprenta")
+            }
+
         } catch (error) {
             console.log({ message: "No se pudo actualizar los datos.", error });
         }
 
     }
 
+    /*
     useEffect(() => {
         obtenerUsuario(props.usuario.result.email);
-    }, [props.usuario.result.email]);
-
+        //obtenerUsuario(JSON.parse(localStorage.getItem('perfil')));
+    }, []);
+    */
 
     return (
         <div className="container-fluid">
@@ -69,7 +114,7 @@ const Usuario = props => {
                     <div className="">
                         <h4>Datos de Contacto: {user.nombre}</h4>
                     </div>
-                    <form className="form-group">
+                    <form className="form-group" onSubmit={handleSubmit}>
                         <div className="d-grid gap-3">
 
                             <div className="d-grid gap-3">
@@ -110,9 +155,9 @@ const Usuario = props => {
                                             type="text"
                                             className="form-control"
                                             id="calle"
-                                            
-                                            value={user.direccion.calle}
-                                            onChange={handleInputChange}
+
+                                            value={user?.direccion.calle}
+                                            onChange={handleDireccionInputChange}
                                             name="calle"
                                             placeholder="Calle"
                                         />
@@ -123,8 +168,8 @@ const Usuario = props => {
                                             className="form-control"
                                             id="numero"
                                             required
-                                            value={user.direccion.numero}
-                                            onChange={handleInputChange}
+                                            value={user?.direccion.numero}
+                                            onChange={handleDireccionInputChange}
                                             name="numero"
                                             placeholder="Número"
                                         />
@@ -134,15 +179,15 @@ const Usuario = props => {
                                             type="text"
                                             className="form-control"
                                             id="localidad"
-                                            
-                                            value={user.direccion.localidad}
-                                            onChange={handleInputChange}
+
+                                            value={user?.direccion.localidad}
+                                            onChange={handleDireccionInputChange}
                                             name="localidad"
                                             placeholder="Localidad"
                                         />
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div className="d-grid gap-3">
                                 <div className="p-2 bg-light border">
@@ -160,7 +205,7 @@ const Usuario = props => {
                                     />
                                 </div>
                             </div>
-                            <button type="button" onClick={handleSubmit} className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary">
                                 Guardar
                             </button>
                         </div>

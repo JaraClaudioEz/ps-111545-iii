@@ -122,24 +122,26 @@ export default class UsuariosController {
 
     static async apiUpdateUsuario(req, res, next) {
         const updatedUsuario = req.body;
-        const idUsuario = req.body._id
+        const idUsuario = req.body._id;
 
         try {
-            const { _id, ...usuario } = updatedUsuario
+            const { _id, ...usuario } = updatedUsuario;
 
-            const result = await Producto.updateOne(
-                { _id: ObjectId(idUsuario) },
+            const resultado = await Usuario.updateOne(
+                { _id: idUsuario },
                 { $set: usuario },
-            )
+            );
 
-            if (result.modifiedCount === 0) {
-                res.json({ status: "Sin cambios", id: idUsuario })
+            if (resultado.nModified === 0) {
+                res.json({ status: "Sin cambios", id: idUsuario });
             }
             else {
-                res.status(200).json({ status: "Modificado", id: idUsuario })
+                const token = jwt.sign({ email: usuario.email, id: usuario._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+
+                res.status(200).json({ result: updatedUsuario, token });
             }
         } catch (error) {
-
+            res.status(500).json({ message: "Algo anduvo mal al actualizar usuario.", error: error });
         }
     }
 
