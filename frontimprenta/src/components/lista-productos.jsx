@@ -32,7 +32,7 @@ const ListaProductos = props => {
   const traerProductos = () => {
     ProductoDataService.getListadoProductos()
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         setProductos(response.data.productos);
 
       })
@@ -44,7 +44,7 @@ const ListaProductos = props => {
   const traerCategorias = () => {
     ProductoDataService.getCategorias()
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         setCategorias(["Todas"].concat(response.data));
 
       })
