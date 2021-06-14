@@ -102,7 +102,61 @@ export default class UsuariosController {
         }
     }
 
-    static async apiGetUsuario(req, res, next) {
+    static async apiGetUsuarios(req, res, next) {
+
+        const usuariosPorPagina = req.query.usuariosPorPagina ? parseInt(req.usuariosPorPagina, 10) : 20
+        const pag = req.query.pag ? parseInt(req.query.pag, 10) : 0
+
+        let filtros = {};
+        filtros.tipo = "cliente";
+        if (req.query.nombre) {
+            filtros.nombre = req.query.nombre
+        }
+        /*
+        const { listaUsuarios, totalUsuarios } = await ProductosDAO.getProductos({
+            filtros,
+            pag,
+            usuariosPorPagina,
+        })
+        
+        static async getProductos({
+
+            filtros = null,
+            pag = 0,
+            productosPorPagina = 20,
+        } = {}) {
+        */
+        let query
+        if (filtros) {
+            if ("nombre" in filtros) {
+                query = { $text: { $search: filtros["nombre"] }, "tipo": "cliente" } //Configurado en mongodb 
+            }
+            else if ("tipo" in filtros) {
+                query = { "tipo": "cliente" }
+            }
+        }
+
+        try {
+            const listaUsuarios = await Usuario.find(query, { password: 0, googleId: 0 }).limit(usuariosPorPagina).skip(usuariosPorPagina * pag)
+            const totalUsuarios = await Usuario.countDocuments(query)
+
+            let response = {
+                usuarios: listaUsuarios,
+                pagina: pag,
+                filtros: filtros,
+                entradas_por_pagina: usuariosPorPagina,
+                total_resultados: totalUsuarios,
+            }
+            return res.status(200).json(response)
+        } catch (e) {
+            console.error(`No se pudo traer listado productos, ${e}`)
+            return { listaUsuarios: [], totalUsuarios: 0 }
+        }
+
+    }
+
+
+    static async apiGetUsuarioPorEmail(req, res, next) {
 
         const email = req.params.email || {}
 

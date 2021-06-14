@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 
-
 import UsuarioDataService from "../services/servicio-usuario.js";
 
 const Usuario = props => {

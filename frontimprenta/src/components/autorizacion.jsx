@@ -26,7 +26,7 @@ const Autorizacion = () => {
 
             try {
                 const { data } = await UsuarioDataService.signUpUsuario(usuario);
-                console.log(data);
+                //console.log(data);
                 localStorage.setItem('perfil', JSON.stringify(data))
                 history.push("/imprenta")
             } catch (error) {
@@ -37,7 +37,7 @@ const Autorizacion = () => {
 
             try {
                 const { data } = await UsuarioDataService.signInUsuario(usuario);
-                console.log(data);
+                //console.log(data);
                 localStorage.setItem('perfil', JSON.stringify(data))
                 history.push("/imprenta")
             } catch (error) {

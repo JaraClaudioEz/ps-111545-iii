@@ -51,7 +51,7 @@ const NavbarImprenta = () => {
                                 user === null ? (
                                     <span></span>
                                 ) : (
-                                    <li className="nav-item">
+                                    <span>
                                         {
                                             user && user?.result.tipo === "admin" ? (
                                                 <Nav.Link as={Link} to="/pedidos">Ver Pedidos</Nav.Link>
@@ -59,7 +59,7 @@ const NavbarImprenta = () => {
                                                 <Nav.Link as={Link} to="/pedido">Mi Pedido</Nav.Link>
                                             )
                                         }
-                                    </li>
+                                    </span>
                                 )
                             }
                         </div>
@@ -68,7 +68,7 @@ const NavbarImprenta = () => {
                                 user === null ? (
                                     <span></span>
                                 ) : (
-                                    <li className="nav-item">
+                                    <span>
                                         {
                                             user && user?.result.tipo === "admin" ? (
                                                 <Nav.Link as={Link} to="/usuarios">Clientes</Nav.Link>
@@ -77,7 +77,7 @@ const NavbarImprenta = () => {
                                                 <Nav.Link as={Link} to="/usuario">Mi Perfil</Nav.Link>
                                             )
                                         }
-                                    </li>
+                                    </span>
                                 )
                             }
                         </div>
