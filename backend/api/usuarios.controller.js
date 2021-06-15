@@ -200,7 +200,15 @@ export default class UsuariosController {
     }
 
     static async apiDeleteUsuario(req, res, next) {
-
+        try {
+            const idUsuario = req.query.id
+            
+            const deleteResponse = await Usuario.deleteOne({_id: idUsuario})
+            
+            res.json({ status: "Eliminado", id: idUsuario })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
+        }
     }
 
     static async apiGetUsuarioById(req, res, next) {

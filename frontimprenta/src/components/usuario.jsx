@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
@@ -19,23 +19,7 @@ const Usuario = props => {
         },
         telefono: props.usuario.result.telefono
     };
-    /*
-    const estadoInicialUsuario = {
-        _id: null,
-        googleId: "",
-        nombre: "",
-        apellido: "",
-        email: "",
-        password: "",
-        tipo: "cliente",
-        direccion: {
-            calle: "",
-            numero: 0,
-            localidad: ""
-        },
-        telefono: 0
-    };
-    */
+    
     const [user, setUser] = useState(estadoInicialUsuario);
     //const [googleUser, setGoogleUser] = useState(false);
     const history = useHistory();

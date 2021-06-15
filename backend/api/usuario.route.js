@@ -6,11 +6,11 @@ import autorizacion from "../middleware/autorizacion.js"
 const router = express.Router();
 
 router.route("/")
-    .get(UsuariosCtrl.apiGetUsuarios)
-    .put(UsuariosCtrl.apiUpdateUsuario)
-    .delete(UsuariosCtrl.apiDeleteUsuario)
+    .get(autorizacion, UsuariosCtrl.apiGetUsuarios)
+    .put(autorizacion, UsuariosCtrl.apiUpdateUsuario)
+    .delete(autorizacion, UsuariosCtrl.apiDeleteUsuario)
 
-router.route("/email/:email").get(UsuariosCtrl.apiGetUsuarioPorEmail)
+router.route("/email/:email").get(autorizacion, UsuariosCtrl.apiGetUsuarioPorEmail)
 router.route("/signin").post(UsuariosCtrl.apiSigninUsuario);
 router.route("/signup").post(UsuariosCtrl.apiSignupUsuario);
 router.route("/google").post(UsuariosCtrl.apiSaveUsuarioGoogle);

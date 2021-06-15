@@ -55,10 +55,11 @@ const Autorizacion = () => {
         //handleMostrarPass(true);
     }
 
-    const handleMostrarPass = () => setMostrarPass((prevMostrarPass) => !prevMostrarPass)
+    //const handleMostrarPass = () => setMostrarPass((prevMostrarPass) => !prevMostrarPass)
+    //<button className="btn btn-outline-secondary" type="button" id="mostrarPass" onClick={handleMostrarPass}>Mostrar</button>
 
     const googleSuccess = async (res) => {
-        
+
         const result = res?.profileObj;
         const token = res?.tokenId;
 
@@ -70,8 +71,8 @@ const Autorizacion = () => {
 
 
         try {
-            
-            if(registrado){
+
+            if (registrado) {
                 //console.log(data);
                 const estado = await UsuarioDataService.saveUsuarioGoogle(data);
                 //console.log(estado);
@@ -158,7 +159,7 @@ const Autorizacion = () => {
                                         name="password"
                                         placeholder="Contraseña"
                                     />
-                                    <button className="btn btn-outline-secondary" type="button" id="mostrarPass" onClick={handleMostrarPass}>Mostrar</button>
+                                    
                                 </div>
                                 {
                                     registrado && (

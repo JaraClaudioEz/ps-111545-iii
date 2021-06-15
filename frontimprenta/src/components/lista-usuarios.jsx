@@ -54,7 +54,14 @@ const ListaUsuarios = props => {
   };
 
   const eliminarUsuario = (id) => {
-    
+    UsuarioDataService.deleteUsuario(id)
+      .then(response => {
+        refreshList()
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   return (
@@ -83,7 +90,9 @@ const ListaUsuarios = props => {
                   </InputGroup.Append>
                 </InputGroup>
               </Col>
-              <Col sm={4}></Col>
+              <Col sm={4}>
+                <Button variant="outline-info" onClick={refreshList}>Todos</Button>
+              </Col>
             </Row>
             <Row>
               <Col>
