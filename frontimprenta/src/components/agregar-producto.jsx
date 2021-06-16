@@ -3,7 +3,7 @@ import ProductoDataService from "../services/servicio-producto";
 import { Link } from "react-router-dom";
 
 const AddProducto = props => {
-
+    console.log(props);
     const estadoInicialProducto = {
         _id: null,
         nombre_producto: "",

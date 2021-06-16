@@ -76,7 +76,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/usuario"
+          path="/usuario/:nombre"
           render={(props) => (
             <Usuario {...props} usuario={user} />
           )}

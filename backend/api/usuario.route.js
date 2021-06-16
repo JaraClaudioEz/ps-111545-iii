@@ -10,6 +10,7 @@ router.route("/")
     .put(autorizacion, UsuariosCtrl.apiUpdateUsuario)
     .delete(autorizacion, UsuariosCtrl.apiDeleteUsuario)
 
+router.route("/id/:id").get(autorizacion, UsuariosCtrl.apiGetUsuarioById)
 router.route("/email/:email").get(autorizacion, UsuariosCtrl.apiGetUsuarioPorEmail)
 router.route("/signin").post(UsuariosCtrl.apiSigninUsuario);
 router.route("/signup").post(UsuariosCtrl.apiSignupUsuario);

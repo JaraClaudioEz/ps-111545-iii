@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge } from 'react-bootstrap';
 
 import logo from "../assets/IntegralLogo.png";
 
@@ -17,6 +17,17 @@ const NavbarImprenta = () => {
         setUser(null);
         history.push('/');
     }
+
+    let nombre = "";
+    const obtenerNombre = () => {
+        if(user.result.nombre){
+            nombre = user.result.nombre;
+        }
+        else if(user.result.name){
+            nombre = user.result.name;
+        }
+        return nombre;
+    };
 
     useEffect(() => {
         const token = user?.token;
@@ -56,7 +67,9 @@ const NavbarImprenta = () => {
                                             user && user?.result.tipo === "admin" ? (
                                                 <Nav.Link as={Link} to="/pedidos">Ver Pedidos</Nav.Link>
                                             ) : (
-                                                <Nav.Link as={Link} to="/pedido">Mi Pedido</Nav.Link>
+                                                <Nav.Link as={Link} to="/pedido">
+                                                    Mi Pedido <Badge variant="light">(9)</Badge>
+                                                </Nav.Link>
                                             )
                                         }
                                     </span>
@@ -74,7 +87,7 @@ const NavbarImprenta = () => {
                                                 <Nav.Link as={Link} to="/usuarios">Clientes</Nav.Link>
 
                                             ) : (
-                                                <Nav.Link as={Link} to="/usuario">Mi Perfil</Nav.Link>
+                                                <Nav.Link as={Link} to={{ pathname: "/usuario/" + obtenerNombre(), state: { usuarioActual: user } }}>Mi Perfil</Nav.Link>
                                             )
                                         }
                                     </span>
@@ -87,17 +100,15 @@ const NavbarImprenta = () => {
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={Link} to="/info">Acerca de...</NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link>
-                            {user ? (
-                                <a onClick={logout} className="nav-link btn btn-danger" style={{ cursor: 'pointer' }}>
-                                    Cerrar Sesión
-                                </a>
-                            ) : (
-                                <Link to={"/autorizacion"} className="nav-link btn btn-success">
-                                    Iniciar Sesión
-                                </Link>
-                            )}
-                        </Nav.Link>
+                        <div>
+                            {
+                                user ? (
+                                    <Nav.Link onClick={logout} className="btn btn-danger">Cerrar Sesión</Nav.Link>
+                                ) : (
+                                    <Nav.Link as={Link} to="/autorizacion" className="btn btn-success">Iniciar Sesión</Nav.Link>
+                                )
+                            }
+                        </div>
                     </Nav>
                     <Form inline className="d-flex">
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />

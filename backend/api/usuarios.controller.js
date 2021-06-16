@@ -53,7 +53,7 @@ export default class UsuariosController {
                 tipo: "cliente",
                 direccion: {
                     calle: "",
-                    numero: "",
+                    numero: null,
                     localidad: ""
                 },
                 telefono: null
@@ -88,7 +88,7 @@ export default class UsuariosController {
                 tipo: "cliente",
                 direccion: {
                     calle: "",
-                    numero: "",
+                    numero: null,
                     localidad: ""
                 },
                 telefono: null
@@ -212,7 +212,20 @@ export default class UsuariosController {
     }
 
     static async apiGetUsuarioById(req, res, next) {
+        const id = req.params.id || {}
+        
+        try {
 
+            const usuario = await Usuario.findOne({ _id: id });
+            if (!usuario) {
+                return res.status(404).json({ message: "El usuario no existe." });
+            };
+
+            res.json(usuario)
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e })
+        }
     }
 
 }

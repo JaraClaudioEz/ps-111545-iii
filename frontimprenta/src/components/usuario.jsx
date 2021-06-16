@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
@@ -6,18 +6,18 @@ import UsuarioDataService from "../services/servicio-usuario.js";
 const Usuario = props => {
 
     const estadoInicialUsuario = {
-        _id: props.usuario.result._id,
-        googleId: props.usuario.result.googleId,
-        nombre: props.usuario.result.nombre,
-        email: props.usuario.result.email,
-        password: props.usuario.result.password,
-        tipo: props.usuario.result.tipo,
+        _id: null,
+        googleId: "",
+        nombre: "",
+        email: "",
+        password: "",
+        tipo: "cliente",
         direccion: {
-            calle: props.usuario.result.direccion.calle,
-            numero: props.usuario.result.direccion.numero,
-            localidad: props.usuario.result.direccion.localidad
+            calle: "",
+            numero: 0,
+            localidad: "",
         },
-        telefono: props.usuario.result.telefono
+        telefono: 0,
     };
     
     const [user, setUser] = useState(estadoInicialUsuario);
@@ -26,32 +26,31 @@ const Usuario = props => {
 
     //const cambiarTipoUsuario = () => setGoogleUser((prevGoogleUser) => !prevGoogleUser)
 
-    /*
     const obtenerUsuario = async (email) => {
 
         //setUser(perfil.result);
         //console.log(user);
-        /*
-        const email = perfil.result.email;
         
+        //const email = perfil.result.email;
+        /*
         UsuarioDataService.getUsuario(email)
             .then(response => {
                 setUser(response.data);
-                //console.log(response.data);
+                console.log(response.data);
             })
             .catch(e => {
                 console.log({ e });
-            });
+            });*/
         try {
             const { data } = await UsuarioDataService.getUsuario(email);
-            console.log(data);
+            //console.log(data);
             setUser(data);
         } catch (error) {
             console.log(error);
         }
 
     };
-    */
+    
 
     const handleInputChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value })
@@ -82,12 +81,13 @@ const Usuario = props => {
 
     }
 
-    /*
+    
     useEffect(() => {
-        obtenerUsuario(props.usuario.result.email);
+        //obtenerUsuario(props.match.params.id);
+        obtenerUsuario(props.location.state.usuarioActual.result.email);
         //obtenerUsuario(JSON.parse(localStorage.getItem('perfil')));
     }, []);
-    */
+    
 
     return (
         <div className="container-fluid">
@@ -151,7 +151,7 @@ const Usuario = props => {
                                             className="form-control"
                                             id="numero"
                                             required
-                                            value={user?.direccion.numero}
+                                            value={user?.direccion.numero === null ? '' : user?.direccion.numero}
                                             onChange={handleDireccionInputChange}
                                             name="numero"
                                             placeholder="Número"
@@ -180,7 +180,7 @@ const Usuario = props => {
                                         className="form-control"
                                         id="telefono"
                                         required
-                                        value={user.telefono}
+                                        value={user.telefono === null ? '' : user.telefono}
                                         onChange={handleInputChange}
                                         name="telefono"
                                         placeholder="Teléfono"

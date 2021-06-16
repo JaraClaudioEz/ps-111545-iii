@@ -126,7 +126,7 @@ const ListaProductos = props => {
             <select onChange={onChangeSearchCategoria}>
               {categorias.map(categoria => {
                 return (
-                  <option value={categoria}> {categoria.substr(0, 20)} </option>
+                  <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
                 )
               })}
             </select>
@@ -187,18 +187,23 @@ const ListaProductos = props => {
             return (
               <div className="col-lg-4 pb-1">
                 <div className="card">
-                  <img src={producto?.imagen.url === "" ? logo : producto.imagen.url} className="card-img-top" alt="logo" />
+                  <img
+                    src={producto?.imagen.url === "" ? logo : producto.imagen.url}
+                    className="card-img-top"
+                    alt="Integral Imagen"
+                    width="100"
+                    height="250" />
                   <div className="card-body">
                     <h5 className="card-title">{producto.nombre_producto}</h5>
                     <p className="card-text">
                       <strong>Categoría: </strong>{producto.categoria}<br />
-                      <strong>Descripción: </strong>{producto.descripcion}
+                      <strong>Precio: </strong>${producto.precio} {producto.provision}
                     </p>
                     <div className="row">
                       <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                         Ver Producto
-                        </Link>
-                      <button className="btn btn-primary col-lg-5 mx-1 mb-1" type="button">Agrerar al Carrito</button>
+                      </Link>
+                      <button className="btn btn-primary col-lg-5 mx-1 mb-1" type="button">Agrerar al Pedido</button>
                     </div>
                   </div>
                 </div>

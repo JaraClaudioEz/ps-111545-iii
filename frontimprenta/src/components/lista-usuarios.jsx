@@ -8,13 +8,15 @@ const ListaUsuarios = props => {
 
   const [usuarios, setUsuarios] = useState([]);
   const [searchNombre, setSearchNombre] = useState("");
+  const [rol, setRol] = useState(props.usuario.result.tipo)
 
   const history = useHistory();
-  const { tipo } = props.usuario.result
+  //const { tipo } = props.usuario.result
   //console.log(tipo);
 
   useEffect(() => {
     traerUsuarios();
+    //setRol(props.usuario.result.tipo)
   }, []);
 
   const onChangeSearchNombre = e => {
@@ -67,7 +69,7 @@ const ListaUsuarios = props => {
   return (
     <div>
       {
-        tipo === "admin" ? (
+        rol === "admin" ? (
           <Container fluid>
             <Row>
               <Col>
