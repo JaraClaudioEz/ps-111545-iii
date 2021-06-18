@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
+import { Container, Row, Col } from 'react-bootstrap';
 
 import Navbar from "./components/navbar";
 import Inicio from "./components/inicio";
@@ -22,68 +23,75 @@ const App = () => {
   }, [location]);
 
   return (
-    <div className="container mt-3">
-      <Navbar />
+    <Container>
+      <Row>
+        <Col>
+          <Navbar />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Switch>
+            <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
+            <Route
+              exact path="/productos"
+              render={(props) => (
+                <ListaProductos {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/productos/agregar/:id"
+              render={(props) => (
+                <AddProducto {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/productos/agregar"
+              render={(props) => (
+                <AddProducto {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/productos/:id"
+              render={(props) => (
+                <Producto {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/pedidos"
+              render={(props) => (
+                <ListaPedidos {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/pedido"
+              render={(props) => (
+                <Pedido {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/autorizacion"
+              render={(props) => (
+                <Autorizacion {...props} login={Autorizacion} />
+              )}
+            />
+            <Route
+              path="/usuarios"
+              render={(props) => (
+                <ListaUsuarios {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/usuario/:nombre"
+              render={(props) => (
+                <Usuario {...props} usuario={user} />
+              )}
+            />
+          </Switch>
+        </Col>
+      </Row>
+    </Container>
 
-      <Switch>
-        <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
-        <Route
-          exact path="/productos"
-          render={(props) => (
-            <ListaProductos {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/productos/agregar/:id"
-          render={(props) => (
-            <AddProducto {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/productos/agregar"
-          render={(props) => (
-            <AddProducto {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/productos/:id"
-          render={(props) => (
-            <Producto {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/pedidos"
-          render={(props) => (
-            <ListaPedidos {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/pedido"
-          render={(props) => (
-            <Pedido {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/autorizacion"
-          render={(props) => (
-            <Autorizacion {...props} login={Autorizacion} />
-          )}
-        />
-        <Route
-          path="/usuarios"
-          render={(props) => (
-            <ListaUsuarios {...props} usuario={user} />
-          )}
-        />
-        <Route
-          path="/usuario/:nombre"
-          render={(props) => (
-            <Usuario {...props} usuario={user} />
-          )}
-        />
-      </Switch>
-
-    </div>
   );
 }
 

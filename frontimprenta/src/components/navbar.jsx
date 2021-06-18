@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col } from 'react-bootstrap';
 
 import logo from "../assets/IntegralLogo.png";
 
@@ -20,10 +20,10 @@ const NavbarImprenta = () => {
 
     let nombre = "";
     const obtenerNombre = () => {
-        if(user.result.nombre){
+        if (user.result.nombre) {
             nombre = user.result.nombre;
         }
-        else if(user.result.name){
+        else if (user.result.name) {
             nombre = user.result.name;
         }
         return nombre;
@@ -41,8 +41,7 @@ const NavbarImprenta = () => {
     }, [location])
 
     return (
-        <div>
-
+        <Col>
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="/">
                     <img
@@ -65,10 +64,10 @@ const NavbarImprenta = () => {
                                     <span>
                                         {
                                             user && user?.result.tipo === "admin" ? (
-                                                <Nav.Link as={Link} to="/pedidos">Ver Pedidos</Nav.Link>
+                                                <Nav.Link as={Link} to="/pedidos">Pedidos</Nav.Link>
                                             ) : (
                                                 <Nav.Link as={Link} to="/pedido">
-                                                    Mi Pedido <Badge variant="light">(9)</Badge>
+                                                    Mi Pedido <Badge variant="dark" className="btn-success">(9)</Badge>
                                                 </Nav.Link>
                                             )
                                         }
@@ -94,6 +93,16 @@ const NavbarImprenta = () => {
                                 )
                             }
                         </div>
+                        <div>
+                            {
+                                user && user?.result.tipo === "admin" ? (
+                                    <Nav.Link as={Link} to="/reportes">Reportes</Nav.Link>
+
+                                ) : (
+                                    <span></span>
+                                )
+                            }
+                        </div>
                         <NavDropdown title="Ayuda" id="basic-nav-dropdown">
                             <NavDropdown.Item as={Link} to="/contacto">Contactenos</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/legales">Términos y Condiciones</NavDropdown.Item>
@@ -110,13 +119,15 @@ const NavbarImprenta = () => {
                             }
                         </div>
                     </Nav>
-                    <Form inline className="d-flex">
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-success" className="ml-6">Buscar</Button>
-                    </Form>
+                    <Nav className="mr-auto">
+                        <Form inline className="navbar-nav navbar-right">
+                            <FormControl type="text" placeholder="Search" className="mr-sm-6" />
+                            <Button variant="outline-success" className="ml-6">Buscar</Button>
+                        </Form>
+                    </Nav>
                 </Navbar.Collapse>
             </Navbar>
-        </div >
+        </Col>
     );
 };
 

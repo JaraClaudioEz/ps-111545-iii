@@ -146,7 +146,7 @@ const ListaProductos = props => {
         <div className="container-fluid">
           <div className="row">
             <h1>Listado de Productos</h1>
-            <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto</Link>
+            <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto +</Link>
           </div>
 
           <table className="table table-striped">
@@ -185,7 +185,7 @@ const ListaProductos = props => {
         <div className="row">
           {productos.map((producto) => {
             return (
-              <div className="col-lg-4 pb-1">
+              <div className="col-lg-4 pb-1" key={producto._id}>
                 <div className="card">
                   <img
                     src={producto?.imagen.url === "" ? logo : producto.imagen.url}
@@ -203,7 +203,7 @@ const ListaProductos = props => {
                       <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                         Ver Producto
                       </Link>
-                      <button className="btn btn-primary col-lg-5 mx-1 mb-1" type="button">Agrerar al Pedido</button>
+                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button">Agrerar al Pedido</button>
                     </div>
                   </div>
                 </div>

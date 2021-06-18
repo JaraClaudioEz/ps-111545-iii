@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import ProductoDataService from "../services/servicio-producto";
 import { Link } from "react-router-dom";
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
+import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
 
 const Producto = props => {
   const estadoInicialProducto = {
     _id: null,
-    nombre: "",
+    nombre_producto: "",
     descripcion: "",
     especificaciones: "",
     provision: "",
@@ -18,7 +19,7 @@ const Producto = props => {
     imagen: {
       url: "",
       id: ""
-  }
+    }
   };
 
   const [producto, setProducto] = useState(estadoInicialProducto);
@@ -27,7 +28,7 @@ const Producto = props => {
     ProductoDataService.getProducto(id)
       .then(response => {
         setProducto(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -40,42 +41,43 @@ const Producto = props => {
 
 
   return (
-    <div>
-      {producto ? (
-        <div className="container-fluid">
-          <div className="container">
+
+    producto ? (
+      <Container>
+        <Row>
+          <Col sm={8}>
             <img src={producto?.imagen.url === "" ? logo : producto.imagen.url} className="card-img-top" alt="logo" />
-          </div>
-          <div className="container">
-            <h5>{producto.nombre}</h5>
+          </Col>
+          <Col sm={4}>
+            <h5>{producto.nombre_producto}</h5>
             <p>
-              <strong>Especificaciones: </strong>{producto.especificaciones}<br />
-              <strong>Descripción: </strong>{producto.descripcion}
+              <strong>Precio: </strong>${producto.precio} por {producto.provision}<br />
+              <strong>Características: </strong>{producto.especificaciones}
             </p>
+            <Button variant="dark">Agregar al Pedido</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <h4> {producto.descripcion} </h4>
             <Link to={"/imprenta"} className="btn btn-primary">
               Volver
             </Link>
-            <h4> Características </h4>
-          </div>
-          <div className="row">
-            {props.user ?
-              <div className="col-lg-4 pb-1">
-                <p>Vista Admin.</p>
-              </div>
-              : (
-                <div className="col-sm-4">
-                  <p>Vista Cliente.</p>
-                </div>
-              )}
-          </div>
-        </div>
-      ) : (
-        <div>
+          </Col>
+          <Col>
+            
+          </Col>
+        </Row>
+      </Container >
+    ) : (
+      <Container>
+        <Row>
           <br />
           <p>No hay producto seleccionado.</p>
-        </div>
-      )}
-    </div>
+        </Row>
+      </Container >
+    )
+
   );
 }
 
