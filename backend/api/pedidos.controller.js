@@ -3,7 +3,7 @@ import Producto from "../models/producto.js";
 
 export default class PedidosController {
     static async apiGetItemsPedido(req, res, next) {
-        const idUsuario = req.params.id;
+        const idUsuario = req.params.idUsuario;
         try {
             const pedido = await Pedido.findOne({ idUsuario });
             if (pedido && pedido.items.length > 0) {
@@ -21,7 +21,7 @@ export default class PedidosController {
     }
 
     static async apiAddItemPedido(req, res, next) {
-        const idUsuario = req.params.id;
+        const idUsuario = req.params.idUsuario;
         const { idProducto, cantidad } = req.body;
 
         try {
@@ -72,7 +72,7 @@ export default class PedidosController {
         const idProducto = req.params.id;
         try {
             let pedido = await Pedido.findOne({ idUsuario });
-            let itemIndex = pedido.items.findIndex(p => p.idProducto == idProducto);
+            let itemIndex = pedido.items.findIndex(p => p._id == idProducto);
             if (itemIndex > -1) {
                 let productItem = pedido.items[itemIndex];
                 pedido.importe -= productItem.cantidad * productItem.precio;

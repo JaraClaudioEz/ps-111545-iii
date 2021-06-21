@@ -5,11 +5,11 @@ import autorizacion from "../middleware/autorizacion.js"
 
 const router = express.Router();
 
-router.route("/:id")
-    .get(autorizacion, PedidoCtrl.apiGetItemsPedido)
-    .post(autorizacion, PedidoCtrl.apiAddItemPedido)
+router.route("/:idUsuario")
+    .get(PedidoCtrl.apiGetItemsPedido)
+    .post(PedidoCtrl.apiAddItemPedido)
 
-router.route("/:idUsuario/:id").delete(autorizacion, PedidoCtrl.apiDeleteItemPedido)
+router.route("/:idUsuario/:id").delete(PedidoCtrl.apiDeleteItemPedido)
 
 /*
 router.get('/cart/:id', cartController.get_cart_items);
