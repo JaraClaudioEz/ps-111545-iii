@@ -13,20 +13,54 @@ import Pedido from "./components/pedido";
 import ListaPedidos from "./components/lista-pedidos";
 import ListaUsuarios from "./components/lista-usuarios";
 
+import PedidtoDataService from "./services/servicio-pedido";
+
 const App = () => {
 
   const [user, setUser] = useState(null);
+  const [pedido, setPedido] = useState({});
   const location = useLocation();
+
+  console.log(user);
+  const fetchPedido = async () => {
+    try {
+      if (user !== null) {
+        const { data } = await PedidtoDataService.getProductosPedido(user.result._id);
+        setPedido(data);
+        console.log({ "Respuesta al traer pedido del usuario: ": data });
+      }
+      else {
+        setPedido({});
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const agregarAlPedido = async (idProducto, cantidad) => {
+    try {
+      const { data } = await PedidtoDataService.addProductoPedido(user.result._id, idProducto, cantidad)
+      //console.log(data);
+      setPedido(data);
+      alert("Producto agregado con éxito!")
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //console.log(pedido);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('perfil')));
+    fetchPedido();
   }, [location]);
 
   return (
     <Container>
       <Row>
         <Col>
-          <Navbar />
+          <Navbar totalItems={pedido.items ? pedido.items.length : 0} />
         </Col>
       </Row>
       <Row>
@@ -36,7 +70,7 @@ const App = () => {
             <Route
               exact path="/productos"
               render={(props) => (
-                <ListaProductos {...props} usuario={user} />
+                <ListaProductos {...props} usuario={user} alAgregarAlPedido={agregarAlPedido} />
               )}
             />
             <Route
@@ -54,7 +88,7 @@ const App = () => {
             <Route
               path="/productos/:id"
               render={(props) => (
-                <Producto {...props} usuario={user} />
+                <Producto {...props} usuario={user} alAgregarAlPedido={agregarAlPedido} />
               )}
             />
             <Route
@@ -66,7 +100,7 @@ const App = () => {
             <Route
               path="/pedido"
               render={(props) => (
-                <Pedido {...props} usuario={user} />
+                <Pedido {...props} usuario={user} pedido={pedido} />
               )}
             />
             <Route

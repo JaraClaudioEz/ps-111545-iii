@@ -10,7 +10,7 @@ export default class PedidosController {
                 res.send(pedido);
             }
             else {
-                res.send(null);
+                res.send({message: "No tiene pedido", response: null});
             }
         }
         catch (err) {
@@ -30,6 +30,7 @@ export default class PedidosController {
             if (!item) {
                 res.status(404).send('Producto no encontrado!')
             }
+            
             const precio = item.precio;
             const nombre = item.nombre_producto;
 

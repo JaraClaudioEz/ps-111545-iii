@@ -6,7 +6,7 @@ class PedidoDataService {
     }
 
     addProductoPedido(idUsuario, idProducto, cantidad) {
-        return http.post(`/pedidos/${idUsuario}`, idProducto, cantidad);
+        return http.post(`/pedidos/${idUsuario}`, {idProducto, cantidad});
     }
 
     deleteProductoPedido(idUsuario, idProducto) { 

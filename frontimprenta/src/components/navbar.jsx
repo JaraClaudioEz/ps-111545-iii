@@ -5,7 +5,7 @@ import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col } from 
 
 import logo from "../assets/IntegralLogo.png";
 
-const NavbarImprenta = () => {
+const NavbarImprenta = ({ totalItems }) => {
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
     const history = useHistory();
@@ -67,7 +67,7 @@ const NavbarImprenta = () => {
                                                 <Nav.Link as={Link} to="/pedidos">Pedidos</Nav.Link>
                                             ) : (
                                                 <Nav.Link as={Link} to="/pedido">
-                                                    Mi Pedido <Badge variant="dark" className="btn-success">(9)</Badge>
+                                                    Mi Pedido <Badge variant="dark" className="btn-success">({totalItems})</Badge>
                                                 </Nav.Link>
                                             )
                                         }

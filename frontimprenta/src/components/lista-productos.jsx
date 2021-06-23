@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
 
-const ListaProductos = props => {
+const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const [productos, setProductos] = useState([]);
   const [searchNombre, setSearchNombre] = useState("");
   const [searchCategoria, setSearchCategoria] = useState("");
   const [categorias, setCategorias] = useState(["Todas"]);
 
-  const usuario = props.usuario
+  //const usuario = props.usuario
   //console.log(usuario);
 
   useEffect(() => {
@@ -203,7 +203,7 @@ const ListaProductos = props => {
                       <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                         Ver Producto
                       </Link>
-                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button">Agrerar al Pedido</button>
+                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button" onClick={() => alAgregarAlPedido(producto._id, 1)}>Agrerar al Pedido</button>
                     </div>
                   </div>
                 </div>

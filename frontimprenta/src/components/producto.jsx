@@ -5,7 +5,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
 
-const Producto = props => {
+const Producto = ( props ) => {
   const estadoInicialProducto = {
     _id: null,
     nombre_producto: "",
@@ -54,7 +54,7 @@ const Producto = props => {
               <strong>Precio: </strong>${producto.precio} por {producto.provision}<br />
               <strong>Características: </strong>{producto.especificaciones}
             </p>
-            <Button variant="dark">Agregar al Pedido</Button>
+            <Button variant="dark" onClick={() => props.alAgregarAlPedido(producto._id, 1)}>Agregar al Pedido</Button>
           </Col>
         </Row>
         <Row>
@@ -65,7 +65,7 @@ const Producto = props => {
             </Link>
           </Col>
           <Col>
-            
+
           </Col>
         </Row>
       </Container >
