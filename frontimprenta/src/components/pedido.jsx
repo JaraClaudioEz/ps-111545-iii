@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
+import ItemPedido from "./item-pedido";
 //import PedidoDataService from "../services/servicio-pedido.js";
 
 const Pedido = ({ pedido }) => {
@@ -20,9 +21,9 @@ const Pedido = ({ pedido }) => {
   const PedidoCompleto = () => (
     <Col>
       {pedido.items.map((item) => (
-        <Col key={item._id}>
-          <div>{item.nombre}</div>
-        </Col>
+        <Row key={item._id}>
+          <ItemPedido item={item}/>
+        </Row>
       ))}
     </Col>
   );
@@ -63,8 +64,9 @@ const Pedido = ({ pedido }) => {
             <p>Subtotal ({pedido.items.length}) items</p>
             <p>$ {pedido.importe}</p>
           </div>
-          <div>
-            <Button variant="dark">Proceder a la Compra</Button>
+          <div className="d-grid gap-2">
+            <Button variant="dark" size="lg">Proceder a la Compra</Button>
+            <Button variant="warning" size="lg">Vaciar Pedido</Button>
           </div>
         </Col>
       </Row>
