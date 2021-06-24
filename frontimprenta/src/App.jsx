@@ -21,13 +21,13 @@ const App = () => {
   const [pedido, setPedido] = useState({});
   const location = useLocation();
 
-  console.log(user);
+  //console.log(user);
   const fetchPedido = async () => {
     try {
       if (user !== null) {
         const { data } = await PedidtoDataService.getProductosPedido(user.result._id);
         setPedido(data);
-        console.log({ "Respuesta al traer pedido del usuario: ": data });
+        //console.log({ "Respuesta al traer pedido del usuario: ": data });
       }
       else {
         setPedido({});
@@ -43,13 +43,34 @@ const App = () => {
       const { data } = await PedidtoDataService.addProductoPedido(user.result._id, idProducto, cantidad)
       //console.log(data);
       setPedido(data);
-      alert("Producto agregado con éxito!")
+      //alert("Producto agregado con éxito!")
     } catch (error) {
       console.log(error);
     }
   };
 
-  //console.log(pedido);
+  const handleQuitarItemPedido = async (idProducto) => {
+    try {
+      console.log(user.result._id);
+      const { data } = await PedidtoDataService.deleteProductoPedido(user.result._id, idProducto);
+      setPedido(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleVaciarPedido = async () => {
+    const { data } = await PedidtoDataService.vaciarPedido(user.result._id);
+    if(data !== null){
+      setPedido(data);
+    }
+    else {
+      setPedido({});
+    };
+    
+  };
+
+  console.log(pedido);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('perfil')));
@@ -100,7 +121,13 @@ const App = () => {
             <Route
               path="/pedido"
               render={(props) => (
-                <Pedido {...props} usuario={user} pedido={pedido} />
+                <Pedido {...props}
+                 usuario={user} 
+                 pedido={pedido}
+                 agregarAlPedido={agregarAlPedido}
+                 handleQuitarItemPedido={handleQuitarItemPedido}
+                 handleVaciarPedido={handleVaciarPedido}
+                 />
               )}
             />
             <Route

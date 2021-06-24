@@ -8,6 +8,7 @@ const router = express.Router();
 router.route("/:idUsuario")
     .get(autorizacion, PedidoCtrl.apiGetItemsPedido)
     .post(autorizacion, PedidoCtrl.apiAddItemPedido)
+    .delete(autorizacion, PedidoCtrl.apiVaciarPedido)
 
 router.route("/:idUsuario/:id").delete(autorizacion, PedidoCtrl.apiDeleteItemPedido)
 

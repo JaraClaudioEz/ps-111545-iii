@@ -12,6 +12,10 @@ class PedidoDataService {
     deleteProductoPedido(idUsuario, idProducto) { 
         return http.delete(`/pedidos/${idUsuario}/${idProducto}`);
     }
+
+    vaciarPedido(idUsuario) { 
+        return http.delete(`/pedidos/${idUsuario}`);
+    }
 }
 
 export default new PedidoDataService();

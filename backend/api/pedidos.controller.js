@@ -7,10 +7,10 @@ export default class PedidosController {
         try {
             const pedido = await Pedido.findOne({ idUsuario });
             if (pedido && pedido.items.length > 0) {
-                res.send(pedido);
+                res.status(200).send(pedido);
             }
             else {
-                res.send({message: "No tiene pedido", response: null});
+                res.status(204).send(null);
             }
         }
         catch (err) {
@@ -30,7 +30,7 @@ export default class PedidosController {
             if (!item) {
                 res.status(404).send('Producto no encontrado!')
             }
-            
+
             const precio = item.precio;
             const nombre = item.nombre_producto;
 
@@ -87,5 +87,28 @@ export default class PedidosController {
             res.status(500).send("Algo anduvo mal al borrar item del pedido.");
         }
     }
+
+    static async apiVaciarPedido(req, res, next) {
+        const idUsuario = req.params.idUsuario;
+        try {
+            let pedido = await Pedido.findOne({ idUsuario });
+
+            //const data = await Pedido.findByIdAndDelete({ _id: pedido.id })
+
+            //const data = await Pedido.updateOne({ _id: pedido._id} ,{$set: {items: []}});
+            pedido.importe = 0;
+            pedido.items = [];
+
+            const resultado = await Pedido.updateOne(
+                { _id: pedido._id },
+                { $set: pedido },
+            );
+            res.status(201).send(pedido);
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("Algo anduvo mal al vaciar el pedido.");
+        }
+    };
 
 }

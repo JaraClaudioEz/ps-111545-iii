@@ -5,24 +5,24 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import ItemPedido from "./item-pedido";
 //import PedidoDataService from "../services/servicio-pedido.js";
 
-const Pedido = ({ pedido }) => {
+const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarPedido }) => {
 
   //const pedidoVacio = false;
 
   //const [pedidoActual, setPedidoActual] = useState({});
 
-  console.log(pedido);
+  //console.log(pedido);
   //console.log(pedidoActual);
 
   const PedidoVacio = () => (
-    <h4>No tienes items en tu pedido.</h4>
+    <h4>No tienes items en tu pedido. <Link to="/productos">Comienza a agregar!</Link></h4>
   );
 
   const PedidoCompleto = () => (
     <Col>
       {pedido.items.map((item) => (
         <Row key={item._id}>
-          <ItemPedido item={item}/>
+          <ItemPedido item={item} alAgregarItemPedido={agregarAlPedido} alQuitarItemPedido={handleQuitarItemPedido}/>
         </Row>
       ))}
     </Col>
@@ -66,7 +66,7 @@ const Pedido = ({ pedido }) => {
           </div>
           <div className="d-grid gap-2">
             <Button variant="dark" size="lg">Proceder a la Compra</Button>
-            <Button variant="warning" size="lg">Vaciar Pedido</Button>
+            <Button variant="warning" size="lg" onClick={() => handleVaciarPedido()}>Vaciar Pedido</Button>
           </div>
         </Col>
       </Row>

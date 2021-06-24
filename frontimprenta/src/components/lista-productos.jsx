@@ -203,7 +203,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                       <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                         Ver Producto
                       </Link>
-                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button" onClick={() => alAgregarAlPedido(producto._id, 1)}>Agrerar al Pedido</button>
+                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button" onClick={() => {alAgregarAlPedido(producto._id, 1); alert("Producto agregado con éxito!")}}>Agrerar al Pedido</button>
                     </div>
                   </div>
                 </div>

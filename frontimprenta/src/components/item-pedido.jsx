@@ -4,7 +4,7 @@ import { Row, Col, Image, Button } from 'react-bootstrap';
 
 import logo from "../assets/ColibriLogo.png";
 
-const ItemPedido = ({ item }) => {
+const ItemPedido = ({ item, alAgregarItemPedido, alQuitarItemPedido }) => {
 
     return (
         <Row className="align-items-center">
@@ -23,16 +23,16 @@ const ItemPedido = ({ item }) => {
                 <p>${item.precio}</p>
             </Col>
             <Col sm="auto">
-                <Button variant="outline-secondary" size="sm">-</Button>
+                <Button variant="outline-secondary" size="sm" onClick={() => item.cantidad>1 ? alAgregarItemPedido(item.idProducto, -1) : alQuitarItemPedido(item._id)}>-</Button>
             </Col>
             <Col sm="auto">
                 <p>{item.cantidad}</p>
             </Col>
             <Col sm="auto">
-                <Button variant="outline-secondary" size="sm">+</Button>
+                <Button variant="outline-secondary" size="sm" onClick={() => alAgregarItemPedido(item.idProducto, 1)}>+</Button>
             </Col>
             <Col sm>
-                <Button>Quitar</Button>
+                <Button onClick={() => alQuitarItemPedido(item._id)}>Quitar</Button>
             </Col>
 
         </Row>

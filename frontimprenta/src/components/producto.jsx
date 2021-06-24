@@ -54,7 +54,7 @@ const Producto = ( props ) => {
               <strong>Precio: </strong>${producto.precio} por {producto.provision}<br />
               <strong>Características: </strong>{producto.especificaciones}
             </p>
-            <Button variant="dark" onClick={() => props.alAgregarAlPedido(producto._id, 1)}>Agregar al Pedido</Button>
+            <Button variant="dark" onClick={() => {props.alAgregarAlPedido(producto._id, 1); alert("Producto agregado con éxito!")}}>Agregar al Pedido</Button>
           </Col>
         </Row>
         <Row>
