@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import ItemPedido from "./item-pedido";
-//import PedidoDataService from "../services/servicio-pedido.js";
+//import OrdenDataService from "./services/servicio-orden.js";
 
 const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarPedido }) => {
-
-  //const pedidoVacio = false;
-
-  //const [pedidoActual, setPedidoActual] = useState({});
-
-  //console.log(pedido);
-  //console.log(pedidoActual);
 
   const PedidoVacio = () => (
     <h4>No tienes items en tu pedido. <Link to="/productos">Comienza a agregar!</Link></h4>
@@ -28,44 +21,36 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
     </Col>
   );
 
-  /*
-  const obtenerPedido = async (id) => {
+  const submitCheckout = async () =>{
     try {
-      const response = await PedidoDataService.getProductosPedido(id);
-      console.log(response);
-      setPedidoActual(response);
+      
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    obtenerPedido(pedido.idUsuario);
-  }, []);
-  */
-
-  if(!pedido.items) return 'Cargando...';
+  if(!pedido) return 'Cargando...';
 
   return (
     <Container>
       <Row>
         <Col>
-          <h1>Lista productos de tu pedido:</h1>
+          <h4 className="display-4">Lista productos de tu pedido:</h4>
         </Col>
       </Row>
       <Row>
         <Col sm={8}>
           {
-            !pedido.items.length ? <PedidoVacio /> : <PedidoCompleto />
+            !pedido? <PedidoVacio /> : <PedidoCompleto />
           }
         </Col>
         <Col sm={4}>
           <div>
-            <p>Subtotal ({pedido.items.length}) items</p>
-            <p>$ {pedido.importe}</p>
+            <p>Subtotal ({!pedido ? 0 : pedido.items.length}) items:</p>
+            <p>$ {!pedido ? 0 : pedido.importe}</p>
           </div>
           <div className="d-grid gap-2">
-            <Button variant="dark" size="lg">Proceder a la Compra</Button>
+            <Button variant="dark" size="lg" onClick={submitCheckout}>Proceder a la Compra</Button>
             <Button variant="warning" size="lg" onClick={() => handleVaciarPedido()}>Vaciar Pedido</Button>
           </div>
         </Col>

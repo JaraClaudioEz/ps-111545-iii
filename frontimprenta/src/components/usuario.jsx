@@ -95,7 +95,7 @@ const Usuario = props => {
                 <div className="col-lg-3"></div>
                 <div className="col-lg-6">
                     <div className="">
-                        <h4>Datos de Contacto: {user.nombre}</h4>
+                        <h4 className="display-4">Datos de Contacto: {user.nombre}</h4>
                     </div>
                     <form className="form-group" onSubmit={handleSubmit}>
                         <div className="d-grid gap-3">

@@ -7,7 +7,7 @@ const Inicio = () => {
     <Container fluid>
       <Row>
         <Col>
-          <h1>IMPRENTA INTEGRAL IMAGEN</h1>
+          <h1 className="display-1">IMPRENTA INTEGRAL IMAGEN</h1>
         </Col>
       </Row>
       <Row>

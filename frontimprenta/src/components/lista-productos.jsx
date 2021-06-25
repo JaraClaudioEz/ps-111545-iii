@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
@@ -9,6 +9,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const [searchNombre, setSearchNombre] = useState("");
   const [searchCategoria, setSearchCategoria] = useState("");
   const [categorias, setCategorias] = useState(["Todas"]);
+  const history = useHistory();
 
   //const usuario = props.usuario
   //console.log(usuario);
@@ -100,6 +101,17 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
     }
   };
 
+  const handleOnClick = (id) => {
+    if (usuario !== null) {
+      alAgregarAlPedido(id, 1)
+      alert("Producto agregado con éxito!")
+    }
+    else {
+      alert("Debes iniciar sesión!");
+      history.push("/autorizacion")
+    }
+  };
+
   return (
     <div className="container">
       <div className="container-fluid">
@@ -145,7 +157,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
       {usuario?.result.tipo === "admin" ? (
         <div className="container-fluid">
           <div className="row">
-            <h1>Listado de Productos</h1>
+            <h1 className="display-1">Listado de Productos</h1>
             <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto +</Link>
           </div>
 
@@ -203,7 +215,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                       <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                         Ver Producto
                       </Link>
-                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button" onClick={() => {alAgregarAlPedido(producto._id, 1); alert("Producto agregado con éxito!")}}>Agrerar al Pedido</button>
+                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</button>
                     </div>
                   </div>
                 </div>

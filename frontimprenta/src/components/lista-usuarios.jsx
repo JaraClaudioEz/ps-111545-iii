@@ -4,15 +4,17 @@ import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert } fr
 
 import UsuarioDataService from "../services/servicio-usuario.js";
 
-const ListaUsuarios = props => {
+const ListaUsuarios = ({ usuario }) => {
 
   const [usuarios, setUsuarios] = useState([]);
   const [searchNombre, setSearchNombre] = useState("");
-  const [rol, setRol] = useState(props.usuario.result.tipo)
+  //const [rol, setRol] = useState(props.usuario.result.tipo)
 
   const history = useHistory();
   //const { tipo } = props.usuario.result
   //console.log(tipo);
+
+  console.log(usuario);
 
   useEffect(() => {
     traerUsuarios();
@@ -66,14 +68,16 @@ const ListaUsuarios = props => {
       });
   }
 
+  if(!usuario) return 'Cargando...';
+
   return (
     <div>
       {
-        rol === "admin" ? (
+        usuario.result.tipo === "admin" ? (
           <Container fluid>
             <Row>
               <Col>
-                <h1>Listado de Clientes</h1>
+                <h1 className="display-1">Listado de Clientes</h1>
               </Col>
             </Row>
             <Row>

@@ -187,7 +187,7 @@ const AddProducto = props => {
                         <div className="row">
                             <div className="col-lg-3"></div>
                             <div className="col-lg-6">
-                                <h2>{editar ? "Editar" : "Nuevo"} Producto</h2>
+                                <h2 className="display-2">{editar ? "Editar" : "Nuevo"} Producto</h2>
                                 <h3>{producto.nombre_producto}</h3>
                                 <form className="form-group mb-3">
                                     <div className="mb-3">

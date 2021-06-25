@@ -15,7 +15,7 @@ const Autorizacion = () => {
     };
 
     const [usuario, setUsuario] = useState(estadoInicialUsuario);
-    const [mostrarPass, setMostrarPass] = useState(false);
+    //const [mostrarPass, setMostrarPass] = useState(false);
     const [registrado, setRegistrado] = useState(false);
     const history = useHistory();
 
@@ -74,7 +74,7 @@ const Autorizacion = () => {
 
             if (registrado) {
                 //console.log(data);
-                const estado = await UsuarioDataService.saveUsuarioGoogle(data);
+                await UsuarioDataService.saveUsuarioGoogle(data);
                 //console.log(estado);
             }
 
@@ -97,7 +97,7 @@ const Autorizacion = () => {
                 <div className="col-lg-3"></div>
                 <div className="col-lg-6">
                     <div className="">
-                        <h4>{registrado ? "Registrarse" : "Iniciar Sesión"}</h4>
+                        <h4 className="display-4">{registrado ? "Registrarse" : "Iniciar Sesión"}</h4>
                     </div>
                     <form className="form-group" onSubmit={handleSubmit}>
                         <div className="d-grid gap-3">
@@ -150,7 +150,7 @@ const Autorizacion = () => {
                                 <label className="form-label">Constraseña:</label>
                                 <div className="input-group mb-3">
                                     <input
-                                        type={mostrarPass ? "text" : "password"}
+                                        type="password"
                                         className="form-control"
                                         id="password"
                                         required

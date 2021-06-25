@@ -1,12 +1,12 @@
 import react from "react"
 import { Link } from "react-router-dom";
 
-const ListaPedidos = () => {
+const Reportes = () => {
   return (
     <div className="container-fluid">
-      <h1>Lista de Pedidos</h1>
+      <h1 className="display-1">Reportes</h1>
     </div>
   );
 }
 
-export default ListaPedidos;
+export default Reportes;

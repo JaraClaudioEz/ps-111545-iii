@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col } from 'react-bootstrap';
 
 import logo from "../assets/IntegralLogo.png";
 
-const NavbarImprenta = ({ totalItems }) => {
+const NavbarImprenta = ({ totalItems, user }) => {
 
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
+    //const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
     const history = useHistory();
     const location = useLocation();
 
     async function logout() {
         localStorage.clear();
         //localStorage.setItem('perfil', null)
-        setUser(null);
+        //setUser(null);
         history.push('/');
     }
 
@@ -31,7 +31,7 @@ const NavbarImprenta = ({ totalItems }) => {
 
     useEffect(() => {
         const token = user?.token;
-        setUser(JSON.parse(localStorage.getItem('perfil')));
+        //setUser(JSON.parse(localStorage.getItem('perfil')));
 
         if (token) {
             const decodedToken = decode(token);
@@ -64,7 +64,7 @@ const NavbarImprenta = ({ totalItems }) => {
                                     <span>
                                         {
                                             user && user?.result.tipo === "admin" ? (
-                                                <Nav.Link as={Link} to="/pedidos">Pedidos</Nav.Link>
+                                                <Nav.Link as={Link} to="/pedidos">Ordenes</Nav.Link>
                                             ) : (
                                                 <Nav.Link as={Link} to="/pedido">
                                                     Mi Pedido <Badge variant="dark" className="btn-success">({totalItems})</Badge>

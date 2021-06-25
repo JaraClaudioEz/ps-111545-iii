@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
 
-const Producto = ( props ) => {
+const Producto = ({ match, usuario, alAgregarAlPedido }) => {
   const estadoInicialProducto = {
     _id: null,
     nombre_producto: "",
@@ -21,8 +21,9 @@ const Producto = ( props ) => {
       id: ""
     }
   };
-
+  //console.log(usuario);
   const [producto, setProducto] = useState(estadoInicialProducto);
+  const history = useHistory();
 
   const obtenerProducto = id => {
     ProductoDataService.getProducto(id)
@@ -35,10 +36,20 @@ const Producto = ( props ) => {
       });
   };
 
-  useEffect(() => {
-    obtenerProducto(props.match.params.id);
-  }, [props.match.params.id]);
+  const handleOnClick = () => {
+    if (usuario !== null) {
+      alAgregarAlPedido(producto._id, 1)
+      alert("Producto agregado con éxito!")
+    }
+    else {
+      alert("Debes iniciar sesión!");
+      history.push("/autorizacion")
+    }
+  };
 
+  useEffect(() => {
+    obtenerProducto(match.params.id);
+  }, [match.params.id]);
 
   return (
 
@@ -54,13 +65,18 @@ const Producto = ( props ) => {
               <strong>Precio: </strong>${producto.precio} por {producto.provision}<br />
               <strong>Características: </strong>{producto.especificaciones}
             </p>
-            <Button variant="dark" onClick={() => {props.alAgregarAlPedido(producto._id, 1); alert("Producto agregado con éxito!")}}>Agregar al Pedido</Button>
+            <Button
+              variant="dark"
+              onClick={() => handleOnClick()}
+            >
+              Agregar al Pedido
+            </Button>
           </Col>
         </Row>
         <Row>
           <Col>
             <h4> {producto.descripcion} </h4>
-            <Link to={"/imprenta"} className="btn btn-primary">
+            <Link to={"/productos"} className="btn btn-primary">
               Volver
             </Link>
           </Col>

@@ -10,10 +10,12 @@ import AddProducto from "./components/agregar-producto";
 import Autorizacion from "./components/autorizacion";
 import Usuario from "./components/usuario";
 import Pedido from "./components/pedido";
-import ListaPedidos from "./components/lista-pedidos";
+import ListaPedidos from "./components/lista-ordenes";
 import ListaUsuarios from "./components/lista-usuarios";
+import Reportes from "./components/reportes";
+import Legales from "./components/legales";
 
-import PedidtoDataService from "./services/servicio-pedido";
+import PedidoDataService from "./services/servicio-pedido";
 
 const App = () => {
 
@@ -21,12 +23,13 @@ const App = () => {
   const [pedido, setPedido] = useState({});
   const location = useLocation();
 
-  //console.log(user);
+  //console.log(location);
   const fetchPedido = async () => {
     try {
       if (user !== null) {
-        const { data } = await PedidtoDataService.getProductosPedido(user.result._id);
+        const { data } = await PedidoDataService.getProductosPedido(user.result._id);
         setPedido(data);
+
         //console.log({ "Respuesta al traer pedido del usuario: ": data });
       }
       else {
@@ -40,10 +43,11 @@ const App = () => {
 
   const agregarAlPedido = async (idProducto, cantidad) => {
     try {
-      const { data } = await PedidtoDataService.addProductoPedido(user.result._id, idProducto, cantidad)
+
+      const { data } = await PedidoDataService.addProductoPedido(user.result._id, idProducto, cantidad)
       //console.log(data);
       setPedido(data);
-      //alert("Producto agregado con éxito!")
+
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +56,7 @@ const App = () => {
   const handleQuitarItemPedido = async (idProducto) => {
     try {
       console.log(user.result._id);
-      const { data } = await PedidtoDataService.deleteProductoPedido(user.result._id, idProducto);
+      const { data } = await PedidoDataService.deleteProductoPedido(user.result._id, idProducto);
       setPedido(data);
     } catch (error) {
       console.log(error);
@@ -60,28 +64,33 @@ const App = () => {
   };
 
   const handleVaciarPedido = async () => {
-    const { data } = await PedidtoDataService.vaciarPedido(user.result._id);
-    if(data !== null){
+    const { data } = await PedidoDataService.vaciarPedido(user.result._id);
+    if (data !== null) {
       setPedido(data);
     }
     else {
       setPedido({});
     };
-    
+
   };
 
-  console.log(pedido);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('perfil')));
-    fetchPedido();
+    //fetchPedido();
   }, [location]);
+
+  useEffect(() => {
+    fetchPedido();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  console.log(pedido);
 
   return (
     <Container>
       <Row>
         <Col>
-          <Navbar totalItems={pedido.items ? pedido.items.length : 0} />
+          <Navbar totalItems={pedido.items ? pedido.items.length : 0} user={user} />
         </Col>
       </Row>
       <Row>
@@ -122,12 +131,18 @@ const App = () => {
               path="/pedido"
               render={(props) => (
                 <Pedido {...props}
-                 usuario={user} 
-                 pedido={pedido}
-                 agregarAlPedido={agregarAlPedido}
-                 handleQuitarItemPedido={handleQuitarItemPedido}
-                 handleVaciarPedido={handleVaciarPedido}
-                 />
+                  usuario={user}
+                  pedido={pedido}
+                  agregarAlPedido={agregarAlPedido}
+                  handleQuitarItemPedido={handleQuitarItemPedido}
+                  handleVaciarPedido={handleVaciarPedido}
+                />
+              )}
+            />
+            <Route
+              path="/reportes"
+              render={(props) => (
+                <Reportes {...props} usuario={user} />
               )}
             />
             <Route
@@ -148,6 +163,7 @@ const App = () => {
                 <Usuario {...props} usuario={user} />
               )}
             />
+            <Route exact path="/legales" component={Legales} />
           </Switch>
         </Col>
       </Row>

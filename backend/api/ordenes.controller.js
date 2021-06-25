@@ -1,7 +1,8 @@
+import mercadopago from "mercadopago";
+
 import Pedido from "../models/pedido.js";
 import Usuario from "../models/usuario.js";
 import Orden from "../models/orden.js";
-import mercadopago from "mercadopago";
 
 mercadopago.configure({
     access_token: process.env.PROD_ACCESS_TOKEN
@@ -21,6 +22,7 @@ export default class OrdenesController {
             let pedido = await Pedido.findOne({ idUsuario });
             let usuario = await Usuario.findOne({ _id: idUsuario });
             const email = usuario.email;
+
             if (pedido) {
                 /*
                 const charge = await stripe.charges.create({
@@ -73,6 +75,13 @@ export default class OrdenesController {
                     }).catch(function (error) {
                         console.log(error);
                     });
+                /*
+                const nuevaOrden = await Orden.create({
+                    idUsuario,
+                    items: pedido.items,
+                    factura: pedido.importe
+                })
+                */
 
             }
             else {
