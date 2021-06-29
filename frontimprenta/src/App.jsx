@@ -29,7 +29,7 @@ const App = () => {
       if (user !== null) {
         const { data } = await PedidoDataService.getProductosPedido(user.result._id);
         setPedido(data);
-
+        //localStorage.setItem('pedido', JSON.stringify(data))
         //console.log({ "Respuesta al traer pedido del usuario: ": data });
       }
       else {
@@ -82,9 +82,9 @@ const App = () => {
 
   useEffect(() => {
     fetchPedido();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(pedido);
+  //console.log(pedido);
 
   return (
     <Container>

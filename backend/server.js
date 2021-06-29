@@ -1,5 +1,6 @@
 import express from "express"
 import cors from "cors"
+
 import imprenta from "./api/imprenta.route.js"
 import imagen from "./api/imagen.route.js"
 import usuario from "./api/usuario.route.js"

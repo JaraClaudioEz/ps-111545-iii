@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route("/:id")
     .get(autorizacion, OrdenCtrl.apiGetOrdenes)
-    .post(autorizacion, OrdenCtrl.apiCheckout)
+    .post(OrdenCtrl.apiCheckout)
 
 /*
 router.get('/order/:id',orderController.get_orders);

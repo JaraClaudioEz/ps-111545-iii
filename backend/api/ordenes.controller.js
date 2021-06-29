@@ -20,8 +20,7 @@ export default class OrdenesController {
             const idUsuario = req.params.id;
             //const { source } = req.body;
             let pedido = await Pedido.findOne({ idUsuario });
-            let usuario = await Usuario.findOne({ _id: idUsuario });
-            const email = usuario.email;
+            //let usuario = await Usuario.findOne({ _id: idUsuario });
 
             if (pedido) {
                 /*
@@ -42,24 +41,21 @@ export default class OrdenesController {
                     return res.status(201).send(orden);
                 }
                 */
+                const orden = await Orden.create({
+                    idUsuario,
+                    items: pedido.items,
+                    factura: pedido.importe
+                });
+
+                let productos = orden.items.map((item) => ({
+                    title: item.nombre,
+                    quantity: item.cantidad,
+                    unit_price: item.precio,
+                }));
 
                 let preference = {
-                    /*
-                    items: [
-                        {
-                        title: req.body.description,
-                        unit_price: Number(req.body.price),
-                        quantity: Number(req.body.quantity),
-                    }]
-                    */
-                    items: [
-                        {
-                            title: 'Mi producto',
-                            unit_price: 100,
-                            quantity: 1,
-                        }
-                    ]
-                    ,
+                    
+                    items: productos,
                     back_urls: {
                         "success": "http://localhost:5000/api/v1/imprenta/ordenes/success",
                         "failure": "http://localhost:5000/api/v1/imprenta/ordenes/failure",
@@ -68,10 +64,19 @@ export default class OrdenesController {
                     auto_return: 'approved',
                 };
 
+                const respuesta = await mercadopago.preferences.create(preference);
+
+                //res.redirect(respuesta.body.init_point);
+
+                //res.status(200).json(respuesta);
+                res.status(200).json({preferenceId: respuesta.response.id});
+                //console.log(respuesta.id);
+                /*
                 mercadopago.preferences.create(preference)
                     .then(function (response) {
-                        console.log(response.body);
-                        res.json({ id: response.body.id })
+                        //console.log(response.body);
+                        //res.json({ id: response.body.id })
+                        res.redirect(response.body.init_point);
                     }).catch(function (error) {
                         console.log(error);
                     });

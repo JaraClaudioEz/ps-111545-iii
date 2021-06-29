@@ -1,21 +1,14 @@
 import http from "../http-commons";
 
 class OrdenDataService {
-    getProductosPedido(idUsuario) {
-        return http.get(`/pedidos/${idUsuario}`);
+    getOrdenes(idUsuario) {
+        return http.get(`/ordenes/${idUsuario}`);
     }
 
-    addProductoPedido(idUsuario, idProducto, cantidad) {
-        return http.post(`/pedidos/${idUsuario}`, {idProducto, cantidad});
+    checkout(idUsuario) {
+        return http.post(`/ordenes/${idUsuario}`);
     }
 
-    deleteProductoPedido(idUsuario, idProducto) { 
-        return http.delete(`/pedidos/${idUsuario}/${idProducto}`);
-    }
-
-    vaciarPedido(idUsuario) { 
-        return http.delete(`/pedidos/${idUsuario}`);
-    }
 }
 
 export default new OrdenDataService();
