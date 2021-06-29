@@ -95,7 +95,7 @@ export default class UsuariosController {
             }
 
             const result = await Usuario.create(usuario)
-
+            //console.log(result);
             res.status(200).json({ message: "Creado", idGoogle: nuevoUsuario.googleId });
         } catch (error) {
             res.status(500).json({ message: "Algo anduvo mal al registrarse.", error: error });

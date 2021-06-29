@@ -16,6 +16,7 @@ import Reportes from "./components/reportes";
 import Legales from "./components/legales";
 
 import PedidoDataService from "./services/servicio-pedido";
+import UsuarioDataService from "./services/servicio-usuario";
 
 const App = () => {
 
@@ -27,7 +28,9 @@ const App = () => {
   const fetchPedido = async () => {
     try {
       if (user !== null) {
-        const { data } = await PedidoDataService.getProductosPedido(user.result._id);
+        const resultado = await UsuarioDataService.getUsuario(user.result.email);
+        
+        const { data } = await PedidoDataService.getProductosPedido(resultado.data._id);
         setPedido(data);
         //localStorage.setItem('pedido', JSON.stringify(data))
         //console.log({ "Respuesta al traer pedido del usuario: ": data });

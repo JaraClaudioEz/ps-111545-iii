@@ -11,6 +11,23 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   const [preferenceId, setPreferenceId] = useState(null);
 
   const FORM_ID = 'payment-form';
+  /*
+  // Agrega credenciales de SDK
+  const mp = new window.MercadoPago('APP_USR-b5236fb8-dfaf-4bb1-bfe1-7f1e6e6e8dbe', {
+    locale: 'es-AR'
+  });
+
+  // Inicializa el checkout
+  mp.checkout({
+    preference: {
+      id: 'YOUR_PREFERENCE_ID'
+    },
+    render: {
+      container: '.mercadopago', // Indica dónde se mostrará el botón de pago
+      label: 'Proceder a la Compra', // Cambia el texto del botón de pago (opcional)
+    }
+  });
+  */
 
   const PedidoVacio = () => (
     <h4>No tienes items en tu pedido. <Link to="/productos">Comienza a agregar!</Link></h4>
@@ -28,13 +45,14 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
 
   const submitCheckout = async () => {
     try {
-      const response = await OrdenDataService.checkout(pedido.idUsuario);
-      console.log(response);
+      const { data } = await OrdenDataService.checkout(pedido.idUsuario);
+      //console.log(data);
+      setPreferenceId(data.preferenceId);
     } catch (error) {
       console.log(error);
     }
   };
-
+  /*
   const obtenerPreference = async () => {
     try {
       const { data } = await OrdenDataService.checkout(pedido.idUsuario);
@@ -49,7 +67,7 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
     // luego de montarse el componente, le pedimos al backend el preferenceId
     obtenerPreference();
   }, []);
-
+  */
   useEffect(() => {
     if (preferenceId) {
       // con el preferenceId en mano, inyectamos el script de mercadoPago
@@ -62,7 +80,7 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
       form.appendChild(script);
     }
   }, [preferenceId]);
-
+  
   /*
   useEffect(() => {
     setNuevoPedido(pedido);

@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 const ordenSchema = mongoose.Schema({
     idUsuario: {
         type: String,
+        required: true
+    },
+    preferenceId: {
+        type: String
     },
     items: [{
         idProducto: {
@@ -23,6 +27,10 @@ const ordenSchema = mongoose.Schema({
     fecha: {
         type: Date,
         default: Date.now
+    },
+    estado: {
+        type: String,
+        default: "pagada"
     }
 })
 
