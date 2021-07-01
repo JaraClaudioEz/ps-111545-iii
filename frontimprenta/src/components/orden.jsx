@@ -2,12 +2,12 @@ import react from "react"
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 
-const Inicio = () => {
+const Orden = () => {
   return (
     <Container fluid>
       <Row>
         <Col>
-          <h1 className="display-1">IMPRENTA INTEGRAL IMAGEN</h1>
+          <h1 className="display-5">Orden de Trabajo</h1>
         </Col>
       </Row>
       <Row>
@@ -18,4 +18,4 @@ const Inicio = () => {
   );
 }
 
-export default Inicio;
+export default Orden;

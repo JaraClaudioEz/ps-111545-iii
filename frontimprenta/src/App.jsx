@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
+import moment from "moment";
+import 'moment/locale/es';
 
 import Navbar from "./components/navbar";
 import Inicio from "./components/inicio";
@@ -10,10 +12,11 @@ import AddProducto from "./components/agregar-producto";
 import Autorizacion from "./components/autorizacion";
 import Usuario from "./components/usuario";
 import Pedido from "./components/pedido";
-import ListaPedidos from "./components/lista-ordenes";
+import ListaOrdenes from "./components/lista-ordenes";
 import ListaUsuarios from "./components/lista-usuarios";
 import Reportes from "./components/reportes";
 import Legales from "./components/legales";
+import Orden from "./components/orden";
 
 import PedidoDataService from "./services/servicio-pedido";
 import UsuarioDataService from "./services/servicio-usuario";
@@ -24,6 +27,7 @@ const App = () => {
   const [pedido, setPedido] = useState({});
   const location = useLocation();
 
+  moment.locale('es');
   //console.log(location);
   const fetchPedido = async () => {
     try {
@@ -58,7 +62,7 @@ const App = () => {
 
   const handleQuitarItemPedido = async (idProducto) => {
     try {
-      console.log(user.result._id);
+      //console.log(user.result._id);
       const { data } = await PedidoDataService.deleteProductoPedido(user.result._id, idProducto);
       setPedido(data);
     } catch (error) {
@@ -100,6 +104,7 @@ const App = () => {
         <Col>
           <Switch>
             <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
+            <Route exact path={["/orden/success", "/orden/failure", "/orden/pending"]} component={Orden} usuario={user} />
             <Route
               exact path="/productos"
               render={(props) => (
@@ -125,9 +130,9 @@ const App = () => {
               )}
             />
             <Route
-              path="/pedidos"
+              path="/ordenes"
               render={(props) => (
-                <ListaPedidos {...props} usuario={user} />
+                <ListaOrdenes {...props} usuario={user} />
               )}
             />
             <Route

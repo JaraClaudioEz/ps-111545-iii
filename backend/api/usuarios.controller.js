@@ -149,7 +149,7 @@ export default class UsuariosController {
             }
             return res.status(200).json(response)
         } catch (e) {
-            console.error(`No se pudo traer listado productos, ${e}`)
+            console.error(`No se pudo traer listado usuarios, ${e}`)
             return { listaUsuarios: [], totalUsuarios: 0 }
         }
 

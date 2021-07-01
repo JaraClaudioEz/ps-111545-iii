@@ -64,7 +64,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                                     <span>
                                         {
                                             user && user?.result.tipo === "admin" ? (
-                                                <Nav.Link as={Link} to="/pedidos">Ordenes</Nav.Link>
+                                                <Nav.Link as={Link} to="/ordenes">Ordenes</Nav.Link>
                                             ) : (
                                                 <Nav.Link as={Link} to="/pedido">
                                                     Mi Pedido <Badge variant="dark" className="btn-success">({totalItems})</Badge>

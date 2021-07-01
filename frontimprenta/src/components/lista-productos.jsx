@@ -27,7 +27,6 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const onChangeSearchCategoria = e => {
     const searchCategoria = e.target.value;
     setSearchCategoria(searchCategoria);
-
   };
 
   const traerProductos = () => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
@@ -14,7 +14,7 @@ const ListaUsuarios = ({ usuario }) => {
   //const { tipo } = props.usuario.result
   //console.log(tipo);
 
-  console.log(usuario);
+  //console.log(usuario);
 
   useEffect(() => {
     traerUsuarios();
@@ -31,7 +31,6 @@ const ListaUsuarios = ({ usuario }) => {
       .then(response => {
         //console.log(response.data);
         setUsuarios(response.data.usuarios);
-
       })
       .catch(e => {
         console.log(e);

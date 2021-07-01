@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import ItemPedido from "./item-pedido";
+//import BotonMP from "./botonMP";
 import OrdenDataService from "../services/servicio-orden.js";
 
 const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarPedido }) => {
@@ -11,6 +12,7 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   const [preferenceId, setPreferenceId] = useState(null);
 
   const FORM_ID = 'payment-form';
+  //VER setTimeout PARA EVITAR LA CARGA INMEDIATA
   /*
   // Agrega credenciales de SDK
   const mp = new window.MercadoPago('APP_USR-b5236fb8-dfaf-4bb1-bfe1-7f1e6e6e8dbe', {
@@ -46,8 +48,9 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   const submitCheckout = async () => {
     try {
       const { data } = await OrdenDataService.checkout(pedido.idUsuario);
-      //console.log(data);
+      console.log(data);
       setPreferenceId(data.preferenceId);
+      window.location.href = data.checkoutURL;
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +70,7 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
     // luego de montarse el componente, le pedimos al backend el preferenceId
     obtenerPreference();
   }, []);
-  */
+  
   useEffect(() => {
     if (preferenceId) {
       // con el preferenceId en mano, inyectamos el script de mercadoPago

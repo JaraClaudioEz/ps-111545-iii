@@ -1,12 +1,20 @@
 import http from "../http-commons";
 
 class OrdenDataService {
-    getOrdenes(idUsuario) {
+    getListadoOrdenes(pag = 0) {
+        return http.get(`/ordenes?pag=${pag}`);
+    }
+
+    getOrdenesUsuario(idUsuario) {
         return http.get(`/ordenes/${idUsuario}`);
     }
 
     checkout(idUsuario) {
         return http.post(`/ordenes/${idUsuario}`);
+    }
+
+    getEstados() {
+        return http.get(`/ordenes/estados`);
     }
 
 }

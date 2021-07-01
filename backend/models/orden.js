@@ -8,6 +8,9 @@ const ordenSchema = mongoose.Schema({
     preferenceId: {
         type: String
     },
+    idPago: {
+        type: String
+    },
     items: [{
         idProducto: {
             type: String,
@@ -30,7 +33,7 @@ const ordenSchema = mongoose.Schema({
     },
     estado: {
         type: String,
-        default: "pagada"
+        default: "pendiente"
     }
 })
 

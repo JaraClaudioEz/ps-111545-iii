@@ -4,18 +4,57 @@ import Pedido from "../models/pedido.js";
 import Usuario from "../models/usuario.js";
 import Orden from "../models/orden.js";
 
-mercadopago.configure({
-    access_token: process.env.PROD_ACCESS_TOKEN
-});
+
 
 export default class OrdenesController {
-    static async apiGetOrdenes(req, res, next) {
+    static async apiGetOrdenesUsuario(req, res, next) {
         const idUsuario = req.params.id;
         Orden.find({ idUsuario }).sort({ fecha: -1 }).then(ordenes => res.json(ordenes));
     }
 
+    static async apiGetOrdenes(req, res, next) {
+
+        const ordenesPorPagina = req.query.ordenesPorPagina ? parseInt(req.ordenesPorPagina, 10) : 20
+        const pag = req.query.pag ? parseInt(req.query.pag, 10) : 0
+
+        let filtros = {};
+        //filtros.tipo = "cliente";
+        if (req.query.estado) {
+            filtros.estado = req.query.estado
+        }
+
+        let query
+        if (filtros) {
+            if ("estado" in filtros) {
+                query = { "estado": { $eq: filtros["estado"] } }
+            }
+        }
+
+        try {
+            const listaOrdenes = await Orden.find(query, { preferenceId: 0 }).limit(ordenesPorPagina).skip(ordenesPorPagina * pag)
+            const totalOrdenes = await Orden.countDocuments(query)
+
+            let response = {
+                ordenes: listaOrdenes,
+                pagina: pag,
+                filtros: filtros,
+                entradas_por_pagina: ordenesPorPagina,
+                total_resultados: totalOrdenes,
+            }
+            return res.status(200).json(response)
+        } catch (e) {
+            console.error(`No se pudo traer listado de ordenes, ${e}`)
+            return { listaOrdenes: [], totalOrdenes: 0 }
+        }
+
+    }
 
     static async apiCheckout(req, res, next) {
+
+        mercadopago.configure({
+            access_token: process.env.PROD_ACCESS_TOKEN
+        });
+
         try {
             const idUsuario = req.params.id;
             //const { source } = req.body;
@@ -55,6 +94,8 @@ export default class OrdenesController {
 
                 let preference = {
                     external_reference: JSON.stringify(orden._id),
+                    //notification_url: `${ENV['HOST']}/api/v1/imprenta/ordenes/mp`,
+                    //notification_url: `http://localhost:${process.env.PORT}/api/v1/imprenta/ordenes/mp`, SOLO EN PRODUCCION
                     items: productos,
                     /*
                     payer: {
@@ -63,9 +104,9 @@ export default class OrdenesController {
                     },
                     */
                     back_urls: {
-                        "success": "http://localhost:5000/api/v1/imprenta/ordenes/success",
-                        "failure": "http://localhost:5000/api/v1/imprenta/ordenes/failure",
-                        "pending": "http://localhost:5000/api/v1/imprenta/ordenes/pending"
+                        "success": "http://localhost:3000/orden/success",
+                        "failure": "http://localhost:3000/orden/failure",
+                        "pending": "http://localhost:3000/orden/pending"
                     },
 
                     auto_return: 'approved',
@@ -77,18 +118,18 @@ export default class OrdenesController {
                 //res.redirect(respuesta.body.init_point);
 
                 //res.status(200).json(respuesta);
-                res.status(200).json({ preferenceId: respuesta.response.id });
+                res.status(200).json({ preferenceId: respuesta.response.id, checkoutURL: respuesta.response.init_point });
                 //console.log(respuesta.id);
                 /*
                 mercadopago.preferences.create(preference)
                     .then(function (response) {
                         //console.log(response.body);
                         //res.json({ id: response.body.id })
-                        res.redirect(response.body.init_point);
+                        //res.redirect(response.body.init_point);
                     }).catch(function (error) {
                         console.log(error);
                     });
-                /*
+                
                 const nuevaOrden = await Orden.create({
                     idUsuario,
                     items: pedido.items,
@@ -106,6 +147,33 @@ export default class OrdenesController {
             res.status(500).send("Algo anduvo mal al generar una orden");
         }
 
+    }
+
+    static async apiGetIPNMP(req, res, next) {
+        if (req.params.type === 'payment') {
+            const paymentId = req.params.data.id; // ID de payment en MercadoPago
+
+            mercadopago.payments.get(paymentId).then((error, payment) => {
+
+                const idOrden = payment.external_reference;
+
+                Orden.findOne(idOrden).then((orden) => {
+
+                    if (orden.factura === payment.transaction_amount) {
+                        orden.estado = payment.status;
+                        orden.idPago = paymentId;
+
+                        // comprobamos que sea "approved" y que no hayamos entregado ya el pedido... recuerda que "order" es algo que
+                        // debes implementar tu, que podría tener un cambpo "delivered" para saber si ya hiciste entrega o no del
+                        // pedido
+                        if (orden.estado === 'approved') {
+                            orden = orden.save();
+                        }
+                    }
+
+                });
+            });
+        }
     }
 
 }
