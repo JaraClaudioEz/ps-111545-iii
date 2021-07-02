@@ -95,6 +95,16 @@ const NavbarImprenta = ({ totalItems, user }) => {
                         </div>
                         <div>
                             {
+                                user && user?.result.tipo !== "admin" ? (
+                                    <Nav.Link as={Link} to="/ordenes">Mis Ordenes</Nav.Link>
+
+                                ) : (
+                                    <span></span>
+                                )
+                            }
+                        </div>
+                        <div>
+                            {
                                 user && user?.result.tipo === "admin" ? (
                                     <Nav.Link as={Link} to="/reportes">Reportes</Nav.Link>
 

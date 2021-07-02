@@ -4,12 +4,28 @@ import Pedido from "../models/pedido.js";
 import Usuario from "../models/usuario.js";
 import Orden from "../models/orden.js";
 
-
+mercadopago.configure({
+    access_token: process.env.PROD_ACCESS_TOKEN
+});
 
 export default class OrdenesController {
     static async apiGetOrdenesUsuario(req, res, next) {
         const idUsuario = req.params.id;
-        Orden.find({ idUsuario }).sort({ fecha: -1 }).then(ordenes => res.json(ordenes));
+        //console.log(req.params);
+        try {
+            const ordenes = await Orden.find({ idUsuario: idUsuario }).sort({ fecha: -1 });
+            //console.log(ordenes);
+            if (ordenes) {
+                res.status(200).json({ordenes});
+            }
+            else {
+                res.status(200).json(null);
+            };
+
+        } catch (error) {
+            console.log(error);
+        }
+        //Orden.find({ idUsuario }).sort({ fecha: 1 }).then(ordenes => res.json(ordenes));
     }
 
     static async apiGetOrdenes(req, res, next) {
@@ -49,16 +65,29 @@ export default class OrdenesController {
 
     }
 
-    static async apiCheckout(req, res, next) {
+    static async apiGetOrden(req, res, next) {
+        const id = req.params.id;
+        //console.log(req.params);
+        try {
 
-        mercadopago.configure({
-            access_token: process.env.PROD_ACCESS_TOKEN
-        });
+            const orden = await Orden.findOne({ _id: id });
+            if (!orden) {
+                return res.status(404).json({ message: "La orden no existe." });
+            };
+
+            res.json(orden)
+        } catch (e) {
+            console.log(`apiGetOrden, ${e}`);
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static async apiCheckout(req, res, next) {
 
         try {
             const idUsuario = req.params.id;
             //const { source } = req.body;
-            const pedido = await Pedido.findOne({ idUsuario });
+            let pedido = await Pedido.findOne({ idUsuario });
             let usuario = await Usuario.findOne({ _id: idUsuario });
 
             if (pedido) {
@@ -116,7 +145,8 @@ export default class OrdenesController {
                 orden.preferenceId = respuesta.response.id;
                 orden = await orden.save();
                 //res.redirect(respuesta.body.init_point);
-
+                //const borrado = await Pedido.findByIdAndDelete(pedido._id);
+                //console.log(borrado);
                 //res.status(200).json(respuesta);
                 res.status(200).json({ preferenceId: respuesta.response.id, checkoutURL: respuesta.response.init_point });
                 //console.log(respuesta.id);
@@ -124,12 +154,17 @@ export default class OrdenesController {
                 mercadopago.preferences.create(preference)
                     .then(function (response) {
                         //console.log(response.body);
-                        //res.json({ id: response.body.id })
+                        //res.json({ id: response.body.id });
                         //res.redirect(response.body.init_point);
+                        orden.preferenceId = response.body.id;
+                        orden = orden.save();
+                        console.log(pedido);
+                        Pedido.findByIdAndDelete(pedido._id);
+                        res.status(200).json({ preferenceId: response.body.id, checkoutURL: response.body.init_point });
                     }).catch(function (error) {
                         console.log(error);
                     });
-                
+                /*
                 const nuevaOrden = await Orden.create({
                     idUsuario,
                     items: pedido.items,
@@ -176,4 +211,63 @@ export default class OrdenesController {
         }
     }
 
+    static async apiUpdateOrden(req, res, next) {
+
+        const idOrden = req.body.idOrden;
+        const status = req.body.estado;
+        const idPago = req.body.idPago;
+
+        let estado = '';
+        switch (status) {
+            case 'pending':
+                estado = "pendiente";
+                break;
+            case 'approved':
+                estado = "pago aprovado";
+                break;
+            case 'authorized':
+                estado = "pago autorizado";
+                break;
+            case 'in_process':
+                estado = "pago en revision";
+                break;
+            case 'in_mediation':
+                estado = "mediacion";
+                break;
+            case 'rejected':
+                estado = "rechazado";
+                break;
+            case 'cancelled':
+                estado = "cancelado";
+                break;
+            case 'refunded':
+                estado = "devuelto";
+                break;
+            case 'charged_back':
+                estado = "reembolso";
+                break;
+            default:
+                break;
+        }
+
+        console.log(req.body);
+        console.log(estado);
+
+        /*
+        Item.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function (item) {
+            Item.findOne({ _id: req.params.id }).then(function (item) {
+                res.json(item);
+            });
+        });
+
+        Item.findByIdAndDelete({ _id: req.params.id }).then(function (item) {
+            res.json({ success: true });
+        });
+        */
+
+    };
+
+    static async apiGetEstados(req, res, next) {
+
+    };
 }

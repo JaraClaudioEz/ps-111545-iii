@@ -50,7 +50,7 @@ export default class UsuariosController {
                 nombre: `${nuevoUsuario.nombre} ${nuevoUsuario.apellido}`,
                 email: nuevoUsuario.email,
                 password: hashedPassword,
-                tipo: "cliente",
+                tipo: "", //HACER PRUEBA DE CREAR SIN ESTE CAMPO
                 direccion: {
                     calle: "",
                     numero: null,

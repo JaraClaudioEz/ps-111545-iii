@@ -9,8 +9,16 @@ class OrdenDataService {
         return http.get(`/ordenes/${idUsuario}`);
     }
 
+    getOrden(idOrden) {
+        return http.get(`/ordenes/id/${idOrden}`);
+    }
+
     checkout(idUsuario) {
         return http.post(`/ordenes/${idUsuario}`);
+    }
+
+    updateOrden(data) {
+        return http.put("/ordenes", data);
     }
 
     getEstados() {

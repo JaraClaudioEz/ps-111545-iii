@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom";
-import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert} from 'react-bootstrap';
+import { Link, useHistory } from "react-router-dom";
+import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
 import moment from "moment";
 
 import OrdenDataService from "../services/servicio-orden.js";
-import UsuarioDataService from "../services/servicio-usuario.js"; 
+import UsuarioDataService from "../services/servicio-usuario.js";
 
 const ListaOrdenes = ({ usuario }) => {
   const [ordenes, setOrdenes] = useState([]);
@@ -14,6 +14,7 @@ const ListaOrdenes = ({ usuario }) => {
   const [estados, setEstados] = useState(["Todos"]);
 
   const history = useHistory();
+
   //const { tipo } = props.usuario.result
   //console.log(tipo);
 
@@ -44,15 +45,27 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const traerOrdenes = () => {
-    OrdenDataService.getListadoOrdenes()
-      .then(response => {
-        //console.log(response.data);
-        setOrdenes(response.data.ordenes);
+    if (usuario?.result.tipo === "admin") {
+      OrdenDataService.getListadoOrdenes()
+        .then(response => {
+          //console.log(response.data);
+          setOrdenes(response.data.ordenes);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+    else {
+      OrdenDataService.getOrdenesUsuario(usuario?.result._id)
+        .then(response => {
+          //console.log(response);
+          setOrdenes(response.data.ordenes);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
 
-      })
-      .catch(e => {
-        console.log(e);
-      });
   };
 
   const traerEstados = () => {
@@ -120,16 +133,20 @@ const ListaOrdenes = ({ usuario }) => {
     };
   };
 
-  if (!usuario || !ordenes || !usuarios) return 'Cargando...';
+  const SinOrdenes = () => (
+    <h4>Todavía no has realizado ningún pedido. <Link to="/productos">Haz el tuyo!</Link></h4>
+  );
+
+  if (!usuario) return 'Cargando...';
 
   return (
     <div>
       {
-        usuario.result.tipo === "admin" ? (
+        usuario?.result.tipo === "admin" ? (
           <Container fluid>
             <Row>
               <Col>
-                <h1 className="display-1">Listado de Ordenes</h1>
+                <h2 className="display-2">Listado de Ordenes</h2>
               </Col>
             </Row>
             <Row>
@@ -174,8 +191,8 @@ const ListaOrdenes = ({ usuario }) => {
                       <th>Email</th>
                       <th>Importe Abonado</th>
                       <th>Fecha Compra</th>
-                      <th>Items Solicitados</th>
                       <th>Estado Orden</th>
+                      <th>Items Solicitados</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -186,8 +203,8 @@ const ListaOrdenes = ({ usuario }) => {
                           <td>{buscarEmail(orden.idUsuario)}</td>
                           <td>$ {orden.factura}</td>
                           <td>{moment(orden.fecha).format('LL')}</td>
-                          <td className="text-capitalize"><Button>Ver Items</Button></td>
                           <td className="text-capitalize">{orden.estado}</td>
+                          <td className="text-capitalize"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Items</Link></td>
                         </tr>
                       ))
                     }
@@ -200,12 +217,34 @@ const ListaOrdenes = ({ usuario }) => {
           <Container fluid>
             <Row>
               <Col>
-                <Alert variant="danger" onClose={() => history.push("/")} dismissible>
-                  <Alert.Heading>Oh! No tienes permisos para ver esta página!</Alert.Heading>
-                  <p>
-                    Por favor inicia sesión para acceder.
-                  </p>
-                </Alert>
+                <h3 className="display-3">Mis Ordenes de Compra</h3>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <SinOrdenes />
+                <Table striped hover>
+                  <thead>
+                    <tr>
+                      <th>Fecha Compra</th>
+                      <th>Importe Abonado</th>
+                      <th>Estado Orden</th>
+                      <th>Items Solicitados</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      ordenes.map(orden => (
+                        <tr key={orden._id}>
+                          <td>{moment(orden.fecha).format('LL')}</td>
+                          <td>$ {orden.factura}</td>
+                          <td className="text-capitalize">{orden.estado}</td>
+                          <td className="text-capitalize"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </Table>
               </Col>
             </Row>
           </Container>

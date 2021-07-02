@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import ItemPedido from "./item-pedido";
 //import BotonMP from "./botonMP";
 import OrdenDataService from "../services/servicio-orden.js";
+//import PedidoDataService from "../services/servicio-pedido";
 
-const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarPedido }) => {
+const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarPedido, usuario }) => {
 
-  //const [nuevoPedido, setNuevoPedido] = useState(JSON.parse(localStorage.getItem('pedido')))
+  //const [nuevoPedido, setNuevoPedido] = useState(pedido)
   const [preferenceId, setPreferenceId] = useState(null);
 
   const FORM_ID = 'payment-form';
@@ -29,8 +30,21 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
       label: 'Proceder a la Compra', // Cambia el texto del botón de pago (opcional)
     }
   });
-  */
 
+  useEffect(() => {
+    //obtenerPreference();
+    if(usuario){
+      obtenerPedido(usuario.result._id);
+    }
+    else{
+      setNuevoPedido(null)
+    }
+    
+    return () => {
+      setNuevoPedido({});
+    };
+  }, []);
+  */
   const PedidoVacio = () => (
     <h4>No tienes items en tu pedido. <Link to="/productos">Comienza a agregar!</Link></h4>
   );
@@ -48,7 +62,7 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   const submitCheckout = async () => {
     try {
       const { data } = await OrdenDataService.checkout(pedido.idUsuario);
-      console.log(data);
+      //console.log(data);
       setPreferenceId(data.preferenceId);
       window.location.href = data.checkoutURL;
     } catch (error) {
@@ -67,11 +81,6 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   };
 
   useEffect(() => {
-    // luego de montarse el componente, le pedimos al backend el preferenceId
-    obtenerPreference();
-  }, []);
-  
-  useEffect(() => {
     if (preferenceId) {
       // con el preferenceId en mano, inyectamos el script de mercadoPago
       const script = document.createElement('script');
@@ -88,9 +97,22 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   useEffect(() => {
     setNuevoPedido(pedido);
   }, [pedido]);
+  
+
+  const obtenerPedido = async (idUsuario) => {
+    try {
+      const { data } = await PedidoDataService.getProductosPedido(idUsuario);
+      if(data){
+        setNuevoPedido(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   */
-  console.log(pedido);
-  //if (!pedido) return 'Cargando...';
+  //console.log(usuario);
+  //console.log(nuevoPedido);
+  //if (!nuevoPedido) return 'Cargando...';
 
 
   return (

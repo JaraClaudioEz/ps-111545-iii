@@ -17,6 +17,7 @@ import ListaUsuarios from "./components/lista-usuarios";
 import Reportes from "./components/reportes";
 import Legales from "./components/legales";
 import Orden from "./components/orden";
+import ProcesoPago from "./components/procesar-pago";
 
 import PedidoDataService from "./services/servicio-pedido";
 import UsuarioDataService from "./services/servicio-usuario";
@@ -24,7 +25,7 @@ import UsuarioDataService from "./services/servicio-usuario";
 const App = () => {
 
   const [user, setUser] = useState(null);
-  const [pedido, setPedido] = useState({});
+  const [pedido, setPedido] = useState(null);
   const location = useLocation();
 
   moment.locale('es');
@@ -33,14 +34,16 @@ const App = () => {
     try {
       if (user !== null) {
         const resultado = await UsuarioDataService.getUsuario(user.result.email);
-        
+        //console.log(resultado.data._id);
         const { data } = await PedidoDataService.getProductosPedido(resultado.data._id);
-        setPedido(data);
+        if(data){
+          setPedido(data);
+        }
         //localStorage.setItem('pedido', JSON.stringify(data))
         //console.log({ "Respuesta al traer pedido del usuario: ": data });
       }
       else {
-        setPedido({});
+        setPedido(null);
       }
 
     } catch (error) {
@@ -76,35 +79,49 @@ const App = () => {
       setPedido(data);
     }
     else {
-      setPedido({});
+      setPedido(null);
     };
 
   };
 
+  const obtenerUsuario = async () =>{
+    try {
+      const usuario = JSON.parse(localStorage.getItem('perfil'));
+      //console.log(usuario);
+      setUser(usuario);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('perfil')));
     //fetchPedido();
   }, [location]);
 
+  useEffect(() =>{
+    obtenerUsuario();
+  }, []);
+
   useEffect(() => {
     fetchPedido();
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   //console.log(pedido);
+  //console.log(user);
 
   return (
     <Container>
       <Row>
         <Col>
-          <Navbar totalItems={pedido.items ? pedido.items.length : 0} user={user} />
+          <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
         </Col>
       </Row>
       <Row>
         <Col>
           <Switch>
             <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
-            <Route exact path={["/orden/success", "/orden/failure", "/orden/pending"]} component={Orden} usuario={user} />
+            <Route exact path={["/orden/success", "orden/failure", "/orden/pending"]} component={ProcesoPago} usuario={user} />
             <Route
               exact path="/productos"
               render={(props) => (
@@ -133,6 +150,12 @@ const App = () => {
               path="/ordenes"
               render={(props) => (
                 <ListaOrdenes {...props} usuario={user} />
+              )}
+            />
+            <Route
+              path="/orden/:id"
+              render={(props) => (
+                <Orden {...props} usuario={user} />
               )}
             />
             <Route

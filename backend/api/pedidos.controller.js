@@ -6,6 +6,7 @@ export default class PedidosController {
         const idUsuario = req.params.idUsuario;
         try {
             const pedido = await Pedido.findOne({ idUsuario });
+            //console.log(pedido);
             if (pedido && pedido.items.length > 0) {
                 res.status(200).send(pedido);
             }
