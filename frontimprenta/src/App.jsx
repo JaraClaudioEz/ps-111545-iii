@@ -101,6 +101,7 @@ const App = () => {
 
   useEffect(() =>{
     obtenerUsuario();
+    fetchPedido();
   }, []);
 
   useEffect(() => {
@@ -121,7 +122,7 @@ const App = () => {
         <Col>
           <Switch>
             <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
-            <Route exact path={["/orden/success", "orden/failure", "/orden/pending"]} component={ProcesoPago} usuario={user} />
+            <Route exact path={"/orden/respuestamp"} component={ProcesoPago} usuario={user} />
             <Route
               exact path="/productos"
               render={(props) => (

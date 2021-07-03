@@ -58,8 +58,14 @@ const ListaOrdenes = ({ usuario }) => {
     else {
       OrdenDataService.getOrdenesUsuario(usuario?.result._id)
         .then(response => {
-          //console.log(response);
-          setOrdenes(response.data.ordenes);
+          //console.log(response.data);
+          if(response.data === null){
+            setOrdenes([]);
+          }
+          else{
+            setOrdenes(response.data.ordenes);
+          }
+          
         })
         .catch(e => {
           console.log(e);
@@ -121,8 +127,8 @@ const ListaOrdenes = ({ usuario }) => {
 
   const buscarNombre = (id) => {
     if (usuarios) {
-      const resultado = usuarios.find(usuario => usuario._id === id);
-      return resultado.nombre;
+      const resultado = usuarios.find(user => user._id === id);
+      return resultado?.nombre;
     };
   };
 
@@ -197,7 +203,7 @@ const ListaOrdenes = ({ usuario }) => {
                   </thead>
                   <tbody>
                     {
-                      ordenes.map(orden => (
+                      ordenes?.map(orden => (
                         <tr key={orden._id}>
                           <td className="text-capitalize">{buscarNombre(orden.idUsuario)}</td>
                           <td>{buscarEmail(orden.idUsuario)}</td>
@@ -222,7 +228,7 @@ const ListaOrdenes = ({ usuario }) => {
             </Row>
             <Row>
               <Col>
-                <SinOrdenes />
+                {!ordenes && <SinOrdenes />}
                 <Table striped hover>
                   <thead>
                     <tr>
@@ -234,7 +240,7 @@ const ListaOrdenes = ({ usuario }) => {
                   </thead>
                   <tbody>
                     {
-                      ordenes.map(orden => (
+                      ordenes?.map(orden => (
                         <tr key={orden._id}>
                           <td>{moment(orden.fecha).format('LL')}</td>
                           <td>$ {orden.factura}</td>

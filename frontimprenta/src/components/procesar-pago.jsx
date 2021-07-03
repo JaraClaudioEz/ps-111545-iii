@@ -26,6 +26,24 @@ const ProcesoPago = ({ usuario }) => {
 
     console.log(estado);
 
+    const actualizarOrden = async (data) => {
+        try {
+            const respuesta = await OrdenDataService.updateOrden(data);
+            history.push(`/orden/${idOrden}`);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const eliminarOrden = async () => {
+        try {
+            const respuesta = await OrdenDataService.deleteOrden(idOrden);
+            history.push(`/pedido`);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     if (estado !== "null") {
         const data = {
             idOrden: idOrden,
@@ -35,9 +53,10 @@ const ProcesoPago = ({ usuario }) => {
         actualizarOrden(data);
     }
     else {
+        //Luego implementar redireccionamiento directo al pedido con cartel de alerta incluido en el mismo.
         setTimeout(() => {
-            //history.push(`/pedido`);
-        }, 10000);
+            eliminarOrden();
+        }, 5000);
     }
 
     const Cancelado = () => (
@@ -51,23 +70,14 @@ const ProcesoPago = ({ usuario }) => {
         </Alert>
     );
 
-    const actualizarOrden = async (data) => {
-        try {
-            const resultado = await OrdenDataService.updateOrden(data);
-            //history.push(`/orden/${idOrden}`);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    console.log(usuario);
+    //console.log(usuario);
 
     return (
         <Container>
             <Row>
                 <Col>
                     {
-                        estado !== null ?
+                        estado !== "null" ?
                             (
                                 <h6>Redireccionando...</h6>
                             ) : (

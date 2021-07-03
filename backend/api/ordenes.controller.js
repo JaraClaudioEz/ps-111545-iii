@@ -14,12 +14,12 @@ export default class OrdenesController {
         //console.log(req.params);
         try {
             const ordenes = await Orden.find({ idUsuario: idUsuario }).sort({ fecha: -1 });
-            //console.log(ordenes);
-            if (ordenes) {
-                res.status(200).json({ordenes});
+            //console.log(ordenes.length);
+            if (ordenes.length > 0) {
+                res.status(200).json({ ordenes });
             }
             else {
-                res.status(200).json(null);
+                res.status(204).json(null);
             };
 
         } catch (error) {
@@ -133,9 +133,9 @@ export default class OrdenesController {
                     },
                     */
                     back_urls: {
-                        "success": "http://localhost:3000/orden/success",
-                        "failure": "http://localhost:3000/orden/failure",
-                        "pending": "http://localhost:3000/orden/pending"
+                        "success": "http://localhost:3000/orden/respuestamp",
+                        "failure": "http://localhost:3000/orden/respuestamp",
+                        "pending": "http://localhost:3000/orden/respuestamp"
                     },
 
                     auto_return: 'approved',
@@ -213,6 +213,8 @@ export default class OrdenesController {
 
     static async apiUpdateOrden(req, res, next) {
 
+        //console.log(req.body);
+
         const idOrden = req.body.idOrden;
         const status = req.body.estado;
         const idPago = req.body.idPago;
@@ -223,13 +225,13 @@ export default class OrdenesController {
                 estado = "pendiente";
                 break;
             case 'approved':
-                estado = "pago aprovado";
+                estado = "abonada";
                 break;
             case 'authorized':
-                estado = "pago autorizado";
+                estado = "abonada";
                 break;
             case 'in_process':
-                estado = "pago en revision";
+                estado = "pendiente";
                 break;
             case 'in_mediation':
                 estado = "mediacion";
@@ -241,33 +243,50 @@ export default class OrdenesController {
                 estado = "cancelado";
                 break;
             case 'refunded':
-                estado = "devuelto";
+                estado = "reembolso";
                 break;
             case 'charged_back':
                 estado = "reembolso";
                 break;
             default:
+                estado = "pendiente";
                 break;
         }
 
-        console.log(req.body);
-        console.log(estado);
+        //console.log(estado);
+        try {
 
-        /*
-        Item.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function (item) {
-            Item.findOne({ _id: req.params.id }).then(function (item) {
-                res.json(item);
-            });
-        });
+            let orden = await Orden.findOne({ _id: idOrden });
+            //console.log(orden);
+            orden.idPago = idPago;
+            orden.estado = estado;
+            orden = await orden.save();
+            //console.log({ actualizada: orden });
+            const usuario = await Usuario.findOne({ _id: orden.idUsuario });
+            //console.log(usuario);
+            const pedido = await Pedido.findOneAndDelete({ idUsuario: usuario._id });
+            //res.status(200).json({ message: "Pago acentado" });
+            res.status(200).json({ orden: orden });
 
-        Item.findByIdAndDelete({ _id: req.params.id }).then(function (item) {
-            res.json({ success: true });
-        });
-        */
+        } catch (error) {
+            console.log(error);
+        }
 
     };
 
     static async apiGetEstados(req, res, next) {
 
+    };
+
+    static async apiDeleteOrden(req, res, next) {
+        try {
+            const idOrden = req.query.id
+
+            const deleteResponse = await Orden.findByIdAndDelete({ _id: idOrden })
+
+            res.json({ status: "Eliminado", id: idOrden })
+        } catch (e) {
+            res.status(500).json({ error: e.message })
+        }
     };
 }

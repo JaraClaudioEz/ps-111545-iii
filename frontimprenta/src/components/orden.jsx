@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table } from 'react-bootstrap';
 
 import OrdenDataService from "../services/servicio-orden.js";
 
@@ -37,16 +37,38 @@ const Orden = ({ match, usuario }) => {
             </Row>
             <Row>
               <Col sm={8}>
-                Items
+              <Table striped hover>
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Cantidad</th>
+                      <th>Precio Unitario</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      orden?.items.map(item => (
+                        <tr key={item.idProducto}>
+                          <td className="text-capitalize">{item.nombre}</td>
+                          <td>{item.cantidad}</td>
+                          <td>$ {item.precio}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </Table>
               </Col>
               <Col sm={4}>
+                <div>
+                  <p>Orden de Trabajo número {orden?._id}</p>
+                  <p className="text-capitalize">Estado de la Orden: {orden?.estado}</p>
+                </div>
                 <div>
                   <p>Subtotal ({!orden ? 0 : orden.items.length}) items:</p>
                   <p>$ {!orden ? 0 : orden.factura}</p>
                 </div>
                 <div className="d-grid gap-2">
                   <Link to={"/ordenes"} className="btn btn-primary">Volver</Link>
-                  <Button variant="warning" size="lg">Nada</Button>
                 </div>
               </Col>
             </Row>
@@ -60,16 +82,38 @@ const Orden = ({ match, usuario }) => {
             </Row>
             <Row>
               <Col sm={8}>
-                Items
+                <Table striped hover>
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Cantidad</th>
+                      <th>Precio Unitario</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      orden?.items.map(item => (
+                        <tr key={item.idProducto}>
+                          <td className="text-capitalize">{item.nombre}</td>
+                          <td>{item.cantidad}</td>
+                          <td>$ {item.precio}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </Table>
               </Col>
               <Col sm={4}>
+              <div>
+                  <p>Orden de Compra número {orden?._id}</p>
+                  <p className="text-capitalize">Estado de la Orden: {orden?.estado}</p>
+                </div>
                 <div>
                   <p>Subtotal ({!orden ? 0 : orden.items.length}) items:</p>
                   <p>$ {!orden ? 0 : orden.factura}</p>
                 </div>
                 <div className="d-grid gap-2">
-                <Link to={"/ordenes"} className="btn btn-primary">Volver</Link>
-                  <Button variant="warning" size="lg">Nada</Button>
+                  <Link to={"/ordenes"} className="btn btn-primary">Volver</Link>
                 </div>
               </Col>
             </Row>

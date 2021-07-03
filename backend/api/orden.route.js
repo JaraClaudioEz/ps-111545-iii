@@ -8,6 +8,7 @@ const router = express.Router();
 router.route("/")
     .get(autorizacion, OrdenCtrl.apiGetOrdenes)
     .put(autorizacion, OrdenCtrl.apiUpdateOrden)
+    .delete(autorizacion, OrdenCtrl.apiDeleteOrden)
 router.route("/:id")
     .get(autorizacion, OrdenCtrl.apiGetOrdenesUsuario)
     .post(autorizacion, OrdenCtrl.apiCheckout)
