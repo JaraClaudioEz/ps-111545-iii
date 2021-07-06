@@ -4,35 +4,14 @@ import Chart from 'react-apexcharts'
 import { Container, Col, Row, InputGroup, FormControl, Button } from 'react-bootstrap';
 import moment from "moment";
 
-import OrdenDataService from "../services/servicio-orden.js";
+import ReporteDataService from "../services/servicio-reporte";
 
 const Reportes = ({ usuario }) => {
 
   const [fechas, setFechas] = useState([]);
   const [ventasTotales, setVentasTotales] = useState([]);
-
-  const [options2, setOptions2] = useState({
-    chart: {
-      type: 'polarArea',
-    },
-    stroke: {
-      colors: ['#fff']
-    },
-    fill: {
-      opacity: 0.8
-    },
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: {
-          width: 200
-        },
-        legend: {
-          position: 'bottom'
-        }
-      }
-    }]
-  });
+  const [formatoFecha, setFormatoFecha] = useState("");
+  const [cantidadesProductos, setCantidadesProductos] = useState([14, 23, 21, 17, 15, 10, 12, 17, 21]);
 
   const [options3, setOptions3] = useState({
     chart: {
@@ -49,10 +28,6 @@ const Reportes = ({ usuario }) => {
     },
   });
 
-
-
-  const [series2, setSeries2] = useState([14, 23, 21, 17, 15, 10, 12, 17, 21]);
-
   const [series3, setSeries3] = useState([{
     name: 'series-1',
     data: [30, 40, 35, 50, 49, 60, 70]
@@ -66,17 +41,15 @@ const Reportes = ({ usuario }) => {
   const traerOrdenes = async () => {
     const fechas = [];
     const ventas = [];
-    const filtros = {
-      formato: ''
-    }
+    const formato = formatoFecha;
 
     try {
-      const { data } = await OrdenDataService.getTotalVentasPeriodo(filtros);
+      const { data } = await ReporteDataService.getTotalVentasPeriodo(formato);
       //const { data } = await OrdenDataService.getListadoOrdenes();
-      console.log(data);
+      //console.log(data, formato);
 
       data.ordenes.map(item => {
-        switch (filtros.formato) {
+        switch (formato) {
           case 'year':
             fechas.push(moment(item._id).format('YYYY'));
             break;
@@ -104,10 +77,16 @@ const Reportes = ({ usuario }) => {
     traerOrdenes();
   }, []);
 
+  useEffect(() => {
+    traerOrdenes();
+  }, [formatoFecha]);
+
   const onChangeFiltrar = e => {
     const filtro = e.target.value;
-
+    setFormatoFecha(filtro);
   };
+
+  //console.log(formatoFecha);
 
   return (
     <Container>
@@ -117,7 +96,7 @@ const Reportes = ({ usuario }) => {
         </Col>
         <Col md="auto">
           <div>
-            <h6 className="display-6">Total Ventas por día: </h6>
+            <h6 className="display-6">Total Ventas por período: </h6>
           </div>
           <Chart options={{
             chart: {
@@ -135,16 +114,14 @@ const Reportes = ({ usuario }) => {
           },
           ]} type="bar" width={500} height={320} />
         </Col>
-        <Col xs lg="2">
+        <Col xs lg="3" className="d-flex align-items-center">
+          <label>Filtrar por...</label>
           <InputGroup className="mb-3">
             <FormControl as="select" custom onChange={onChangeFiltrar}>
               <option value="day" key="1">Día</option>
               <option value="month" key="2">Mes</option>
               <option value="year" key="3">Año</option>
             </FormControl>
-            <InputGroup.Append>
-              <Button variant="outline-secondary">Filtrar</Button>
-            </InputGroup.Append>
           </InputGroup>
         </Col>
       </Row>
@@ -155,7 +132,28 @@ const Reportes = ({ usuario }) => {
           <div>
             <h6 className="display-6">Productos mas vendidos: </h6>
           </div>
-          <Chart options={options2} series={series2} type="polarArea" width={500} height={320} />
+          <Chart options={{
+            chart: {
+              type: 'polarArea',
+            },
+            stroke: {
+              colors: ['#fff']
+            },
+            fill: {
+              opacity: 0.8
+            },
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }]
+          }} series={cantidadesProductos} type="polarArea" width={500} height={320} />
         </Col>
         <Col xs lg="2">
         </Col>

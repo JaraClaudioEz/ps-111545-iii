@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
 
 import OrdenDataService from "../services/servicio-orden.js";

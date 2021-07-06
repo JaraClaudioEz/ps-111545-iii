@@ -29,10 +29,6 @@ class OrdenDataService {
         return http.delete(`/ordenes?id=${id}`);
     };
 
-    getTotalVentasPeriodo(data) {
-        return http.get("/ordenes/reportes/totalPeriodo", data);
-    };
-
 };
 
 export default new OrdenDataService();

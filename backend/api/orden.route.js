@@ -10,7 +10,6 @@ router.route("/")
     .put(autorizacion, OrdenCtrl.apiUpdateOrden)
     .delete(autorizacion, OrdenCtrl.apiDeleteOrden)
 
-router.route("/reportes/totalPeriodo").get(autorizacion, OrdenCtrl.apiGetTotalVentasPorPeriodo)
 router.route("/estados").get(autorizacion, OrdenCtrl.apiGetEstados)
 router.route("/:id")
     .get(autorizacion, OrdenCtrl.apiGetOrdenesUsuario)
