@@ -135,7 +135,7 @@ const ListaOrdenes = ({ usuario }) => {
   const buscarEmail = (id) => {
     if (usuarios) {
       const resultado = usuarios.find(usuario => usuario._id === id);
-      return resultado.email;
+      return resultado?.email;
     };
   };
 
@@ -176,7 +176,7 @@ const ListaOrdenes = ({ usuario }) => {
                   <FormControl as="select" custom onChange={onChangeSearchEstado}>
                     <option value="todas">Todas</option>
                     <option value="pendiente">Pendiente de Pago</option>
-                    <option value="pagado">Pagado/En realización</option>
+                    <option value="abonada">Abonada/En realización</option>
                     <option value="entregado">Entregado al Cliente</option>
                   </FormControl>
                   <InputGroup.Append>

@@ -22,7 +22,7 @@ class OrdenDataService {
     };
 
     getEstados() {
-        return http.get(`/ordenes/estados`);
+        return http.get("/ordenes/estados");
     };
 
     deleteOrden(id) { 

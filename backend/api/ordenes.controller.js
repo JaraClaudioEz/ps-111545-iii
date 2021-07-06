@@ -19,7 +19,7 @@ export default class OrdenesController {
                 res.status(200).json({ ordenes });
             }
             else {
-                res.status(204).json(null);
+                res.status(200).json(null);
             };
 
         } catch (error) {
@@ -212,59 +212,70 @@ export default class OrdenesController {
     }
 
     static async apiUpdateOrden(req, res, next) {
-
         //console.log(req.body);
-
-        const idOrden = req.body.idOrden;
-        const status = req.body.estado;
-        const idPago = req.body.idPago;
-
         let estado = '';
-        switch (status) {
-            case 'pending':
-                estado = "pendiente";
-                break;
-            case 'approved':
-                estado = "abonada";
-                break;
-            case 'authorized':
-                estado = "abonada";
-                break;
-            case 'in_process':
-                estado = "pendiente";
-                break;
-            case 'in_mediation':
-                estado = "mediacion";
-                break;
-            case 'rejected':
-                estado = "rechazado";
-                break;
-            case 'cancelled':
-                estado = "cancelado";
-                break;
-            case 'refunded':
-                estado = "reembolso";
-                break;
-            case 'charged_back':
-                estado = "reembolso";
-                break;
-            default:
-                estado = "pendiente";
-                break;
-        }
+        let status = '';
+        let idPago = '';
+        const idOrden = req.body.idOrden;
 
-        //console.log(estado);
+        if ("idPago" in req.body) {
+
+            status = req.body.estado;
+            idPago = req.body.idPago;
+
+            switch (status) {
+                case 'pending':
+                    estado = "Pendiente";
+                    break;
+                case 'approved':
+                    estado = "Abonada";
+                    break;
+                case 'authorized':
+                    estado = "Abonada";
+                    break;
+                case 'in_process':
+                    estado = "Pendiente";
+                    break;
+                case 'in_mediation':
+                    estado = "Mediacion";
+                    break;
+                case 'rejected':
+                    estado = "Rechazado";
+                    break;
+                case 'cancelled':
+                    estado = "Cancelado";
+                    break;
+                case 'refunded':
+                    estado = "Reembolso";
+                    break;
+                case 'charged_back':
+                    estado = "Reembolso";
+                    break;
+                default:
+                    estado = "Pendiente";
+                    break;
+            }
+        }
+        else {
+            estado = req.body.estado;
+        }
+        //console.log(idPago);
+        //console.log(status);
+
         try {
 
             let orden = await Orden.findOne({ _id: idOrden });
             //console.log(orden);
-            orden.idPago = idPago;
+            if ("idPago" in req.body) {
+                orden.idPago = idPago;
+            }
             orden.estado = estado;
             orden = await orden.save();
-            //console.log({ actualizada: orden });
-            const usuario = await Usuario.findOne({ _id: orden.idUsuario });
-            //console.log(usuario);
-            const pedido = await Pedido.findOneAndDelete({ idUsuario: usuario._id });
+
+            if ("idPago" in req.body) {
+                const usuario = await Usuario.findOne({ _id: orden.idUsuario });
+                const pedido = await Pedido.findOneAndDelete({ idUsuario: usuario._id });
+            }
             //res.status(200).json({ message: "Pago acentado" });
             res.status(200).json({ orden: orden });
 
@@ -275,6 +286,14 @@ export default class OrdenesController {
     };
 
     static async apiGetEstados(req, res, next) {
+        let estados = []
+        try {
+            estados = await Orden.distinct("estado");
+            res.status(200).json(estados);
+        } catch (e) {
+            console.log(`apiGetEstados, ${e}`);
+            res.status(500).json({ error: e })
+        }
 
     };
 

@@ -3,7 +3,6 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Container, Row, Col, Alert } from 'react-bootstrap';
 
 import OrdenDataService from "../services/servicio-orden.js";
-import PedidoDataService from "../services/servicio-pedido";
 
 const ProcesoPago = ({ usuario }) => {
 
@@ -24,7 +23,7 @@ const ProcesoPago = ({ usuario }) => {
         idPreferencia = searchParams.get('preference_id');
     }
 
-    console.log(estado);
+    //console.log(estado);
 
     const actualizarOrden = async (data) => {
         try {

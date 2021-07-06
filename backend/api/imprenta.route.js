@@ -13,4 +13,5 @@ router.route("/productos")
 router.route("/productos/id/:id").get(ProductosCtrl.apiGetProductoPorId)
 router.route("/categorias").get(ProductosCtrl.apiGetCategoriasProducto)
 
+
 export default router

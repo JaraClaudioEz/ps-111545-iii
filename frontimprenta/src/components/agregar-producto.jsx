@@ -3,7 +3,7 @@ import ProductoDataService from "../services/servicio-producto";
 import { Link } from "react-router-dom";
 
 const AddProducto = props => {
-    console.log(props);
+    //console.log(props);
     const estadoInicialProducto = {
         _id: null,
         nombre_producto: "",
@@ -38,7 +38,7 @@ const AddProducto = props => {
         ProductoDataService.getProducto(id)
             .then(response => {
                 setProducto(response.data);
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -48,7 +48,7 @@ const AddProducto = props => {
     const traerCategorias = () => {
         ProductoDataService.getCategorias()
             .then(response => {
-                console.log(response.data);
+                //console.log(response);
                 if (editar) {
                     setCategorias(response.data);
                 }
@@ -205,11 +205,11 @@ const AddProducto = props => {
                                         <div id="ayudaProducto" className="form-text">Introduza el nombre del producto.</div>
                                     </div>
                                     <div className="mb-3">
-                                        <label className="form-label">Categoría:</label>
+                                        <label className="form-label">Categoría: </label>
                                         <select name="categoria" onChange={handleInputChange} value={producto.categoria}>
                                             {categorias.map(categoria => {
                                                 return (
-                                                    <option value={categoria}> {categoria.substr(0, 20)} </option>
+                                                    <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
                                                 )
                                             })}
                                         </select>
