@@ -6,6 +6,10 @@ class ReporteDataService {
         return http.get(`/reportes?formatoFecha=${formato}`);
     };
 
+    getCantidadesPorProducto(mayor) {
+        return http.get(`/reportes/porProducto?return=${mayor}`);
+    };
+
 };
 
 export default new ReporteDataService();

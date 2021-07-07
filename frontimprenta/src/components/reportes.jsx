@@ -11,7 +11,9 @@ const Reportes = ({ usuario }) => {
   const [fechas, setFechas] = useState([]);
   const [ventasTotales, setVentasTotales] = useState([]);
   const [formatoFecha, setFormatoFecha] = useState("");
-  const [cantidadesProductos, setCantidadesProductos] = useState([14, 23, 21, 17, 15, 10, 12, 17, 21]);
+  const [cantidadesProductos, setCantidadesProductos] = useState([1, 1, 1, 1, 1]);
+  const [productos, setProductos] = useState([]);
+  const [mayores, setMayores] = useState("");
 
   const [options3, setOptions3] = useState({
     chart: {
@@ -59,7 +61,7 @@ const Reportes = ({ usuario }) => {
           default:
             fechas.push(moment(item._id).format('LL'));
             break;
-        }
+        };
         ventas.push(item.totalVentas);
         //console.log(item);
       });
@@ -73,20 +75,60 @@ const Reportes = ({ usuario }) => {
     }
   };
 
+  const traerProductos = async () => {
+    const cantidades = [];
+    const nombres = [];
+    const mayor = mayores;
+
+    try {
+      const { data } = await ReporteDataService.getCantidadesPorProducto(mayor);
+      //console.log(data);
+      data.productos.map(item => {
+        if (mayor === 'ventas') {
+          cantidades.push(item.venta_total);
+        }
+        else{
+          cantidades.push(item.cantidad_total);
+        }
+        
+        data.nombres.map(nombre => {
+          if (nombre._id === item.idProducto) {
+            nombres.push(nombre.nombre_producto);
+          }
+        });
+      });
+      //console.log(cantidades);
+      setCantidadesProductos(cantidades);
+      setProductos(nombres);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     traerOrdenes();
+    traerProductos();
   }, []);
 
   useEffect(() => {
     traerOrdenes();
   }, [formatoFecha]);
 
-  const onChangeFiltrar = e => {
+  useEffect(() => {
+    traerProductos();
+  }, [mayores]);
+
+  const onChangeFiltrarPeriodo = e => {
     const filtro = e.target.value;
     setFormatoFecha(filtro);
   };
 
-  //console.log(formatoFecha);
+  const onChangeFiltrarProducto = e => {
+    const filtro = e.target.value;
+    setMayores(filtro);
+  };
+
+  //console.log(mayores);
 
   return (
     <Container>
@@ -117,7 +159,7 @@ const Reportes = ({ usuario }) => {
         <Col xs lg="3" className="d-flex align-items-center">
           <label>Filtrar por...</label>
           <InputGroup className="mb-3">
-            <FormControl as="select" custom onChange={onChangeFiltrar}>
+            <FormControl as="select" custom onChange={onChangeFiltrarPeriodo}>
               <option value="day" key="1">Día</option>
               <option value="month" key="2">Mes</option>
               <option value="year" key="3">Año</option>
@@ -136,6 +178,7 @@ const Reportes = ({ usuario }) => {
             chart: {
               type: 'polarArea',
             },
+            labels: productos,
             stroke: {
               colors: ['#fff']
             },
@@ -155,7 +198,14 @@ const Reportes = ({ usuario }) => {
             }]
           }} series={cantidadesProductos} type="polarArea" width={500} height={320} />
         </Col>
-        <Col xs lg="2">
+        <Col xs lg="2" className="d-flex align-items-center">
+          <label>Filtrar por...</label>
+          <InputGroup className="mb-3">
+            <FormControl as="select" custom onChange={onChangeFiltrarProducto}>
+              <option value="cantidades" key="1">Cantidades</option>
+              <option value="ventas" key="2">Ventas</option>
+            </FormControl>
+          </InputGroup>
         </Col>
       </Row>
       <Row>
