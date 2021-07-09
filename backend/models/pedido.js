@@ -9,6 +9,7 @@ const pedidoSchema = mongoose.Schema({
             type: String,
         },
         nombre: String,
+        categoria: String,
         cantidad: {
             type: Number,
             required: true,

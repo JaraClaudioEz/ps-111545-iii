@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 //import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts'
-import { Container, Col, Row, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Container, Col, Row, InputGroup, FormControl } from 'react-bootstrap';
 import moment from "moment";
 
 import ReporteDataService from "../services/servicio-reporte";
 
-const Reportes = ({ usuario }) => {
+const Reportes = () => {
 
   const [fechas, setFechas] = useState([]);
   const [ventasTotales, setVentasTotales] = useState([]);
@@ -14,31 +14,10 @@ const Reportes = ({ usuario }) => {
   const [cantidadesProductos, setCantidadesProductos] = useState([1, 1, 1, 1, 1]);
   const [productos, setProductos] = useState([]);
   const [mayores, setMayores] = useState("");
-
-  const [options3, setOptions3] = useState({
-    chart: {
-      id: 'area-example'
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'smooth'
-    },
-  });
-
-  const [series3, setSeries3] = useState([{
-    name: 'series-1',
-    data: [30, 40, 35, 50, 49, 60, 70]
-  },
-  {
-    name: 'series2',
-    data: [11, 32, 45, 32, 34, 52, 41]
-  }]
-  );
+  const [fechasCategorias, setFechasCategorias] = useState([]);
+  const [imprenta, setImpreta] = useState([]);
+  const [estampado, setEstampado] = useState([]);
+  const [carteleria, setCarteleria] = useState([]);
 
   const traerOrdenes = async () => {
     const fechas = [];
@@ -87,15 +66,10 @@ const Reportes = ({ usuario }) => {
         if (mayor === 'ventas') {
           cantidades.push(item.venta_total);
         }
-        else{
+        else {
           cantidades.push(item.cantidad_total);
         }
-        
-        data.nombres.map(nombre => {
-          if (nombre._id === item.idProducto) {
-            nombres.push(nombre.nombre_producto);
-          }
-        });
+        nombres.push(item.producto);
       });
       //console.log(cantidades);
       setCantidadesProductos(cantidades);
@@ -105,9 +79,66 @@ const Reportes = ({ usuario }) => {
     }
   };
 
+  const traerCategorias = async () => {
+    const NUM_OF_DAYS = 15;
+
+    const fechas = [];
+    let ventas_imprenta = Array(NUM_OF_DAYS).fill(0);
+    const ventas_estampado = Array(NUM_OF_DAYS).fill(0);
+    const ventas_carteleria = Array(NUM_OF_DAYS).fill(0);
+    const filtro = '';
+
+    for (let i = 0; i < NUM_OF_DAYS; i++) {
+      let fecha = moment();
+      fecha.subtract(i, 'day');
+      fechas.push(fecha.format('YYYY-MM-DD'));
+    }
+    //console.log(fechas);
+
+    try {
+      const { data } = await ReporteDataService.getVentasPorCategorias();
+      //console.log(data);
+      setFechasCategorias(fechas.reverse());
+      data.imprenta.map(item => {
+        //console.log(item);
+        fechas.map(i => {
+          if (item.fecha === i) {
+            ventas_imprenta[fechas.indexOf(i)] = item.venta_total;
+          }
+        });
+      });
+      setImpreta(ventas_imprenta);
+
+      data.estampado.map(item => {
+        //console.log(item);
+        fechas.map(i => {
+          if (item.fecha === i) {
+            ventas_estampado[fechas.indexOf(i)] = item.venta_total;
+          }
+        });
+      });
+      setEstampado(ventas_estampado);
+
+      data.carteleria.map(item => {
+        //console.log(item);
+        fechas.map(i => {
+          if (item.fecha === i) {
+            ventas_carteleria[fechas.indexOf(i)] = item.venta_total;
+          }
+        });
+      });
+      setCarteleria(ventas_carteleria);
+
+      //console.log(ventas_imprenta);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     traerOrdenes();
     traerProductos();
+    traerCategorias();
   }, []);
 
   useEffect(() => {
@@ -128,7 +159,14 @@ const Reportes = ({ usuario }) => {
     setMayores(filtro);
   };
 
-  //console.log(mayores);
+  const formatoFechasCategorias = () => {
+    const nuevo = [];
+    fechasCategorias.map(fecha => {
+      nuevo.push(moment(fecha).format('L'));
+    });
+    return nuevo;
+  };
+  //console.log(fechasCategorias);
 
   return (
     <Container>
@@ -145,13 +183,20 @@ const Reportes = ({ usuario }) => {
               id: 'ventas-periodo'
             },
             xaxis: {
-              categories: fechas
+              categories: fechas,
+            },
+            yaxis: {
+              labels: {
+                formatter: function (value) {
+                  return "$ " + value;
+                }
+              },
             },
             dataLabels: {
               enabled: true
             },
           }} series={[{
-            name: 'ventas',
+            name: 'Ventas',
             data: ventasTotales
           },
           ]} type="bar" width={500} height={320} />
@@ -172,7 +217,7 @@ const Reportes = ({ usuario }) => {
         </Col>
         <Col md="auto">
           <div>
-            <h6 className="display-6">Productos mas vendidos: </h6>
+            <h6 className="display-6">Productos más vendidos: </h6>
           </div>
           <Chart options={{
             chart: {
@@ -181,6 +226,17 @@ const Reportes = ({ usuario }) => {
             labels: productos,
             stroke: {
               colors: ['#fff']
+            },
+            yaxis: {
+              labels: {
+                formatter: function (value) {
+                  if (mayores === 'ventas') {
+                    return "$ " + value;
+                  } else {
+                    return value;
+                  }
+                }
+              },
             },
             fill: {
               opacity: 0.8
@@ -215,7 +271,39 @@ const Reportes = ({ usuario }) => {
           <div>
             <h6 className="display-6">Ventas por Categoría: </h6>
           </div>
-          <Chart options={options3} series={series3} type="area" width={500} height={320} />
+          <Chart options={{
+            chart: {
+              id: 'ventas-categoria'
+            },
+            xaxis: {
+              categories: formatoFechasCategorias()
+            },
+            yaxis: {
+              labels: {
+                formatter: function (value) {
+                  return "$ " + value;
+                }
+              },
+            },
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: 'smooth'
+            },
+          }} series={[{
+            name: 'Imprenta',
+            data: imprenta
+          },
+          {
+            name: 'Estampado',
+            data: estampado
+          },
+          {
+            name: 'Cartelería',
+            data: carteleria
+          },
+          ]} type="area" width={500} height={320} />
         </Col>
         <Col xs lg="2">
         </Col>

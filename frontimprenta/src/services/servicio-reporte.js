@@ -10,6 +10,10 @@ class ReporteDataService {
         return http.get(`/reportes/porProducto?return=${mayor}`);
     };
 
+    getVentasPorCategorias() {
+        return http.get(`/reportes/porCategoria`);
+    };
+
 };
 
 export default new ReporteDataService();

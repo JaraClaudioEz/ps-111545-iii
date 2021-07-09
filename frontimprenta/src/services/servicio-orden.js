@@ -1,7 +1,7 @@
 import http from "../http-commons";
 
 class OrdenDataService {
-    getListadoOrdenes(pag = 0) {
+    getListadoOrdenes(pag = 1) {
         return http.get(`/ordenes?pag=${pag}`);
     };
 

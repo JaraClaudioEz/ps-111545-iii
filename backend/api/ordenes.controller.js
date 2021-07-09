@@ -3,6 +3,7 @@ import mercadopago from "mercadopago";
 import Pedido from "../models/pedido.js";
 import Usuario from "../models/usuario.js";
 import Orden from "../models/orden.js";
+import Producto from "../models/producto.js";
 
 mercadopago.configure({
     access_token: process.env.PROD_ACCESS_TOKEN
@@ -265,7 +266,22 @@ export default class OrdenesController {
         try {
 
             let orden = await Orden.findOne({ _id: idOrden });
-            //console.log(orden);
+            /* Para agregar campo categoria en items de orden
+            let productos = await Producto.find();
+            orden.items.map(item => {
+                productos.map(prod => {
+                    //console.log(item.idProducto);
+                    //console.log(JSON.stringify(prod._id));
+                    if (JSON.stringify(prod._id) === JSON.stringify(item.idProducto)) {
+                        item.categoria = prod.categoria;
+                        //console.log(item.categoria);
+                        //console.log(prod.categoria);
+                    }
+                });
+
+            });
+            */
+            //console.log(orden.items);
             if ("idPago" in req.body) {
                 orden.idPago = idPago;
             }

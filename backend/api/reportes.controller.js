@@ -77,7 +77,7 @@ export default class ReportesController {
             {
                 "$group": {
                     "_id": "$items.idProducto",
-                    //"product": {"$first": "$products.name"},
+                    "producto": { "$first": "$items.nombre" },
                     "venta_total": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
                 }
@@ -101,6 +101,7 @@ export default class ReportesController {
         try {
             const productos = await Orden.aggregate(pipeline).sort(filtro).limit(15);
 
+            /*
             let ids = [];
             productos.map(prod => {
                 ids.push(prod.idProducto);
@@ -108,9 +109,9 @@ export default class ReportesController {
 
             const nombres = await Producto.find({ '_id': { $in: ids } }).select('nombre_producto');
             //console.log(nombres);
-
+            */
             if (productos.length > 0) {
-                res.status(200).json({ productos, nombres });
+                res.status(200).json({ productos });
             }
             else {
                 res.status(200).json(null);
@@ -121,4 +122,155 @@ export default class ReportesController {
             console.log(error);
         }
     };
+
+    static async apiGetVentasPorCategoria(req, res, next) {
+        //console.log(req.query);
+        /*
+        let formato = '';
+        switch (req.query.formatoFecha) {
+            case 'year':
+                formato = "%Y";
+                break;
+            case 'month':
+                formato = "%Y-%m";
+                break;
+            default:
+                formato = "%Y-%m-%d";
+                break;
+        }
+        */
+
+        var pipeline1 = [
+            {
+                $unwind: {
+                    path: "$items",
+                }
+            },
+
+            {
+                "$match": {
+                    "items.categoria": {
+                        "$eq": "Imprenta",
+                    },
+                }
+            },
+
+            {
+                "$group": {
+                    "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
+                    "categoria": { "$first": "$items.categoria" },
+                    "venta_total": { "$sum": "$items.precio" },
+                    "cantidad_total": { "$sum": "$items.cantidad" },
+                }
+            },
+
+            {
+                "$set": {
+                    "fecha": "$_id",
+                }
+            },
+
+            {
+                "$unset": [
+                    "_id",
+                ]
+            },
+        ];
+
+        var pipeline2 = [
+            {
+                $unwind: {
+                    path: "$items",
+                }
+            },
+
+            {
+                "$match": {
+                    "items.categoria": {
+                        "$eq": "Estampado",
+                    },
+                }
+            },
+
+            {
+                "$group": {
+                    "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
+                    "categoria": { "$first": "$items.categoria" },
+                    "venta_total": { "$sum": "$items.precio" },
+                    "cantidad_total": { "$sum": "$items.cantidad" },
+                }
+            },
+
+            {
+                "$set": {
+                    "fecha": "$_id",
+                }
+            },
+
+            {
+                "$unset": [
+                    "_id",
+                ]
+            },
+        ];
+
+        var pipeline3 = [
+            {
+                $unwind: {
+                    path: "$items",
+                }
+            },
+
+            {
+                "$match": {
+                    "items.categoria": {
+                        "$eq": "Cartelería",
+                    },
+                }
+            },
+
+            {
+                "$group": {
+                    "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
+                    "categoria": { "$first": "$items.categoria" },
+                    "venta_total": { "$sum": "$items.precio" },
+                    "cantidad_total": { "$sum": "$items.cantidad" },
+                }
+            },
+
+            {
+                "$set": {
+                    "fecha": "$_id",
+                }
+            },
+
+            {
+                "$unset": [
+                    "_id",
+                ]
+            },
+        ];
+
+        try {
+
+            const imprenta = await Orden.aggregate(pipeline1).sort({ fecha: 1 });
+            //console.log(imprenta);
+            const estampado = await Orden.aggregate(pipeline2).sort({ fecha: 1 });
+
+            const carteleria = await Orden.aggregate(pipeline3).sort({ fecha: 1 });
+
+            /*
+            if (categorias.length > 0) {
+                res.status(200).json({ imprenta, estampado, carteleria });
+            }
+            else {
+                res.status(200).json(null);
+            };
+            */
+            res.status(200).json({ imprenta, estampado, carteleria });
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 }

@@ -34,6 +34,7 @@ export default class PedidosController {
 
             const precio = item.precio;
             const nombre = item.nombre_producto;
+            const categoria = item.categoria;
 
             if (pedido) {
                 // if cart exists for the user
@@ -46,7 +47,7 @@ export default class PedidosController {
                     pedido.items[itemIndex] = productItem;
                 }
                 else {
-                    pedido.items.push({ idProducto, nombre, cantidad, precio });
+                    pedido.items.push({ idProducto, nombre, cantidad, precio, categoria });
                 }
                 pedido.importe += cantidad * precio;
                 pedido = await pedido.save();
@@ -56,7 +57,7 @@ export default class PedidosController {
                 // no cart exists, create one
                 const nuevoPedido = await Pedido.create({
                     idUsuario,
-                    items: [{ idProducto, nombre, cantidad, precio }],
+                    items: [{ idProducto, nombre, cantidad, precio, categoria }],
                     importe: cantidad * precio
                 });
                 return res.status(201).send(nuevoPedido);
