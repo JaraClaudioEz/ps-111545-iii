@@ -20,7 +20,7 @@ export default class UsuariosController {
                 return res.status(400).json({ message: "Credenciales no válidas." });
             }
 
-            const token = jwt.sign({ email: usuarioExistente.email, id: usuarioExistente._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+            const token = jwt.sign({ email: usuarioExistente.email, id: usuarioExistente._id }, process.env.SECRET_TOKEN, { expiresIn: "2h" });
 
             res.status(200).json({ result: usuarioExistente, token });
         } catch (error) {

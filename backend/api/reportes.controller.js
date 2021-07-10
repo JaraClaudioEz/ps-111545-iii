@@ -159,8 +159,9 @@ export default class ReportesController {
                 "$group": {
                     "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
                     "categoria": { "$first": "$items.categoria" },
-                    "venta_total": { "$sum": "$items.precio" },
+                    "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
+                    venta_total: { $sum: { $multiply: [ "$items.precio", "$items.cantidad" ] } }
                 }
             },
 
@@ -175,6 +176,7 @@ export default class ReportesController {
                     "_id",
                 ]
             },
+            
         ];
 
         var pipeline2 = [
@@ -196,8 +198,9 @@ export default class ReportesController {
                 "$group": {
                     "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
                     "categoria": { "$first": "$items.categoria" },
-                    "venta_total": { "$sum": "$items.precio" },
+                    "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
+                    venta_total: { $sum: { $multiply: [ "$items.precio", "$items.cantidad" ] } }
                 }
             },
 
@@ -233,8 +236,9 @@ export default class ReportesController {
                 "$group": {
                     "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
                     "categoria": { "$first": "$items.categoria" },
-                    "venta_total": { "$sum": "$items.precio" },
+                    "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
+                    venta_total: { $sum: { $multiply: [ "$items.precio", "$items.cantidad" ] } }
                 }
             },
 

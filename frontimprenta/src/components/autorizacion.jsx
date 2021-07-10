@@ -60,7 +60,7 @@ const Autorizacion = () => {
 
     const googleSuccess = async (res) => {
 
-        const result = res?.profileObj;
+        let result = res?.profileObj;
         const token = res?.tokenId;
 
         const data = {
@@ -77,8 +77,14 @@ const Autorizacion = () => {
                 await UsuarioDataService.saveUsuarioGoogle(data);
                 //console.log(estado);
             }
+            
+            localStorage.setItem('perfil', JSON.stringify({ result, token }))
+
+            const { data } = await UsuarioDataService.getUsuario(result.email)
+            result = data;
 
             localStorage.setItem('perfil', JSON.stringify({ result, token }))
+            //console.log(data);
             history.push('/imprenta')
 
         } catch (error) {
@@ -89,6 +95,7 @@ const Autorizacion = () => {
     const googleFailure = (error) => {
         console.log(error);
         console.log("No se pudo iniciar sesión con Google");
+        alert("No se pudo iniciar sesión con Google");
     }
 
     return (
@@ -159,7 +166,7 @@ const Autorizacion = () => {
                                         name="password"
                                         placeholder="Contraseña"
                                     />
-                                    
+
                                 </div>
                                 {
                                     registrado && (
