@@ -19,12 +19,12 @@ transporter.verify(function (error, success) {
 
 export default class MailerController {
 
-    static async sendOrdenLista(para) {
+    static async sendOrdenLista(email, nombre) {
         let mensaje = {
             from: 'integral.imagen.test@gmail.com',
-            to: para,
+            to: email,
             subject: 'Orden Lista!',
-            html: '<h4>Tu orden de compra está lista para que pases a retirar por nuestro local</h4><br>',
+            html: `<head>Hola! ${nombre} </head><body><h4>Tu orden de compra N°xxxx está lista para retirar.<p>Te invitamos a llegar por nuestro local en Tucumán 544 de lunes a viernes 8 a 13 hs y 16 a 20hs</p></h4></body><br>`,
         }
 
         transporter.sendMail(mensaje, (err, result) => {
@@ -42,7 +42,11 @@ export default class MailerController {
             from: 'integral.imagen.test@gmail.com',
             to: 'integral.imagen.test@gmail.com',
             subject: 'Nueva Compra! Orden N°xxxx',
-            html: `<h4>Ingresó una nueva orden de trabajo del cliente ${cliente} </h4><br>`,
+            
+            html: `<head>Ingresó una nueva orden de trabajo para el cliente ${cliente} </head><body><h4>Items de la orden: `  
+            + `<ul> ${productos.map(prod => `<li>${prod.nombre}, cantidad ${prod.cantidad}</li>`)}</ul>` 
+            + `<p>Total compra $ ${importe}</p></h4></body><br>`,
+            
         }
 
         transporter.sendMail(mensaje, (err, result) => {
@@ -50,7 +54,7 @@ export default class MailerController {
                 console.log(err);
                 return false;
             }
-            //console.log("Email enviado");
+            console.log("Email enviado");
             //console.log("Email enviado: ", result);
         })
     }

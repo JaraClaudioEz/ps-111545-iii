@@ -295,7 +295,7 @@ export default class OrdenesController {
             }
 
             if (orden.estado === "Lista") {
-                const respuesta = await Emailer.sendOrdenLista(usuario.email)
+                const respuesta = await Emailer.sendOrdenLista(usuario.email, usuario.nombre)
             }
             //console.log(orden.estado);
             if (orden.estado === "Abonada") {
