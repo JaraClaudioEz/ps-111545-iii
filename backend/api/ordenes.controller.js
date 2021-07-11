@@ -3,7 +3,8 @@ import mercadopago from "mercadopago";
 import Pedido from "../models/pedido.js";
 import Usuario from "../models/usuario.js";
 import Orden from "../models/orden.js";
-import Producto from "../models/producto.js";
+//import Producto from "../models/producto.js";
+import Emailer from "./email.controller.js";
 
 mercadopago.configure({
     access_token: process.env.PROD_ACCESS_TOKEN
@@ -261,7 +262,7 @@ export default class OrdenesController {
             estado = req.body.estado;
         }
         //console.log(idPago);
-        //console.log(status);
+        //console.log(estado);
 
         try {
 
@@ -288,9 +289,17 @@ export default class OrdenesController {
             orden.estado = estado;
             orden = await orden.save();
 
+            const usuario = await Usuario.findOne({ _id: orden.idUsuario });
             if ("idPago" in req.body) {
-                const usuario = await Usuario.findOne({ _id: orden.idUsuario });
                 const pedido = await Pedido.findOneAndDelete({ idUsuario: usuario._id });
+            }
+
+            if (orden.estado === "Lista") {
+                const respuesta = await Emailer.sendOrdenLista(usuario.email)
+            }
+            //console.log(orden.estado);
+            if (orden.estado === "Abonada") {
+                const respuesta = await Emailer.sendNuevaOrden(usuario.nombre, orden.factura, orden.items)
             }
             //res.status(200).json({ message: "Pago acentado" });
             res.status(200).json({ orden: orden });

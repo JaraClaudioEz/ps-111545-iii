@@ -1,63 +1,79 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useLocation, useHistory } from "react-router-dom";
 import { Container, Row, Col, Alert } from 'react-bootstrap';
 
 import OrdenDataService from "../services/servicio-orden.js";
 
-const ProcesoPago = ({ usuario }) => {
+const ProcesoPago = () => {
 
+    const [id, setId] = useState('');
+    const [estado, setEstado] = useState('');
     const { search } = useLocation();
     const history = useHistory();
 
-    let estado = '';
-    let idPago = '';
-    let idOrden = '';
-    let idPreferencia = '';
-
-    if (search) {
-        const searchParams = new URLSearchParams(search);
-        estado = searchParams.get('status');
-        idPago = searchParams.get('payment_id');
-        idOrden = searchParams.get('external_reference');
-        idOrden = idOrden.replace(/^"(.*)"$/, '$1')
-        idPreferencia = searchParams.get('preference_id');
-    }
-
-    //console.log(estado);
-
-    const actualizarOrden = async (data) => {
-        try {
-            const respuesta = await OrdenDataService.updateOrden(data);
-            history.push(`/orden/${idOrden}`);
-        } catch (error) {
-            console.log(error);
+    
+    useEffect(() => {
+        handleRespuesta();
+    }, [search])
+    
+    const handleRespuesta = () => {
+        let nuevoEstado = '';
+        let idPago = '';
+        let idOrden = '';
+        let idPreferencia = '';
+        
+        if (search) {
+            const searchParams = new URLSearchParams(search);
+            nuevoEstado = searchParams.get('status');
+            idPago = searchParams.get('payment_id');
+            idOrden = searchParams.get('external_reference');
+            idOrden = idOrden.replace(/^"(.*)"$/, '$1')
+            idPreferencia = searchParams.get('preference_id');
+            setId(idOrden);
+            setEstado(nuevoEstado);
         }
+        
+        if (nuevoEstado !== "null") {
+            const data = {
+                idOrden: idOrden,
+                estado: nuevoEstado,
+                idPago: idPago
+            };
+            actualizarOrden(data);
+        }
+        else {
+            //Luego implementar redireccionamiento directo al pedido con cartel de alerta incluido en el mismo.
+            setTimeout(() => {
+                eliminarOrden();
+            }, 5000);
+        }
+    };
+    
+    console.log(id);
+    console.log(estado);
+    
+    const actualizarOrden = async (data) => {
+
+        OrdenDataService.updateOrden(data)
+            .then(response => {
+                history.push(`/orden/${id}`);
+            })
+            //console.log(respuesta);
+            .catch(error => {
+                console.log(error);
+            });
     };
 
     const eliminarOrden = async () => {
         try {
-            const respuesta = await OrdenDataService.deleteOrden(idOrden);
+            const respuesta = await OrdenDataService.deleteOrden(id);
             history.push(`/pedido`);
         } catch (error) {
             console.log(error);
         }
     };
-
-    if (estado !== "null") {
-        const data = {
-            idOrden: idOrden,
-            estado: estado,
-            idPago: idPago
-        };
-        actualizarOrden(data);
-    }
-    else {
-        //Luego implementar redireccionamiento directo al pedido con cartel de alerta incluido en el mismo.
-        setTimeout(() => {
-            eliminarOrden();
-        }, 5000);
-    }
-
+    
+    
     const Cancelado = () => (
         <Alert variant="danger">
             <Alert.Heading>Oh no! Pago cancelado!</Alert.Heading>
