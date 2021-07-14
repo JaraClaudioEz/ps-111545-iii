@@ -36,7 +36,7 @@ const App = () => {
         const resultado = await UsuarioDataService.getUsuario(user.result.email);
         //console.log(resultado.data._id);
         const { data } = await PedidoDataService.getProductosPedido(resultado.data._id);
-        if(data){
+        if (data) {
           setPedido(data);
         }
         //localStorage.setItem('pedido', JSON.stringify(data))
@@ -84,7 +84,7 @@ const App = () => {
 
   };
 
-  const obtenerUsuario = async () =>{
+  const obtenerUsuario = async () => {
     try {
       const usuario = JSON.parse(localStorage.getItem('perfil'));
       //console.log(usuario);
@@ -99,7 +99,7 @@ const App = () => {
     //fetchPedido();
   }, [location]);
 
-  useEffect(() =>{
+  useEffect(() => {
     obtenerUsuario();
     fetchPedido();
   }, []);
@@ -110,6 +110,7 @@ const App = () => {
 
   //console.log(pedido);
   //console.log(user);
+
 
   return (
     <Container>

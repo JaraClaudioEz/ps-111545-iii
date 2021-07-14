@@ -12,7 +12,9 @@ const usuarioSchema = mongoose.Schema({
         numero: { type: Number },
         localidad: { type: String }
     },
-    telefono: { type: Number }
+    telefono: { type: Number },
+    verificado: {type: Boolean, required: true, default: false},
+    stringVerif: {type: String}
 });
 
 export default mongoose.model("Usuario", usuarioSchema);

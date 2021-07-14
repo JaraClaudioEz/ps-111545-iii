@@ -11,17 +11,17 @@ const ProcesoPago = () => {
     const { search } = useLocation();
     const history = useHistory();
 
-    
+
     useEffect(() => {
         handleRespuesta();
     }, [search])
-    
+
     const handleRespuesta = () => {
         let nuevoEstado = '';
         let idPago = '';
         let idOrden = '';
         let idPreferencia = '';
-        
+
         if (search) {
             const searchParams = new URLSearchParams(search);
             nuevoEstado = searchParams.get('status');
@@ -32,7 +32,7 @@ const ProcesoPago = () => {
             setId(idOrden);
             setEstado(nuevoEstado);
         }
-        
+
         if (nuevoEstado !== "null") {
             const data = {
                 idOrden: idOrden,
@@ -48,15 +48,17 @@ const ProcesoPago = () => {
             }, 5000);
         }
     };
-    
+
     console.log(id);
     console.log(estado);
-    
+
     const actualizarOrden = async (data) => {
 
         OrdenDataService.updateOrden(data)
             .then(response => {
-                history.push(`/orden/${id}`);
+                if (estado !== "null") {
+                    history.push(`/orden/${response.data.orden._id}`);
+                }
             })
             //console.log(respuesta);
             .catch(error => {
@@ -72,8 +74,8 @@ const ProcesoPago = () => {
             console.log(error);
         }
     };
-    
-    
+
+
     const Cancelado = () => (
         <Alert variant="danger">
             <Alert.Heading>Oh no! Pago cancelado!</Alert.Heading>

@@ -15,5 +15,6 @@ router.route("/email/:email").get(autorizacion, UsuariosCtrl.apiGetUsuarioPorEma
 router.route("/signin").post(UsuariosCtrl.apiSigninUsuario);
 router.route("/signup").post(UsuariosCtrl.apiSignupUsuario);
 router.route("/google").post(UsuariosCtrl.apiSaveUsuarioGoogle);
+router.route("/verificar/:stringVerif").get(UsuariosCtrl.apiVerificarUsuario);
 
 export default router;

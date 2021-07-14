@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
 
@@ -15,7 +16,7 @@ const Autorizacion = () => {
     };
 
     const [usuario, setUsuario] = useState(estadoInicialUsuario);
-    //const [mostrarPass, setMostrarPass] = useState(false);
+    const [avisoVerif, setAvisoVerif] = useState(false);
     const [registrado, setRegistrado] = useState(false);
     const history = useHistory();
 
@@ -26,9 +27,15 @@ const Autorizacion = () => {
 
             try {
                 const { data } = await UsuarioDataService.signUpUsuario(usuario);
-                //console.log(data);
-                localStorage.setItem('perfil', JSON.stringify(data))
-                history.push("/imprenta")
+                console.log(data);
+                if (data.status) {
+                    setAvisoVerif(true);
+                } else {
+                    alert("Oh no! Algo anduvo mal al enviar email de verificacion.")
+                }
+                //localStorage.setItem('perfil', JSON.stringify(data))
+                //history.push("/imprenta")
+
             } catch (error) {
                 console.log({ message: "No se pudo registrar nuevo usuario", error });
             }
@@ -38,8 +45,13 @@ const Autorizacion = () => {
             try {
                 const { data } = await UsuarioDataService.signInUsuario(usuario);
                 //console.log(data);
-                localStorage.setItem('perfil', JSON.stringify(data))
-                history.push("/imprenta")
+                if (data.result.verificado) {
+                    localStorage.setItem('perfil', JSON.stringify(data))
+                    history.push("/imprenta")
+                } else {
+                    alert("Tu email no ha sido verificado! Por favor verifica tu email.")
+                }
+
             } catch (error) {
                 console.log({ message: "Error al iniciar sesion, verifique sus credenciales", error });
             }
@@ -77,7 +89,7 @@ const Autorizacion = () => {
                 await UsuarioDataService.saveUsuarioGoogle(data);
                 //console.log(estado);
             }
-            
+
             localStorage.setItem('perfil', JSON.stringify({ result, token }))
 
             const { data } = await UsuarioDataService.getUsuario(result.email)
@@ -93,8 +105,7 @@ const Autorizacion = () => {
     }
 
     const googleFailure = (error) => {
-        console.log(error);
-        console.log("No se pudo iniciar sesión con Google");
+        console.log("No se pudo iniciar sesión con Google", error);
         alert("No se pudo iniciar sesión con Google");
     }
 
@@ -105,6 +116,16 @@ const Autorizacion = () => {
                 <div className="col-lg-6">
                     <div className="">
                         <h4 className="display-4">{registrado ? "Registrarse" : "Iniciar Sesión"}</h4>
+                    </div>
+                    <div>
+                        <Alert variant="info" show={avisoVerif} dismissible>
+                            <Alert.Heading>Completa tu registro!</Alert.Heading>
+                            <p>
+                                Para completar tu registro te enviamos un email a
+                                la dirección de correo ingresada. Sigue el link en
+                                mismo e inicia sesión con tu cuenta.
+                            </p>
+                        </Alert>
                     </div>
                     <form className="form-group" onSubmit={handleSubmit}>
                         <div className="d-grid gap-3">

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import Usuario from "../models/usuario.js";
+import Emailer from "./email.controller.js";
 
 export default class UsuariosController {
 
@@ -10,7 +11,7 @@ export default class UsuariosController {
         const { email, password } = req.body;
 
         try {
-            const usuarioExistente = await Usuario.findOne({ email });
+            const usuarioExistente = await Usuario.findOne({ email }, { stringVerif: 0 });
             if (!usuarioExistente) {
                 return res.status(404).json({ message: "El usuario no existe." });
             };
@@ -45,31 +46,73 @@ export default class UsuariosController {
 
             const hashedPassword = await bcrypt.hash(nuevoUsuario.password, 12);
 
+            const randomString = () => {
+                const len = 12;
+                let randStr = '';
+                for (let i = 0; i < len; i++) {
+                    const char = Math.floor((Math.random() * 10) + 1);
+                    randStr += char;
+                }
+                return randStr;
+            };
+
             const usuario = {
                 googleId: "No Tiene",
                 nombre: `${nuevoUsuario.nombre} ${nuevoUsuario.apellido}`,
                 email: nuevoUsuario.email,
                 password: hashedPassword,
-                tipo: "", //HACER PRUEBA DE CREAR SIN ESTE CAMPO
                 direccion: {
                     calle: "",
                     numero: null,
                     localidad: ""
                 },
-                telefono: null
+                telefono: null,
+                stringVerif: randomString()
             }
             const result = await Usuario.create(usuario)
             //const result = await Usuario.create({ email, password: hashedPassword, nombre: `${nombre} ${apellido}` })
-            const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+            //const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
 
-            res.status(200).json({ result, token });
+            Emailer.verificarUsuario(usuario.email, usuario.stringVerif)
+                .then(result => {
+                    res.status(200).json({ status: true })
+                })
+            //res.status(200).json({ result, token });
         } catch (error) {
             res.status(500).json({ message: "Algo anduvo mal al registrarse.", error: error });
         }
 
     }
 
+    static async apiVerificarUsuario(req, res, next) {
+
+        const { stringVerif } = req.params || {}
+
+        try {
+
+            const usuario = await Usuario.findOne({ stringVerif: stringVerif }, { stringVerif: 0 });
+            if (usuario) {
+                usuario.verificado = true;
+                const result = await usuario.save();
+                const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_TOKEN, { expiresIn: "1h" });
+
+                res.redirect('http://localhost:3000/autorizacion');
+                //res.status(200).json({ result, token });
+            }
+            else {
+                res.status(404).json({ message: "Usuario no encontrado." });
+            }
+
+
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e })
+        }
+    }
+
     static async apiSaveUsuarioGoogle(req, res, next) {
+
+        
         const nuevoUsuario = req.body;
 
         try {
@@ -85,13 +128,13 @@ export default class UsuariosController {
                 nombre: nuevoUsuario.nombre,
                 email: nuevoUsuario.email,
                 password: rand,
-                tipo: "cliente",
                 direccion: {
                     calle: "",
                     numero: null,
                     localidad: ""
                 },
-                telefono: null
+                telefono: null,
+                verificado: true
             }
 
             const result = await Usuario.create(usuario)
@@ -104,6 +147,7 @@ export default class UsuariosController {
 
     static async apiGetUsuarios(req, res, next) {
 
+        
         const usuariosPorPagina = req.query.usuariosPorPagina ? parseInt(req.usuariosPorPagina, 10) : 20
         const pag = req.query.pag ? parseInt(req.query.pag, 10) : 0
 
@@ -137,7 +181,7 @@ export default class UsuariosController {
         }
 
         try {
-            const listaUsuarios = await Usuario.find(query, { password: 0, googleId: 0 }).limit(usuariosPorPagina).skip(usuariosPorPagina * pag)
+            const listaUsuarios = await Usuario.find(query, { password: 0, googleId: 0, stringVerif: 0 }).limit(usuariosPorPagina).skip(usuariosPorPagina * pag)
             const totalUsuarios = await Usuario.countDocuments(query)
 
             let response = {
@@ -158,11 +202,12 @@ export default class UsuariosController {
 
     static async apiGetUsuarioPorEmail(req, res, next) {
 
+        
         const email = req.params.email || {}
 
         try {
 
-            const usuario = await Usuario.findOne({ email });
+            const usuario = await Usuario.findOne({ email }, { stringVerif: 0 });
             if (!usuario) {
                 return res.status(404).json({ message: "El usuario no existe." });
             };
@@ -175,6 +220,8 @@ export default class UsuariosController {
     }
 
     static async apiUpdateUsuario(req, res, next) {
+
+        
         const updatedUsuario = req.body;
         const idUsuario = req.body._id;
 
@@ -200,11 +247,13 @@ export default class UsuariosController {
     }
 
     static async apiDeleteUsuario(req, res, next) {
+
+        
         try {
             const idUsuario = req.query.id
-            
-            const deleteResponse = await Usuario.deleteOne({_id: idUsuario})
-            
+
+            const deleteResponse = await Usuario.deleteOne({ _id: idUsuario })
+
             res.json({ status: "Eliminado", id: idUsuario })
         } catch (e) {
             res.status(500).json({ error: e.message })
@@ -212,11 +261,13 @@ export default class UsuariosController {
     }
 
     static async apiGetUsuarioById(req, res, next) {
-        const id = req.params.id || {}
+
         
+        const id = req.params.id || {}
+
         try {
 
-            const usuario = await Usuario.findOne({ _id: id });
+            const usuario = await Usuario.findOne({ _id: id }, { stringVerif: 0 });
             if (!usuario) {
                 return res.status(404).json({ message: "El usuario no existe." });
             };
