@@ -18,9 +18,11 @@ import Reportes from "./components/reportes";
 import Legales from "./components/legales";
 import Orden from "./components/orden";
 import ProcesoPago from "./components/procesar-pago";
+import Footer from "./components/footer";
 
 import PedidoDataService from "./services/servicio-pedido";
 import UsuarioDataService from "./services/servicio-usuario";
+
 
 const App = () => {
 
@@ -200,8 +202,12 @@ const App = () => {
           </Switch>
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <Footer />
+        </Col>
+      </Row>
     </Container>
-
   );
 }
 
