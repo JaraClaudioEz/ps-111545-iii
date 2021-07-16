@@ -75,4 +75,22 @@ export default class MailerController {
             //console.log("Email enviado: ", result);
         })
     }
+
+    static async sendConsulta(email, asunto, texto) {
+        let mensaje = {
+            from: email,
+            to: 'integral.imagen.test@gmail.com',
+            subject: `Consulta: ${asunto}`,
+            html: `<head>Recibiste una nueva consulta realizada desde el formulario de contacto. </head><body><h4>Mensaje de la consulta realizada: <p>${texto}</p></h4></body><br>`,
+        }
+
+        transporter.sendMail(mensaje, (err, result) => {
+            if (err) {
+                console.log(err);
+                return false
+            }
+
+            //console.log("Email enviado: ", result);
+        })
+    }
 }

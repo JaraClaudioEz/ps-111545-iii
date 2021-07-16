@@ -112,7 +112,7 @@ export default class UsuariosController {
 
     static async apiSaveUsuarioGoogle(req, res, next) {
 
-        
+
         const nuevoUsuario = req.body;
 
         try {
@@ -147,7 +147,7 @@ export default class UsuariosController {
 
     static async apiGetUsuarios(req, res, next) {
 
-        
+
         const usuariosPorPagina = req.query.usuariosPorPagina ? parseInt(req.usuariosPorPagina, 10) : 20
         const pag = req.query.pag ? parseInt(req.query.pag, 10) : 0
 
@@ -202,7 +202,7 @@ export default class UsuariosController {
 
     static async apiGetUsuarioPorEmail(req, res, next) {
 
-        
+
         const email = req.params.email || {}
 
         try {
@@ -221,7 +221,7 @@ export default class UsuariosController {
 
     static async apiUpdateUsuario(req, res, next) {
 
-        
+
         const updatedUsuario = req.body;
         const idUsuario = req.body._id;
 
@@ -248,7 +248,7 @@ export default class UsuariosController {
 
     static async apiDeleteUsuario(req, res, next) {
 
-        
+
         try {
             const idUsuario = req.query.id
 
@@ -262,7 +262,6 @@ export default class UsuariosController {
 
     static async apiGetUsuarioById(req, res, next) {
 
-        
         const id = req.params.id || {}
 
         try {
@@ -273,6 +272,26 @@ export default class UsuariosController {
             };
 
             res.json(usuario)
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static async apiEnviarConsulta(req, res, next) {
+        //console.log(req.body);
+        const mensaje = req.body;
+
+        try {
+
+            if (!mensaje.texto) {
+                return res.status(404).json({ status: 'empty' });
+            };
+            Emailer.sendConsulta(mensaje.email, mensaje.asunto, mensaje.texto)
+                .then(result => {
+                    res.status(200).json({ status: 'enviado' })
+                })
+            
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({ error: e })

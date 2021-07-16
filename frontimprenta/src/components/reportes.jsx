@@ -29,7 +29,7 @@ const Reportes = () => {
       //const { data } = await OrdenDataService.getListadoOrdenes();
       //console.log(data, formato);
 
-      data.ordenes.map(item => {
+      data.ordenes.forEach(item => {
         switch (formato) {
           case 'year':
             fechas.push(moment(item._id).format('YYYY'));
@@ -62,7 +62,7 @@ const Reportes = () => {
     try {
       const { data } = await ReporteDataService.getCantidadesPorProducto(mayor);
       //console.log(data);
-      data.productos.map(item => {
+      data.productos.forEach(item => {
         if (mayor === 'ventas') {
           cantidades.push(item.venta_total);
         }
@@ -86,7 +86,7 @@ const Reportes = () => {
     let ventas_imprenta = Array(NUM_OF_DAYS).fill(0);
     const ventas_estampado = Array(NUM_OF_DAYS).fill(0);
     const ventas_carteleria = Array(NUM_OF_DAYS).fill(0);
-    const filtro = '';
+    //const filtro = '';
 
     for (let i = 0; i < NUM_OF_DAYS; i++) {
       let fecha = moment();
@@ -99,9 +99,9 @@ const Reportes = () => {
       const { data } = await ReporteDataService.getVentasPorCategorias();
       //console.log(data);
       setFechasCategorias(fechas.reverse());
-      data.imprenta.map(item => {
+      data.imprenta.forEach(item => {
         //console.log(item);
-        fechas.map(i => {
+        fechas.forEach(i => {
           if (item.fecha === i) {
             ventas_imprenta[fechas.indexOf(i)] = item.venta_total;
           }
@@ -109,9 +109,9 @@ const Reportes = () => {
       });
       setImpreta(ventas_imprenta);
 
-      data.estampado.map(item => {
+      data.estampado.forEach(item => {
         //console.log(item);
-        fechas.map(i => {
+        fechas.forEach(i => {
           if (item.fecha === i) {
             ventas_estampado[fechas.indexOf(i)] = item.venta_total;
           }
@@ -119,9 +119,9 @@ const Reportes = () => {
       });
       setEstampado(ventas_estampado);
 
-      data.carteleria.map(item => {
+      data.carteleria.forEach(item => {
         //console.log(item);
-        fechas.map(i => {
+        fechas.forEach(i => {
           if (item.fecha === i) {
             ventas_carteleria[fechas.indexOf(i)] = item.venta_total;
           }
@@ -161,7 +161,7 @@ const Reportes = () => {
 
   const formatoFechasCategorias = () => {
     const nuevo = [];
-    fechasCategorias.map(fecha => {
+    fechasCategorias.forEach(fecha => {
       nuevo.push(moment(fecha).format('L'));
     });
     return nuevo;

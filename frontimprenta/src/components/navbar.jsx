@@ -114,7 +114,8 @@ const NavbarImprenta = ({ totalItems, user }) => {
                             }
                         </div>
                         <NavDropdown title="Ayuda" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/contacto">Contactenos</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/contacto">Contáctenos</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/faq">Preguntas Frecuentes</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/legales">Términos y Condiciones</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={Link} to="/info">Acerca de...</NavDropdown.Item>

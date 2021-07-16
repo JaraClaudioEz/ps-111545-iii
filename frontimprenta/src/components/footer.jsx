@@ -55,10 +55,10 @@ const Footer = () => {
                                 <li className="mb-3">
                                     <span className="fa-li">{home}</span><span className="ms-2">Tucumán 666, Jesús María, Córdoba</span>
                                 </li>
-                                <li class="mb-3">
+                                <li className="mb-3">
                                     <span className="fa-li">{email}</span><span className="ms-2">integral.imagen.test@gmail.com</span>
                                 </li>
-                                <li class="mb-3">
+                                <li className="mb-3">
                                     <span className="fa-li">{phone}</span><span className="ms-2">+ 54 3525 666666</span>
                                 </li>
                             </ul>
@@ -74,7 +74,7 @@ const Footer = () => {
                                         <td>8am - 9pm</td>
                                     </tr>
                                     <tr>
-                                        <td>Sabados:</td>
+                                        <td>Sábados:</td>
                                         <td>8am - 1am</td>
                                     </tr>
                                     <tr>

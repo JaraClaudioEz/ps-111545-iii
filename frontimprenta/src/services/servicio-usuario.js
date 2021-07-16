@@ -41,6 +41,10 @@ class UsuarioDataService {
     deleteUsuario(id) { 
         return http.delete(`/usuarios?id=${id}`);
     }
+
+    contacto(formData) {
+        return http.post("/usuarios/contacto", formData);
+    }
 }
 
 export default new UsuarioDataService();

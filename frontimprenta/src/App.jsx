@@ -19,6 +19,7 @@ import Legales from "./components/legales";
 import Orden from "./components/orden";
 import ProcesoPago from "./components/procesar-pago";
 import Footer from "./components/footer";
+import Contacto from "./components/contacto";
 
 import PedidoDataService from "./services/servicio-pedido";
 import UsuarioDataService from "./services/servicio-usuario";
@@ -199,6 +200,7 @@ const App = () => {
               )}
             />
             <Route exact path="/legales" component={Legales} />
+            <Route exact path="/contacto" component={Contacto} />
           </Switch>
         </Col>
       </Row>
