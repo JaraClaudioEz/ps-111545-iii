@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const ordenSchema = mongoose.Schema({
+    numero: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     idUsuario: {
         type: String,
         required: true

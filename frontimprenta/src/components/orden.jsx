@@ -99,7 +99,7 @@ const Orden = ({ match, usuario }) => {
               </Col>
               <Col sm={4}>
                 <div>
-                  <p>Orden de Trabajo número <b>{orden?._id}</b></p>
+                  <p>Orden de Trabajo N° <b>{orden?.numero}</b></p>
                   <Form>
                     <Form.Group controlId="exampleForm.ControlSelect1">
                       <Form.Label>Estado de la Orden: </Form.Label>
@@ -154,7 +154,7 @@ const Orden = ({ match, usuario }) => {
               </Col>
               <Col sm={4}>
                 <div>
-                  <p>Orden de Compra número <b>{orden?._id}</b></p>
+                  <p>Orden de Compra N° <b>{orden?.numero}</b></p>
                   <p className="text-capitalize">Estado de la Orden: <b>{orden?.estado}</b></p>
                 </div>
                 <div>

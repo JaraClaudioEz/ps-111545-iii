@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Legales = () => {
     return (
@@ -17,7 +17,7 @@ const Legales = () => {
                             <p className="lead">
                                 Ejemplo a completar con los datos del desarrollador
                             </p>
-                            <p>
+                            <p className="text-justify">
                                 Bienvenido a …....(nombre del producto) proporcionado por XXXXX (la "Compañía",
                                 "nosotros" o "nos"). Nos complace ofrecerle acceso al Servicio (como se define más
                                 abajo), sujeto a estos términos y condiciones (los "Términos de Servicio") y a la Política
@@ -32,7 +32,7 @@ const Legales = () => {
                             <p className="fw-bolder">
                                 Operaciones habilitadas.
                             </p>
-                            <p>
+                            <p className="text-justify">
                                 Las operaciones habilitadas son aquellas que estarán disponibles para los clientes,
                                 quienes deberán cumplir los requisitos que se encuentren vigentes en su momento para
                                 operar el Servicio. Las mismas podrán ser ampliadas o restringidas por el proveedor,
@@ -43,7 +43,7 @@ const Legales = () => {
                             <p className="fw-bolder">
                                 Transacciones : …............................................
                             </p>
-                            <p>
+                            <p className="text-justify">
                                 En ningún caso debe entenderse que la solicitud de un producto o servicio implica
                                 obligación alguna para el Acceso y uso del Servicio.
                                 Para operar el Servicio se requerirá siempre que se trate de clientes de .........., quienes
@@ -60,7 +60,7 @@ const Legales = () => {
                             <p className="fw-bolder">
                                 Vigencia.
                             </p>
-                            <p>
+                            <p className="text-justify">
                                 El Usuario podrá dejar sin efecto la relación que surja de la presente, en forma
                                 inmediata, sin otra responsabilidad que la derivada de los gastos originados hasta ese
                                 momento. Si el cliente incumpliera cualquiera de las obligaciones asumidas en su
@@ -73,7 +73,7 @@ const Legales = () => {
                             <p className="fw-bolder">
                                 Validez de operaciones y notificaciones.
                             </p>
-                            <p>
+                            <p className="text-justify">
                                 Los registros emitidos por la app serán prueba suficiente de las operaciones cursadas
                                 por dicho canal. Renuncio expresamente a cuestionar la idoneidad o habilidad de ese
                                 medio de prueba. A los efectos del cumplimiento de disposiciones legales o
@@ -83,21 +83,14 @@ const Legales = () => {
                             <p className="fw-bolder">
                                 Propiedad intelectual.
                             </p>
-                            <p>
-                                El software en Argentina está protegido por la ley 11.723, que regula la propiedad
-                                intelectual y los derechos de autor de todos aquellos creadores de obras artísticas,
-                                literarias y científicas.
+                            <p className="text-justify">
+                                El software en Argentina está protegido por la ley 11.723, que regula la propiedad intelectual y los derechos de autor de todos aquellos creadores de obras artísticas, literarias y científicas.
                             </p>
                             <p className="fw-bolder">
                                 Privacidad de la información.
                             </p>
-                            <p>
-                                Para utilizar los Servicios ofrecidos por XXXX, los Usuarios deberán facilitar
-                                determinados datos de carácter personal. Su información personal se procesa y
-                                almacena en servidores o medios magnéticos que mantienen altos estándares de
-                                seguridad y protección tanto física como tecnológica. Para mayor información sobre la
-                                privacidad de los Datos Personales y casos en los que será revelada la información
-                                personal, se pueden consultar nuestras políticas de privacidad.
+                            <p className="text-justify">
+                                Para utilizar los Servicios ofrecidos por XXXX, los Usuarios deberán facilitar determinados datos de carácter personal. Su información personal se procesa y almacena en servidores o medios magnéticos que mantienen altos estándares de seguridad y protección tanto física como tecnológica. Para mayor información sobre la privacidad de los Datos Personales y casos en los que será revelada la información personal, se pueden consultar nuestras políticas de privacidad.
                             </p>
                         </div>
                     </div>

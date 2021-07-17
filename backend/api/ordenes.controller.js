@@ -143,6 +143,9 @@ export default class OrdenesController {
                     auto_return: 'approved',
                 };
 
+                const ultimaOrden = await Orden.find().sort({ numero: -1 }).limit(1);
+                orden.numero = parseInt(ultimaOrden[0].numero) + 1;
+
                 const respuesta = await mercadopago.preferences.create(preference);
                 orden.preferenceId = respuesta.response.id;
                 orden = await orden.save();
@@ -286,6 +289,7 @@ export default class OrdenesController {
             if ("idPago" in req.body) {
                 orden.idPago = idPago;
             }
+            
             orden.estado = estado;
             orden = await orden.save();
 

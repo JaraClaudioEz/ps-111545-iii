@@ -49,8 +49,8 @@ const ProcesoPago = () => {
         }
     };
 
-    console.log(id);
-    console.log(estado);
+    //console.log(id);
+    //console.log(estado);
 
     const actualizarOrden = async (data) => {
 
