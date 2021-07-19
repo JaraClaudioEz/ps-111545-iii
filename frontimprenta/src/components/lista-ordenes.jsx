@@ -210,7 +210,7 @@ const ListaOrdenes = ({ usuario }) => {
                           <td>$ {orden.factura}</td>
                           <td>{moment(orden.fecha).format('LL')}</td>
                           <td className="text-capitalize">{orden.estado}</td>
-                          <td className="text-capitalize"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Items</Link></td>
+                          <td className="text-capitalize"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Modificar</Link></td>
                         </tr>
                       ))
                     }

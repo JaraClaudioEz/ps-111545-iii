@@ -53,7 +53,7 @@ const Autorizacion = () => {
                 }
 
             } catch (error) {
-                console.log({ message: "Error al iniciar sesion, verifique sus credenciales", error });
+                alert("Error al iniciar sesion, verifique sus credenciales");
             }
         }
     }

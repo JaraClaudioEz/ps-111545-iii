@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
+import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
 
@@ -19,9 +20,9 @@ const Usuario = props => {
         },
         telefono: 0,
     };
-    
+
     const [user, setUser] = useState(estadoInicialUsuario);
-    //const [googleUser, setGoogleUser] = useState(false);
+    const [validated, setValidated] = useState(false);
     const history = useHistory();
 
     //const cambiarTipoUsuario = () => setGoogleUser((prevGoogleUser) => !prevGoogleUser)
@@ -30,7 +31,7 @@ const Usuario = props => {
 
         //setUser(perfil.result);
         //console.log(user);
-        
+
         //const email = perfil.result.email;
         /*
         UsuarioDataService.getUsuario(email)
@@ -50,7 +51,7 @@ const Usuario = props => {
         }
 
     };
-    
+
 
     const handleInputChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value })
@@ -61,145 +62,142 @@ const Usuario = props => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            //const token = props.usuario.token;
-            const { data } = await UsuarioDataService.updateUsuario(user);
-
-            if (data.status === "Sin cambios") {
-                alert("No se realizaron cambios.")
-            }
-            else {
-                localStorage.setItem('perfil', JSON.stringify(data))
-                history.push("/imprenta")
-            }
-
-        } catch (error) {
-            console.log({ message: "No se pudo actualizar los datos.", error });
+        const form = e.currentTarget;
+        //console.log(form);
+        if (form.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
         }
+        else {
+            setValidated(true);
+            alert("Modificado!")
+            /*
+            try {
+                //const token = props.usuario.token;
+                const { data } = await UsuarioDataService.updateUsuario(user);
 
+                if (data.status === "Sin cambios") {
+                    alert("No se realizaron cambios.")
+                }
+                else {
+                    localStorage.setItem('perfil', JSON.stringify(data))
+                    history.push("/imprenta")
+                }
+
+            } catch (error) {
+                console.log({ message: "No se pudo actualizar los datos.", error });
+            }
+            */
+        }
     }
 
-    
+
     useEffect(() => {
         //obtenerUsuario(props.match.params.id);
         obtenerUsuario(props.location.state.usuarioActual.result.email);
         //obtenerUsuario(JSON.parse(localStorage.getItem('perfil')));
     }, []);
-    
+
 
     return (
-        <div className="container-fluid">
-            <div className="row mx-auto">
-                <div className="col-lg-3"></div>
-                <div className="col-lg-6">
-                    <div className="">
-                        <h4 className="display-4">Datos de Contacto: {user.nombre}</h4>
-                    </div>
-                    <form className="form-group" onSubmit={handleSubmit}>
-                        <div className="d-grid gap-3">
-
-                            <div className="d-grid gap-3">
-                                <div className="p-2 bg-light border">
-                                    <label className="form-label">Nombre completo:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="nombre"
-                                        required
-                                        value={user.nombre}
-                                        onChange={handleInputChange}
-                                        name="nombre"
-                                        placeholder="Nombre completo"
-                                        disabled={user.googleId === "No Tiene" ? false : true}
-                                    />
-                                </div>
-                            </div>
-                            <div className="p-2 bg-light border">
-                                <label className="form-label">Email:</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
+        <Container>
+            <Row>
+                <Col></Col>
+                <Col xs={6}><h4 className="display-4">Datos de Contacto: {user.nombre}</h4></Col>
+                <Col></Col>
+            </Row>
+            <Row>
+                <Col md={{ span: 6, offset: 3 }}>
+                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3  p-2 bg-light border">
+                            <Form.Label>Nombre completo:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id="nombre"
+                                required
+                                value={user.nombre}
+                                onChange={handleInputChange}
+                                name="nombre"
+                                placeholder="Nombre completo"
+                                disabled={user.googleId === "No Tiene" ? false : true}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Ingrese su nombre!
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group className="mb-3  p-2 bg-light border">
+                            <Form.Label>Email:</Form.Label>
+                            <Form.Control
+                                type="email"
+                                id="email"
+                                required
+                                value={user.email}
+                                onChange={handleInputChange}
+                                name="email"
+                                placeholder="Dirección de Email"
+                                disabled
+                            />
+                        </Form.Group>
+                        <Row className="mb-3 p-2 bg-light border">
+                            <Form.Label>Dirección:</Form.Label>
+                            <Form.Group as={Col}>
+                                <Form.Control
+                                    type="text"
+                                    id="calle"
                                     required
-                                    value={user.email}
-                                    onChange={handleInputChange}
-                                    name="email"
-                                    placeholder="Dirección de Email"
-                                    disabled
+                                    value={user?.direccion.calle}
+                                    onChange={handleDireccionInputChange}
+                                    name="calle"
+                                    placeholder="Calle"
                                 />
-                            </div>
-                            <div className="d-grid gap-3">
-                                <div className="row p-2 bg-light border">
-                                    <label className="form-label">Dirección:</label>
-                                    <div className="col-md-6">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="calle"
+                            </Form.Group>
+                            <Form.Control.Feedback type="invalid">
+                                Ingrese la calle de su dirección!
+                            </Form.Control.Feedback>
+                            <Form.Group as={Col}>
+                                <Form.Control
+                                    type="number"
+                                    id="numero"
+                                    required
+                                    value={user?.direccion.numero === null ? '' : user?.direccion.numero}
+                                    onChange={handleDireccionInputChange}
+                                    name="numero"
+                                    placeholder="Número"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3 mt-3">
+                                <Form.Control
+                                    type="text"
+                                    id="localidad"
 
-                                            value={user?.direccion.calle}
-                                            onChange={handleDireccionInputChange}
-                                            name="calle"
-                                            placeholder="Calle"
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            id="numero"
-                                            required
-                                            value={user?.direccion.numero === null ? '' : user?.direccion.numero}
-                                            onChange={handleDireccionInputChange}
-                                            name="numero"
-                                            placeholder="Número"
-                                        />
-                                    </div>
-                                    <div className="col-md-12 mt-4">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="localidad"
-
-                                            value={user?.direccion.localidad}
-                                            onChange={handleDireccionInputChange}
-                                            name="localidad"
-                                            placeholder="Localidad"
-                                        />
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="d-grid gap-3">
-                                <div className="p-2 bg-light border">
-                                    <label className="form-label">Teléfono:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="telefono"
-                                        required
-                                        value={user.telefono === null ? '' : user.telefono}
-                                        onChange={handleInputChange}
-                                        name="telefono"
-                                        placeholder="Teléfono"
-
-                                    />
-                                </div>
-                            </div>
-                            <button type="submit" className="btn btn-primary">
+                                    value={user?.direccion.localidad}
+                                    onChange={handleDireccionInputChange}
+                                    name="localidad"
+                                    placeholder="Localidad"
+                                />
+                            </Form.Group>
+                        </Row>
+                        <Form.Group className="mb-3 p-2 bg-light border">
+                            <Form.Label>Teléfono:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id="telefono"
+                                required
+                                value={user.telefono === null ? '' : user.telefono}
+                                onChange={handleInputChange}
+                                name="telefono"
+                                placeholder="Teléfono"
+                            />
+                        </Form.Group>
+                        <div className="d-grid gap-2">
+                            <Button variant="primary" type="submit">
                                 Guardar
-                            </button>
+                            </Button>
                         </div>
-
-
-                    </form>
-                </div>
-                <div className="col-lg-3"></div>
-            </div>
-
-        </div>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
