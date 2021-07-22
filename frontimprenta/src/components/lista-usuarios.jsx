@@ -109,6 +109,7 @@ const ListaUsuarios = ({ usuario }) => {
                       <th>Teléfono</th>
                       <th>Dirección</th>
                       <th>Localidad</th>
+                      <th>Estado</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -121,6 +122,7 @@ const ListaUsuarios = ({ usuario }) => {
                           <td>{usuario.telefono}</td>
                           <td className="text-capitalize">{usuario.direccion.calle} {usuario.direccion.numero}</td>
                           <td className="text-capitalize">{usuario.direccion.localidad}</td>
+                          <td className={usuario.verificado ? "text-success" : "text-danger"}>{usuario.verificado ? "Verificado" : "No verficado"}</td>
                           <td><button className="btn btn-danger" type="button" onClick={() => { eliminarUsuario(usuario._id) }}>Eliminar</button></td>
                         </tr>
                       ))
