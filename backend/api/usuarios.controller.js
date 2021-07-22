@@ -66,7 +66,7 @@ export default class UsuariosController {
                     numero: null,
                     localidad: ""
                 },
-                telefono: null,
+                telefono: "",
                 stringVerif: randomString()
             }
             const result = await Usuario.create(usuario)
@@ -133,7 +133,7 @@ export default class UsuariosController {
                     numero: null,
                     localidad: ""
                 },
-                telefono: null,
+                telefono: "",
                 verificado: true
             }
 

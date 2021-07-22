@@ -12,7 +12,7 @@ const usuarioSchema = mongoose.Schema({
         numero: { type: Number },
         localidad: { type: String }
     },
-    telefono: { type: Number },
+    telefono: { type: String },
     verificado: {type: Boolean, required: true, default: false},
     stringVerif: {type: String}
 });
