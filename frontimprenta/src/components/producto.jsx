@@ -38,8 +38,13 @@ const Producto = ({ match, usuario, alAgregarAlPedido }) => {
 
   const handleOnClick = () => {
     if (usuario !== null) {
-      alAgregarAlPedido(producto._id, 1)
-      alert("Producto agregado con éxito!")
+      if (usuario?.result.tipo === "admin") {
+        history.push(`/productos/agregar/${producto._id}`)
+      }
+      else {
+        alAgregarAlPedido(producto._id, 1)
+        alert("Producto agregado con éxito!")
+      }
     }
     else {
       alert("Debes iniciar sesión!");
@@ -65,12 +70,16 @@ const Producto = ({ match, usuario, alAgregarAlPedido }) => {
               <strong>Precio: </strong>${producto.precio} por {producto.provision}<br />
               <strong>Características: </strong>{producto.especificaciones}
             </p>
-            <Button
-              variant="dark"
-              onClick={() => handleOnClick()}
-            >
-              Agregar al Pedido
-            </Button>
+            {usuario?.result.tipo === "admin" ? (
+              <Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link>
+            ) : (
+              <Button
+                variant="dark"
+                onClick={() => handleOnClick()}
+              >
+                Agregar al Pedido
+              </Button>
+            )}
           </Col>
         </Row>
         <Row>

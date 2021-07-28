@@ -13,7 +13,7 @@ const Usuario = props => {
 
     const validar = yup.object({
         nombre: yup.string()
-            .max(40, 'Supera el limite de caracteres.')
+            .max(50, 'Supera el limite de caracteres.')
             .required('Completa este campo.'),
         calle: yup.string()
             .max(50, 'Supera el limite de caracteres.')
@@ -83,7 +83,7 @@ const Usuario = props => {
         //e.preventDefault();
         console.log(updated);
 
-        
+
         try {
             //const token = props.usuario.token;
             const { data } = await UsuarioDataService.updateUsuario(updated);
@@ -100,24 +100,24 @@ const Usuario = props => {
         } catch (error) {
             console.log({ message: "No se pudo actualizar los datos.", error });
         }
-        
+
     }
-    
+
     const handleTelChange = (e) => {
         setPhone(e)
     }
-    
+
 
     useEffect(() => {
         //obtenerUsuario(props.match.params.id);
         obtenerUsuario(props.location.state.usuarioActual.result.email);
         //obtenerUsuario(JSON.parse(localStorage.getItem('perfil')));
     }, []);
-    
+
     useEffect(() => {
         setPhone(user.telefono)
     }, [user]);
-    
+
 
     return (
         <Formik
@@ -209,7 +209,6 @@ const Usuario = props => {
                                             placeholder="Calle"
                                             isValid={touched.calle && !errors.calle}
                                             isInvalid={!!errors.calle}
-                                            min='0'
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {errors.calle}
@@ -229,6 +228,7 @@ const Usuario = props => {
                                             placeholder="Número"
                                             isValid={touched.numero && !errors.numero}
                                             isInvalid={!!errors.numero}
+                                            min='0'
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {errors.numero}
@@ -267,7 +267,7 @@ const Usuario = props => {
 
                                     />
                                 </Form.Group>
-                                
+
                                 <div className="d-grid gap-2">
                                     <Button variant="primary" type="submit">
                                         Guardar

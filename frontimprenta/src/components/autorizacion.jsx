@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
-import { Alert } from 'react-bootstrap';
+import { Alert, Container, Col, Row, Form, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
 
@@ -20,13 +22,43 @@ const Autorizacion = () => {
     const [registrado, setRegistrado] = useState(false);
     const history = useHistory();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const validar = registrado ?
+        yup.object({
+            nombre: yup.string()
+                .min(3, 'Tienes un nombre demasiado corto no?')
+                .max(25, 'Debe ser de 25 caracteres o menos.')
+                .required('Completa este campo.'),
+            apellido: yup.string()
+                .min(3, 'Tu Apellido tiene dos caracteres?')
+                .max(25, 'Debe ser de 25 caracteres o menos.')
+                .required('Completa este campo.'),
+            email: yup.string()
+                .email('Email inválido!')
+                .required('Una dirección de email es requerida.'),
+            password: yup.string()
+                .min(8, 'La contraseña debe ser de al menos 8 caracteres.')
+                .max(16, 'La contraseña no puede superar los 16 caracteres.')
+                .required('Una contraseña es requerida.'),
+            confirmPass: yup.string()
+                .oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir!')
+                .required('Debes confirmar la contraseña ingresada.'),
+        }) : yup.object({
+            email: yup.string()
+                .email('Email inválido!')
+                .required('Una dirección de email es requerida.'),
+            password: yup.string()
+                .required('Una contraseña es requerida.'),
+        });
+
+    const iniciar = async (user) => {
+        //e.preventDefault();
+
+        //console.log(user);
 
         if (registrado) {
 
             try {
-                const { data } = await UsuarioDataService.signUpUsuario(usuario);
+                const { data } = await UsuarioDataService.signUpUsuario(user);
                 console.log(data);
                 if (data.status) {
                     setAvisoVerif(true);
@@ -43,7 +75,7 @@ const Autorizacion = () => {
         else {
 
             try {
-                const { data } = await UsuarioDataService.signInUsuario(usuario);
+                const { data } = await UsuarioDataService.signInUsuario(user);
                 //console.log(data);
                 if (data.result.verificado) {
                     localStorage.setItem('perfil', JSON.stringify(data))
@@ -56,6 +88,7 @@ const Autorizacion = () => {
                 alert("Error al iniciar sesion, verifique sus credenciales");
             }
         }
+
     }
 
     const handleInputChange = (e) => {
@@ -110,140 +143,195 @@ const Autorizacion = () => {
     }
 
     return (
-        <div className="container-fluid">
-            <div className="row mx-auto">
-                <div className="col-lg-3"></div>
-                <div className="col-lg-6">
-                    <div className="">
-                        <h4 className="display-4">{registrado ? "Registrarse" : "Iniciar Sesión"}</h4>
-                    </div>
-                    <div>
-                        <Alert variant="info" show={avisoVerif} dismissible>
-                            <Alert.Heading>Completa tu registro!</Alert.Heading>
-                            <p>
-                                Para completar tu registro te enviamos un email a
-                                la dirección de correo ingresada. Sigue el link en
-                                mismo e inicia sesión con tu cuenta.
-                            </p>
-                        </Alert>
-                    </div>
-                    <form className="form-group" onSubmit={handleSubmit}>
-                        <div className="d-grid gap-3">
-                            {
-                                registrado && (
-                                    <div className="d-grid gap-3">
-                                        <div className="p-2 bg-light border">
-                                            <label className="form-label">Nombre:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="nombre"
-                                                required
-                                                value={usuario.nombre}
-                                                onChange={handleInputChange}
-                                                name="nombre"
-                                                placeholder="Nombre"
-                                            />
-                                        </div>
-                                        <div className="p-2 bg-light border">
-                                            <label className="form-label">Apellido:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="apellido"
-                                                required
-                                                value={usuario.apellido}
-                                                onChange={handleInputChange}
-                                                name="apellido"
-                                                placeholder="Apellido"
-                                            />
-                                        </div>
-                                    </div>
-                                )
-                            }
-                            <div className="p-2 bg-light border">
-                                <label className="form-label">Email:</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
-                                    required
-                                    value={usuario.email}
-                                    onChange={handleInputChange}
-                                    name="email"
-                                    placeholder="Dirección de Email"
-                                />
-                            </div>
-                            <div className="p-2 bg-light border">
-                                <label className="form-label">Constraseña:</label>
-                                <div className="input-group mb-3">
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="password"
-                                        required
-                                        value={usuario.password}
-                                        onChange={handleInputChange}
-                                        name="password"
-                                        placeholder="Contraseña"
-                                    />
+        <Formik
+            validationSchema={validar}
+            enableReinitialize={true}
+            initialValues={{
+                nombre: '',
+                apellido: '',
+                email: '',
+                password: '',
+                confirmPass: '',
+            }}
+            onSubmit={values => {
 
-                                </div>
+                const user = {
+                    ...usuario,
+                    nombre: values.nombre,
+                    apellido: values.apellido,
+                    email: values.email,
+                    password: values.password,
+                    confirmPass: values.confirmPass
+                }
+                iniciar(user);
+                //console.log(user);
+            }}
+        >
+            {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                touched,
+                isValid,
+                errors,
+            }) => (
+                <Container>
+
+                    <Row>
+                        <Col></Col>
+                        <Col xs={6}><h4 className="display-4">{registrado ? "Registrarse" : "Iniciar Sesión"}</h4></Col>
+                        <Col></Col>
+                    </Row>
+                    <Row>
+                        <Col xs={6}>
+                            <Alert variant="info" show={avisoVerif} dismissible>
+                                <Alert.Heading>Completa tu registro!</Alert.Heading>
+                                <p>
+                                    Para completar tu registro te enviamos un email a
+                                    la dirección de correo ingresada. Sigue el link en
+                                    mismo e inicia sesión con tu cuenta.
+                                </p>
+                            </Alert>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{ span: 6, offset: 3 }}>
+                            <Form noValidate onSubmit={handleSubmit}>
                                 {
                                     registrado && (
-                                        <span id="ayudaPass" className="form-text">
-                                            Debe contener entre 8-20 caracteres.
-                                        </span>
+                                        <div>
+                                            <Form.Group className="mb-3  p-2 bg-light border">
+                                                <Form.Label>Nombre:</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="nombre"
+                                                    required
+                                                    value={values.nombre}
+                                                    onChange={handleChange}
+                                                    name="nombre"
+                                                    placeholder="Nombre"
+                                                    isValid={touched.nombre && !errors.nombre}
+                                                    isInvalid={!!errors.nombre}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.nombre}
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+                                            <Form.Group className="mb-3  p-2 bg-light border">
+                                                <Form.Label>Apellido:</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="apellido"
+                                                    required
+                                                    value={values.apellido}
+                                                    onChange={handleChange}
+                                                    name="apellido"
+                                                    placeholder="Apellido"
+                                                    isValid={touched.apellido && !errors.apellido}
+                                                    isInvalid={!!errors.apellido}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.apellido}
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+                                        </div>
                                     )
                                 }
-                            </div>
-                            {
-                                registrado && (
-                                    <div className="p-2 bg-light border">
-                                        <label className="form-label">Repetir Constraseña:</label>
-                                        <div className="input-group mb-3">
-                                            <input
+
+                                <Form.Group className="mb-3  p-2 bg-light border">
+                                    <Form.Label>Email:</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        id="email"
+                                        required
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        name="email"
+                                        placeholder="Dirección de Email"
+                                        isValid={touched.email && !errors.email}
+                                        isInvalid={!!errors.email}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.email}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group className="mb-3  p-2 bg-light border">
+                                    <Form.Label>Contraseña:</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        id="password"
+                                        required
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        name="password"
+                                        placeholder="Contraseña"
+                                        isValid={touched.password && !errors.password}
+                                        isInvalid={!!errors.password}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.password}
+                                    </Form.Control.Feedback>
+                                    <Form.Control.Feedback>Parece una buena contraseña!</Form.Control.Feedback>
+                                    {
+                                        registrado && (
+                                            <span id="ayudaPass" className="form-text">
+                                                Debe contener entre 8-16 caracteres.
+                                            </span>
+                                        )
+                                    }
+                                </Form.Group>
+                                {
+                                    registrado && (
+                                        <Form.Group className="mb-3  p-2 bg-light border">
+                                            <Form.Label>Confirmar contraseña:</Form.Label>
+                                            <Form.Control
                                                 type="password"
-                                                className="form-control"
                                                 id="confirmPass"
                                                 required
-                                                value={usuario.confirmPass}
-                                                onChange={handleInputChange}
+                                                value={values.confirmPass}
+                                                onChange={handleChange}
                                                 name="confirmPass"
                                                 placeholder="Repetir contraseña"
+                                                isValid={touched.confirmPass && !errors.confirmPass}
+                                                isInvalid={!!errors.confirmPass}
                                             />
-                                        </div>
-                                    </div>
-                                )
-                            }
-                        </div>
-                        <div className="d-grid gap-2">
-                            <button type="submit" className="btn btn-primary">
-                                {registrado ? "Registrarse" : "Iniciar Sesión"}
-                            </button>
-                            <GoogleLogin
-                                clientId="849202159020-cc8hh5juek0gbur3mglf240sg8j4em6f.apps.googleusercontent.com"
-                                render={(renderProps) => (
-                                    <button className="btn btn-primary" onClick={renderProps.onClick} >
-                                        {registrado ? "Registrarse con Google" : "Iniciar Sesión con Google"}
-                                    </button>
-                                )}
-                                onSuccess={googleSuccess}
-                                onFailure={googleFailure}
-                                cookiePolicy="single_host_origin"
-                            />
-                        </div>
-                        <div className="d-grid d-flex justify-content-end">
-                            <button type="button" className="btn btn-link" onClick={cambiarModo}>
-                                {registrado ? "Ya tiene cuenta? Inicie sesión." : "No tiene cuenta? Registrarse."}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div className="col-lg-3"></div>
-            </div>
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.confirmPass}
+                                            </Form.Control.Feedback>
 
-        </div>
+                                        </Form.Group>
+                                    )
+                                }
+
+                                <div className="d-grid gap-2">
+                                    <Button variant="primary" type="submit">
+                                        {registrado ? "Registrarse" : "Iniciar Sesión"}
+                                    </Button>
+                                    <GoogleLogin
+                                        clientId="849202159020-cc8hh5juek0gbur3mglf240sg8j4em6f.apps.googleusercontent.com"
+                                        render={(renderProps) => (
+                                            <button className="btn btn-primary" onClick={renderProps.onClick} >
+                                                {registrado ? "Registrarse con Google" : "Iniciar Sesión con Google"}
+                                            </button>
+                                        )}
+                                        onSuccess={googleSuccess}
+                                        onFailure={googleFailure}
+                                        cookiePolicy="single_host_origin"
+                                    />
+                                </div>
+                                <div className="d-grid d-flex justify-content-end">
+                                    <button type="button" className="btn btn-link" onClick={cambiarModo}>
+                                        {registrado ? "Ya tiene cuenta? Inicie sesión." : "No tiene cuenta? Registrarse."}
+                                    </button>
+                                </div>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Container>
+            )
+            }
+        </Formik >
     );
 }
 

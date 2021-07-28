@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ProductoDataService from "../services/servicio-producto";
 import { Link } from "react-router-dom";
+import { Alert, Container, Col, Row, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+
+import ProductoDataService from "../services/servicio-producto";
 
 const AddProducto = props => {
     //console.log(props);
@@ -20,6 +24,26 @@ const AddProducto = props => {
         }
     };
 
+    const validar = yup.object({
+        nombre_producto: yup.string()
+            .max(30, 'Supera el limite de caracteres.')
+            .required('Completa este campo.'),
+        provision: yup.string()
+            .max(20, 'Supera el limite de caracteres.')
+            .required('Completa este campo.'),
+        precio: yup.number()
+            .required('Completa este campo.')
+            .positive('Solo valores positivos')
+            .integer(),
+        especificaciones: yup.string()
+            .max(50, 'Supera el limite de caracteres.')
+            .required('Completa este campo.'),
+        descripcion: yup.string()
+            .max(200, 'Supera el limite de caracteres.')
+            .required('Completa este campo.'),
+        //file: yup.mixed().required('Debe seleccionar una imagen para el producto.'),
+    });
+
     let editar = false;
 
     const [categorias, setCategorias] = useState(["Seleccione..."]);
@@ -27,7 +51,8 @@ const AddProducto = props => {
     const [submitted, setSubmitted] = useState(false);
 
     const [fileData, setFileData] = useState();
-    const [images, setFile] = useState("");
+    const [imagen, setImagen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     if (props.location.state && props.location.state.productoActual) {
         editar = true;
@@ -67,7 +92,7 @@ const AddProducto = props => {
             obtenerProducto(props.match.params.id);
         }
     }, [props.match.params.id]);
-
+    //console.log(producto);
 
     const handleInputChange = event => {
         const value = event.target.value;
@@ -76,13 +101,13 @@ const AddProducto = props => {
 
     const handleFileChange = ({ target }) => {
         setFileData(target.files[0]);
-        setFile(target.value);
+        setImagen(true);
     };
 
-    const handleSubmit = async () => {
-        
-        //e.preventDefault();
+    const handleImageSubmit = async () => {
 
+        //e.preventDefault();
+        setLoading(true);
         const formdata = new FormData();
 
         formdata.append("imagen", fileData);
@@ -98,8 +123,9 @@ const AddProducto = props => {
                         id: response.data.id
                     }
 
-                    setProducto({ ...producto, imagen: imagen })
-                    console.log(producto);
+                    setProducto({ ...producto, imagen: imagen });
+                    setLoading(false);
+                    //console.log(producto);
                 })
                 .catch(e => {
                     console.log(e);
@@ -108,14 +134,15 @@ const AddProducto = props => {
         else {
             await ProductoDataService.addImagen(formdata)
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
                     const imagen = {
                         url: response.data.url,
                         id: response.data.id
                     }
 
                     setProducto({ ...producto, imagen: imagen })
-                    console.log(producto);
+                    setLoading(false);
+                    //console.log(producto);
                 })
                 .catch(e => {
                     console.log(e);
@@ -123,23 +150,25 @@ const AddProducto = props => {
         }
     };
 
-    const saveProducto = () => {
+    const saveProducto = (prod) => {
 
+        //console.log(prod);
         let data = {
-            _id: producto._id,
-            nombre_producto: producto.nombre_producto,
-            descripcion: producto.descripcion,
-            especificaciones: producto.especificaciones,
-            provision: producto.provision,
+            _id: prod._id,
+            nombre_producto: prod.nombre_producto,
+            descripcion: prod.descripcion,
+            especificaciones: prod.especificaciones,
+            provision: prod.provision,
             categoria: producto.categoria,
-            precio: producto.precio,
-            oferta: producto.oferta,
-            precio_oferta: producto.precio_oferta,
+            precio: prod.precio,
+            oferta: prod.oferta,
+            precio_oferta: prod.precio_oferta,
             imagen: {
                 url: producto.imagen.url,
                 id: producto.imagen.id
             }
         };
+        console.log(data);
 
         if (editar) {
             //data._id = props.location.state.productoActual._id
@@ -170,178 +199,270 @@ const AddProducto = props => {
     };
 
     return (
-        <div className="container">
-            {props.usuario ? (
-                <div className="submit-form">
-                    {submitted ? (
-                        <div className="row">
-                            <h4>Producto agregado!</h4>
-                            <Link to={"/productos/agregar"} className="btn btn-primary">
-                                Agregar nuevo Producto
-                            </Link>
-                            <Link to={"/productos"} className="btn btn-success">
-                                Volver al Listado
-                            </Link>
-                        </div>
-                    ) : (
-                        <div className="row">
-                            <div className="col-lg-3"></div>
-                            <div className="col-lg-6">
-                                <h2 className="display-2">{editar ? "Editar" : "Nuevo"} Producto</h2>
-                                <h3>{producto.nombre_producto}</h3>
-                                <form className="form-group mb-3">
-                                    <div className="mb-3">
-                                        <label className="form-label">Nombre del Producto:</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="nombre_producto"
-                                            required
-                                            value={producto.nombre_producto}
-                                            onChange={handleInputChange}
-                                            name="nombre_producto"
-                                            placeholder="Producto"
-                                        />
-                                        <div id="ayudaProducto" className="form-text">Introduza el nombre del producto.</div>
+        <Formik
+            validationSchema={validar}
+            enableReinitialize={true}
+            initialValues={{
+                _id: producto._id ? producto._id : null,
+                nombre_producto: producto.nombre_producto ? producto.nombre_producto : "",
+                descripcion: producto.descripcion ? producto.descripcion : "",
+                especificaciones: producto.especificaciones ? producto.especificaciones : "",
+                provision: producto.provision ? producto.provision : "",
+                categoria: producto.categoria ? producto.categoria : "",
+                precio: producto.precio ? producto.precio : 0,
+                oferta: producto.oferta ? producto.oferta : false,
+                precio_oferta: producto.precio_oferta ? producto.precio_oferta : "",
+                url: producto.imagen.url ? producto.imagen.url : "",
+                id: producto.imagen.id ? producto.imagen.id : "",
+                file: ""
+            }}
+            onSubmit={values => {
+
+                //handleImageSubmit();
+                const prod = {
+                    ...producto,
+                    _id: values._id,
+                    nombre_producto: values.nombre_producto,
+                    descripcion: values.descripcion,
+                    especificaciones: values.especificaciones,
+                    provision: values.provision,
+                    categoria: values.categoria,
+                    precio: values.precio,
+                    oferta: values.oferta,
+                    precio_oferta: values.precio_oferta,
+                    imagen: {
+                        ...producto.imagen,
+                        url: values.url,
+                        id: values.id
+                    }
+                }
+                saveProducto(prod);
+                //console.log(prod);
+            }}
+        >
+            {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                touched,
+                isValid,
+                errors,
+            }) => (
+                <Container>
+                    <Row>
+                        <Col></Col>
+                        <Col xs={6}>
+                            <h4 className="display-4">{editar ? "Editar" : "Nuevo"} Producto</h4>
+                            <h3>{values.nombre_producto}</h3>
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                    {
+                        submitted ? (
+                            <Row>
+                                <Col md={{ span: 6, offset: 3 }}>
+                                    <div className="d-grid gap-2">
+                                        <h4>Producto {editar ? "Modificado!" : "Agregado!"}</h4>
+                                        <Link to={"/productos/agregar"} className="btn btn-primary">
+                                            Agregar nuevo Producto
+                                        </Link>
+                                        <Link to={"/productos"} className="btn btn-success">
+                                            Volver al Listado
+                                        </Link>
                                     </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Categoría: </label>
-                                        <select name="categoria" onChange={handleInputChange} value={producto.categoria}>
-                                            {categorias.map(categoria => {
-                                                return (
-                                                    <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
-                                                )
-                                            })}
-                                        </select>
-                                        <div id="ayudaCategoria" className="form-text">Seleccione la categoría a la cual pertenece le producto.</div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Provisión del Producto:</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="provision"
-                                            required
-                                            value={producto.provision}
-                                            onChange={handleInputChange}
-                                            name="provision"
-                                            placeholder="Provisión"
-                                        />
-                                        <div id="ayudaProvision" className="form-text">Introduza cómo se desea vender el producto. Ejemplo 1000 tarjetas, por metro, etc.</div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Precio del Producto:</label>
-                                        <div className="input-group">
-                                            <span className="input-group-text">$</span>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                id="precio"
+                                </Col>
+                            </Row>
+                        ) : (
+                            <Row>
+                                <Col md={{ span: 6, offset: 3 }}>
+                                    <Form noValidate onSubmit={handleSubmit}>
+                                        <Form.Group className="mb-3  p-2 bg-light border">
+                                            <Form.Label>Nombre del Producto:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="nombre_producto"
                                                 required
-                                                value={producto.precio}
-                                                onChange={handleInputChange}
-                                                name="precio"
-                                                placeholder="Precio"
+                                                value={values.nombre_producto}
+                                                onChange={handleChange}
+                                                name="nombre_producto"
+                                                placeholder="Producto"
+                                                isValid={touched.nombre_producto && !errors.nombre_producto}
+                                                isInvalid={!!errors.nombre_producto}
                                             />
-                                        </div>
-                                        <div id="ayudaPrecio" className="form-text">Introduza el precio del producto para la provision introducida anteriormente.</div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Especificaciones del Producto:</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="especificaciones"
-                                            required
-                                            value={producto.especificaciones}
-                                            onChange={handleInputChange}
-                                            name="especificaciones"
-                                            placeholder="Especificaciones"
-                                        />
-                                        <div id="ayudaEspecificaciones" className="form-text">Introduza las especificaciones del producto. Por ejemplo calidad, gramaje, material, etc.</div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Descripción del Producto:</label>
-                                        <textarea
-                                            type="text"
-                                            className="form-control"
-                                            id="descripcion"
-                                            required
-                                            value={producto.descripcion}
-                                            onChange={handleInputChange}
-                                            name="descripcion"
-                                            placeholder="Descripción"
-                                        />
-                                        <div id="ayudaDescripcion" className="form-text">Describa el producto, ventajas, usos. Información extra que desee mostrar.</div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <div className="input-group">
-                                            <div className="input-group-text">
-                                                <input
-                                                    className="form-check-input mt-0"
-                                                    type="radio"
-                                                    id="oferta"
-                                                    value={true}
-                                                    checked={producto.oferta === true}
-                                                    onChange={handleInputChange}
-                                                    name="oferta"
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.nombre_producto}
+                                            </Form.Control.Feedback>
+                                            <Form.Text id="ayudaProducto" muted>Introduza el nombre del producto.</Form.Text>
+                                        </Form.Group>
+                                        <Form.Group className="mb-3  p-2 bg-light border">
+                                            <Form.Label>Categoría:</Form.Label>
+                                            <Form.Control name="categoria" as="select" onChange={handleInputChange} value={producto.categoria}>
+                                                {categorias.map(categoria => {
+                                                    return (
+                                                        <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
+                                                    )
+                                                })}
+                                            </Form.Control>
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.categoria}
+                                            </Form.Control.Feedback>
+                                            <Form.Text id="ayudaCategoria" muted>Seleccione la categoría a la cual pertenece le producto.</Form.Text>
+                                        </Form.Group>
+                                        <Form.Group className="mb-3  p-2 bg-light border">
+                                            <Form.Label>Provisión del Producto:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="provision"
+                                                required
+                                                value={values.provision}
+                                                onChange={handleChange}
+                                                name="provision"
+                                                placeholder="Provisión"
+                                                isValid={touched.provision && !errors.provision}
+                                                isInvalid={!!errors.provision}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.provision}
+                                            </Form.Control.Feedback>
+                                            <Form.Text id="ayudaProvision" muted>Introduza cómo se desea vender el producto. Ejemplo 1000 tarjetas, por metro, etc.</Form.Text>
+                                        </Form.Group>
+                                        <Form.Group className="mb-3 p-2 bg-light border">
+                                            <Form.Label>Precio del Producto:</Form.Label>
+                                            <InputGroup hasValidation className="mb-3">
+                                                <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
+                                                <Form.Control
+                                                    type="number"
+                                                    required
+                                                    value={values?.precio === null ? '' : values?.precio}
+                                                    onChange={handleChange}
+                                                    name="precio"
+                                                    placeholder="Precio"
+                                                    isValid={touched.precio && !errors.precio}
+                                                    isInvalid={!!errors.precio}
+                                                    min='0'
                                                 />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.precio}
+                                                </Form.Control.Feedback>
+
+                                            </InputGroup>
+                                            <Form.Text id="ayudaPrecio" muted>Introduza el precio del producto para la provision introducida anteriormente.</Form.Text>
+                                        </Form.Group>
+                                        <Form.Group className="mb-3 p-2 bg-light border">
+                                            <Form.Label>Especificaciones del Producto:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="especificaciones"
+                                                required
+                                                value={values.especificaciones}
+                                                onChange={handleChange}
+                                                name="especificaciones"
+                                                placeholder="Especificaciones"
+                                                isValid={touched.especificaciones && !errors.especificaciones}
+                                                isInvalid={!!errors.especificaciones}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.especificaciones}
+                                            </Form.Control.Feedback>
+                                            <Form.Text id="ayudaEspecificaciones" muted>Introduza las especificaciones del producto. Por ejemplo calidad, gramaje, material, etc.</Form.Text>
+                                        </Form.Group>
+                                        <Form.Group className="mb-3 p-2 bg-light border">
+                                            <Form.Label>Descripción del Producto:</Form.Label>
+                                            <Form.Control
+                                                as="textarea"
+                                                id="descripcion"
+                                                value={values.descripcion}
+                                                onChange={handleChange}
+                                                name="descripcion"
+                                                placeholder="Descripción..."
+                                                isValid={touched.descripcion && !errors.descripcion}
+                                                isInvalid={!!errors.descripcion}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.descripcion}
+                                            </Form.Control.Feedback>
+                                            <Form.Text id="ayudaDescripcion" muted>Describa el producto, ventajas, usos. Información extra que desee mostrar.</Form.Text>
+                                        </Form.Group>
+                                        <Form.Group as={Col} className="mb-3 p-2 bg-light border">
+                                            <Form.Label>Oferta:</Form.Label>
+                                            <InputGroup hasValidation>
+                                                <InputGroup.Radio
+                                                    name="oferta"
+                                                    id="oferta"
+                                                    value={values.oferta}
+                                                    onChange={handleChange}
+                                                />
+                                                <InputGroup.Text id="ofertaPrepend">$</InputGroup.Text>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={values?.precio_oferta === null ? '' : values?.precio_oferta}
+                                                    onChange={handleChange}
+                                                    name="precio_oferta"
+                                                    placeholder="Precio"
+                                                    isValid={touched.precio_oferta && !errors.precio_oferta}
+                                                    isInvalid={!!errors.precio_oferta}
+                                                    min='0'
+
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.precio_oferta}
+                                                </Form.Control.Feedback>
+
+                                            </InputGroup>
+                                            <Form.Text id="ayudaOferta" muted>Active o desactive la oferta del producto e introduzca el nuevo precio en oferta.</Form.Text>
+                                        </Form.Group>
+                                        <div className="mb-3 p-2 bg-light border">
+                                            <label className="form-label">Imagen del Producto:</label>
+                                            <div className="input-group">
+                                                <input
+                                                    type="file"
+                                                    accept=".jpg,.png,.jpeg"
+                                                    className="form-control"
+                                                    id="file"
+                                                    required
+                                                    value={values.fiel}
+                                                    onChange={handleFileChange}
+                                                    name="file"
+                                                />
+                                                <button
+                                                    className="btn btn-outline-secondary"
+                                                    onClick={handleImageSubmit}
+                                                    disabled={!imagen}
+                                                    type="button"
+                                                    id="subirImagen">
+                                                    {loading ?
+                                                        <div>
+                                                            <Spinner
+                                                                as="span"
+                                                                animation="grow"
+                                                                size="sm"
+                                                                role="status"
+                                                                aria-hidden="true"
+                                                            /> Cargando...
+                                                        </div> : "Cargar Imagen"}
+                                                </button>
                                             </div>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                id="precio_oferta"
-                                                required
-                                                value={producto.precio_oferta}
-                                                onChange={handleInputChange}
-                                                name="precio_oferta"
-                                                placeholder="Precio"
-                                            />
+                                            <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
                                         </div>
-                                        <div id="ayudaOferta" className="form-text">Active o desactive la oferta del producto e introduzca el nuevo precio en oferta.</div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Imagen del Producto:</label>
-                                        <div className="input-group">
-                                            <input
-                                                type="file"
-                                                accept=".jpg,.png,.jpeg"
-                                                className="form-control"
-                                                id="imagen"
-                                                required
-                                                value={images.name}
-                                                onChange={handleFileChange}
-                                                name="imagen"
-                                                placeholder="Imagen"
-                                            />
-                                            <button
-                                                className="btn btn-outline-secondary"
-                                                onClick={handleSubmit}
-                                                type="button"
-                                                id="subirImagen">Cargar Imagen</button>
-                                        </div>
-                                        <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
-                                    </div>
-                                </form>
-                                <button onClick={saveProducto} className="btn btn-success">
-                                    {editar ? "Modificar" : "Agregar"}
-                                </button>
-                                <Link to={"/productos"} className="btn btn-danger">
-                                    Cancelar
-                                </Link>
-                            </div>
-                            <div className="col-lg-3"></div>
-                        </div>
-                    )}
-                </div>
 
-            ) : (
-                <div>
-                    Inicie sesión.
-                </div>
+                                        <div className="d-grid gap-2">
+                                            <Button variant="success" type="submit">
+                                                {editar ? "Modificar" : "Agregar"}
+                                            </Button>
+                                            <Link to={"/productos"} className="btn btn-danger">
+                                                Cancelar
+                                            </Link>
+                                        </div>
+
+                                    </Form>
+                                </Col>
+                            </Row>
+                        )
+                    }
+                </Container>
             )}
-
-        </div>
+        </Formik >
     );
 };
 

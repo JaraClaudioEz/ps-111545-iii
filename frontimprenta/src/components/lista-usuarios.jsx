@@ -76,7 +76,7 @@ const ListaUsuarios = ({ usuario }) => {
           <Container fluid>
             <Row>
               <Col>
-                <h1 className="display-1">Listado de Clientes</h1>
+                <h2 className="display-2">Listado de Clientes</h2>
               </Col>
             </Row>
             <Row>

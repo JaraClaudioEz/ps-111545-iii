@@ -156,7 +156,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
       {usuario?.result.tipo === "admin" ? (
         <div className="container-fluid">
           <div className="row">
-            <h1 className="display-1">Listado de Productos</h1>
+            <h2 className="display-2">Listado de Productos</h2>
             <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto +</Link>
           </div>
 

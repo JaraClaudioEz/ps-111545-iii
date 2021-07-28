@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link, useHistory } from "react-router-dom";
-import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
+import { Table, Container, Col, Row, InputGroup, FormControl, Button } from 'react-bootstrap';
 import moment from "moment";
 
 import OrdenDataService from "../services/servicio-orden.js";
@@ -59,13 +59,13 @@ const ListaOrdenes = ({ usuario }) => {
       OrdenDataService.getOrdenesUsuario(usuario?.result._id)
         .then(response => {
           //console.log(response.data);
-          if(response.data === null){
+          if (response.data === null) {
             setOrdenes([]);
           }
-          else{
+          else {
             setOrdenes(response.data.ordenes);
           }
-          
+
         })
         .catch(e => {
           console.log(e);
