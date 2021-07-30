@@ -1,6 +1,6 @@
 import react from "react"
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Carousel } from 'react-bootstrap';
+import { Container, Row, Col, Carousel, Image } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngrycreative } from '@fortawesome/free-brands-svg-icons'
@@ -10,6 +10,7 @@ import Contacto from './contacto'
 import "../inicio.css";
 import intimg from "../assets/intimg.png"
 import portada from "../assets/portada.png"
+import CarouselInicio from "./carousel";
 
 const Inicio = () => {
 
@@ -35,64 +36,25 @@ const Inicio = () => {
                     </h1>
                     <p>Todo el branding que tu negocio necesita lo tenemos nosotros.</p>
                     <a
-                      
+                      href="#especialidades"
                       className='btn btn-custom btn-lg page-scroll'
-                      as={Link}
-                      to="/productos"
                     >
                       Nuestras Especialidades
                     </a>{' '}
                   </div>
                 </Col>
               </Row>
+
             </Container>
           </div>
         </div>
       </header>
       <Row>
-        <Col>
-          <Carousel>
-            <Carousel.Item interval={1000}>
-              <img
-                className="d-block w-100"
-                src={intimg}
-                alt="Primera slide"
-
-                height="400"
-              />
-              <Carousel.Caption>
-                <h3>Primer feed</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item interval={500}>
-              <img
-                className="d-block w-100"
-                src={intimg}
-                alt="Segunda slide"
-
-                height="400"
-              />
-              <Carousel.Caption>
-                <h3>Segundo feed</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src={intimg}
-                alt="Tercera slide"
-
-                height="400"
-              />
-              <Carousel.Caption>
-                <h3>Tercer feed</h3>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-          </Carousel>
+        <Col></Col>
+        <Col xs={6} className="my-2">
+          <CarouselInicio />
         </Col>
+        <Col></Col>
       </Row>
       <Row>
         <Col>
@@ -233,11 +195,182 @@ const Inicio = () => {
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col>
 
-        </Col>
-      </Row>
+      <div id='portfolio' className='text-center'>
+        <Container>
+          <div className='section-title'>
+            <h2>Galería de Trabajos</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
+              dapibus leonec.
+            </p>
+          </div>
+          <Row>
+            <div className='portfolio-items'>
+              <Row>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href={intimg}
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Lorem Ipsum</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/02-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Adipiscing Elit</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/03-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Lorem Ipsum</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/04-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Lorem Ipsum</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/05-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Adipiscing Elit</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/06-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Dolor Sit</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/07-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Dolor Sit</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/08-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Lorem Ipsum</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <div className='portfolio-item'>
+                    <div className='hover-bg'>
+                      {' '}
+                      <a
+                        href='img/portfolio/09-large.jpg'
+                        title='Project Title'
+                        data-lightbox-gallery='gallery1'
+                      >
+                        <div className='hover-text'>
+                          <h4>Adipiscing Elit</h4>
+                        </div>
+                        <Image src={intimg} fluid alt='Project Title' />{' '}
+                      </a>{' '}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Row>
+        </Container>
+      </div>
+
       <Row>
         <Col>
           <Contacto />
