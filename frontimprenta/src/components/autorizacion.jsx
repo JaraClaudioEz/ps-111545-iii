@@ -201,7 +201,7 @@ const Autorizacion = () => {
                                 {
                                     registrado && (
                                         <div>
-                                            <Form.Group className="mb-3  p-2 bg-light border">
+                                            <Form.Group className="mb-3 p-2 bg-light border">
                                                 <Form.Label>Nombre:</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -218,7 +218,7 @@ const Autorizacion = () => {
                                                     {errors.nombre}
                                                 </Form.Control.Feedback>
                                             </Form.Group>
-                                            <Form.Group className="mb-3  p-2 bg-light border">
+                                            <Form.Group className="mb-3 p-2 bg-light border">
                                                 <Form.Label>Apellido:</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -239,7 +239,7 @@ const Autorizacion = () => {
                                     )
                                 }
 
-                                <Form.Group className="mb-3  p-2 bg-light border">
+                                <Form.Group className="mb-3 p-2 bg-light border">
                                     <Form.Label>Email:</Form.Label>
                                     <Form.Control
                                         type="email"

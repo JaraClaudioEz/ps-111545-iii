@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Alert, Container, Col, Row, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
-import { Formik } from 'formik';
+import { Container, Col, Row, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
+import { Formik, Field } from 'formik';
 import * as yup from 'yup';
 
 import ProductoDataService from "../services/servicio-producto";
@@ -42,6 +42,12 @@ const AddProducto = props => {
             .max(200, 'Supera el limite de caracteres.')
             .required('Completa este campo.'),
         //file: yup.mixed().required('Debe seleccionar una imagen para el producto.'),
+        categoria: yup.string()
+            .oneOf(
+                ['Imprenta', 'Cartelería', 'Estampado'],
+                'Seleccione una categoría del producto!'
+            )
+            .required('Seleccione una categoría del producto!')
     });
 
     let editar = false;
@@ -153,13 +159,14 @@ const AddProducto = props => {
     const saveProducto = (prod) => {
 
         //console.log(prod);
+
         let data = {
             _id: prod._id,
             nombre_producto: prod.nombre_producto,
             descripcion: prod.descripcion,
             especificaciones: prod.especificaciones,
             provision: prod.provision,
-            categoria: producto.categoria,
+            categoria: prod.categoria,
             precio: prod.precio,
             oferta: prod.oferta,
             precio_oferta: prod.precio_oferta,
@@ -195,6 +202,7 @@ const AddProducto = props => {
                     console.log(e);
                 });
         }
+
 
     };
 
@@ -295,19 +303,17 @@ const AddProducto = props => {
                                             </Form.Control.Feedback>
                                             <Form.Text id="ayudaProducto" muted>Introduza el nombre del producto.</Form.Text>
                                         </Form.Group>
-                                        <Form.Group className="mb-3  p-2 bg-light border">
+                                        <Form.Group className="mb-3 p-2 bg-light border">
                                             <Form.Label>Categoría:</Form.Label>
-                                            <Form.Control name="categoria" as="select" onChange={handleInputChange} value={producto.categoria}>
+                                            <Field name="categoria" as="select" className="form-control">
                                                 {categorias.map(categoria => {
                                                     return (
-                                                        <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
+                                                        <option key={categoria} value={categoria.value}> {categoria.substr(0, 20)} </option>
                                                     )
                                                 })}
-                                            </Form.Control>
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.categoria}
-                                            </Form.Control.Feedback>
-                                            <Form.Text id="ayudaCategoria" muted>Seleccione la categoría a la cual pertenece le producto.</Form.Text>
+                                            </Field>
+                                            {errors.categoria && <div className="input-feedback text-danger form-text">{errors.categoria}</div>}
+                                            <div id="ayudaCategoria" className="form-text">Seleccione la categoría a la cual pertenece le producto.</div>
                                         </Form.Group>
                                         <Form.Group className="mb-3  p-2 bg-light border">
                                             <Form.Label>Provisión del Producto:</Form.Label>
@@ -412,40 +418,42 @@ const AddProducto = props => {
                                             </InputGroup>
                                             <Form.Text id="ayudaOferta" muted>Active o desactive la oferta del producto e introduzca el nuevo precio en oferta.</Form.Text>
                                         </Form.Group>
-                                        <div className="mb-3 p-2 bg-light border">
-                                            <label className="form-label">Imagen del Producto:</label>
-                                            <div className="input-group">
-                                                <input
-                                                    type="file"
-                                                    accept=".jpg,.png,.jpeg"
-                                                    className="form-control"
-                                                    id="file"
-                                                    required
-                                                    value={values.fiel}
-                                                    onChange={handleFileChange}
-                                                    name="file"
-                                                />
-                                                <button
-                                                    className="btn btn-outline-secondary"
-                                                    onClick={handleImageSubmit}
-                                                    disabled={!imagen}
-                                                    type="button"
-                                                    id="subirImagen">
-                                                    {loading ?
-                                                        <div>
-                                                            <Spinner
-                                                                as="span"
-                                                                animation="grow"
-                                                                size="sm"
-                                                                role="status"
-                                                                aria-hidden="true"
-                                                            /> Cargando...
-                                                        </div> : "Cargar Imagen"}
-                                                </button>
-                                            </div>
-                                            <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
-                                        </div>
+                                        <Form.Group>
+                                            <div className="mb-3 p-2 bg-light border">
+                                                <label className="form-label">Imagen del Producto:</label>
+                                                <div className="input-group">
+                                                    <input
+                                                        type="file"
+                                                        accept=".jpg,.png,.jpeg"
+                                                        className="form-control"
+                                                        id="file"
+                                                        required
+                                                        value={values.file}
+                                                        onChange={handleFileChange}
+                                                        name="file"
+                                                    />
+                                                    <button
+                                                        className="btn btn-outline-secondary"
+                                                        onClick={handleImageSubmit}
+                                                        disabled={!imagen}
+                                                        type="button"
+                                                        id="subirImagen">
+                                                        {loading ?
+                                                            <div>
+                                                                <Spinner
+                                                                    as="span"
+                                                                    animation="grow"
+                                                                    size="sm"
+                                                                    role="status"
+                                                                    aria-hidden="true"
+                                                                /> Cargando...
+                                                            </div> : "Cargar Imagen"}
+                                                    </button>
+                                                </div>
 
+                                                <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
+                                            </div>
+                                        </Form.Group>
                                         <div className="d-grid gap-2">
                                             <Button variant="success" type="submit">
                                                 {editar ? "Modificar" : "Agregar"}
