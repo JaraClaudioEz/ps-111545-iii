@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+//import { Modal, Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
@@ -10,6 +13,15 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const [searchCategoria, setSearchCategoria] = useState("");
   const [categorias, setCategorias] = useState(["Todas"]);
   const history = useHistory();
+
+  const [show, setShow] = useState(false);
+  const [eliminado, setEliminado] = useState();
+
+  const handleClose = () => setShow(false);
+  const handleShow = (p) => {
+    setEliminado(p);
+    setShow(true);
+  };
 
   //const usuario = props.usuario
   //console.log(usuario);
@@ -58,7 +70,8 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   }
 
   const eliminarProducto = (id, idImagen) => {
-
+    //console.log(id, idImagen);
+    
     ProductoDataService.deleteImagen(idImagen)
       .then(response => {
         console.log(response.data);
@@ -70,11 +83,13 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
     ProductoDataService.deleteProducto(id)
       .then(response => {
         refreshList()
+        setShow(false);
         console.log(response.data);
       })
       .catch(e => {
         console.log(e);
       });
+      
   }
 
   const find = (query, by) => {
@@ -111,8 +126,30 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
     }
   };
 
+  //() => { eliminarProducto(producto._id, producto.imagen.id) }
+
   return (
     <div className="container">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Atencion!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Está por eliminar el siguiente producto: <b>{eliminado?.nombre_producto}</b><br></br>
+          Está seguro de continuar con la operación?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cerrar
+          </Button>
+          <Button variant="danger" onClick={() => eliminarProducto(eliminado?._id, eliminado?.imagen.id)}>Eliminar</Button>
+        </Modal.Footer>
+      </Modal>
       <div className="container-fluid">
         <div className="row pb-3">
           <div className="input-group col-lg-4">
@@ -184,7 +221,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                     <td>{producto.precio_oferta}</td>
                     <td><Link to={{ pathname: "/productos/" + producto._id, state: { productoActual: producto } }} className="btn btn-primary">Ver</Link></td>
                     <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
-                    <td><button className="btn btn-danger" type="button" onClick={() => { eliminarProducto(producto._id, producto.imagen.id) }}>Eliminar</button></td>
+                    <td><button className="btn btn-warning" type="button" onClick={() => handleShow(producto)}>Eliminar</button></td>
                     <td />
                   </tr>
                 ))

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom";
-import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
+import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert, Modal } from 'react-bootstrap';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
 
@@ -15,6 +15,14 @@ const ListaUsuarios = ({ usuario }) => {
   //console.log(tipo);
 
   //console.log(usuario);
+  const [show, setShow] = useState(false);
+  const [eliminado, setEliminado] = useState();
+
+  const handleClose = () => setShow(false);
+  const handleShow = (u) => {
+    setEliminado(u);
+    setShow(true);
+  };
 
   useEffect(() => {
     traerUsuarios();
@@ -57,23 +65,47 @@ const ListaUsuarios = ({ usuario }) => {
   };
 
   const eliminarUsuario = (id) => {
+    //console.log(id);
+    
     UsuarioDataService.deleteUsuario(id)
       .then(response => {
-        refreshList()
+        refreshList();
+        setShow(false);
         console.log(response.data);
       })
       .catch(e => {
         console.log(e);
       });
+    
   }
 
-  if(!usuario) return 'Cargando...';
+  if (!usuario) return 'Cargando...';
 
   return (
     <div>
       {
         usuario.result.tipo === "admin" ? (
           <Container fluid>
+            <Modal
+              show={show}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Atencion!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Está por eliminar al siguiente cliente: <b>{eliminado?.nombre}</b><br></br>
+                Está seguro de continuar con la operación?
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Cerrar
+                </Button>
+                <Button variant="danger" onClick={() => eliminarUsuario(eliminado?._id)}>Eliminar</Button>
+              </Modal.Footer>
+            </Modal>
             <Row>
               <Col>
                 <h2 className="display-2">Listado de Clientes</h2>
@@ -123,7 +155,7 @@ const ListaUsuarios = ({ usuario }) => {
                           <td className="text-capitalize">{usuario.direccion.calle} {usuario.direccion.numero}</td>
                           <td className="text-capitalize">{usuario.direccion.localidad}</td>
                           <td className={usuario.verificado ? "text-success" : "text-danger"}>{usuario.verificado ? "Verificado" : "No verficado"}</td>
-                          <td><button className="btn btn-danger" type="button" onClick={() => { eliminarUsuario(usuario._id) }}>Eliminar</button></td>
+                          <td><button className="btn btn-warning" type="button" onClick={() => handleShow(usuario)}>Eliminar</button></td>
                         </tr>
                       ))
                     }
