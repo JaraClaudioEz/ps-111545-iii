@@ -83,7 +83,6 @@ const Usuario = props => {
         //e.preventDefault();
         console.log(updated);
 
-
         try {
             //const token = props.usuario.token;
             const { data } = await UsuarioDataService.updateUsuario(updated);
@@ -155,7 +154,7 @@ const Usuario = props => {
                 isValid,
                 errors,
             }) => (
-                <Container>
+                <Container className="my-5">
 
                     <Row>
                         <Col></Col>

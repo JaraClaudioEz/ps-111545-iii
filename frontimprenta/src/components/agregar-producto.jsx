@@ -418,42 +418,42 @@ const AddProducto = props => {
                                             </InputGroup>
                                             <Form.Text id="ayudaOferta" muted>Active o desactive la oferta del producto e introduzca el nuevo precio en oferta.</Form.Text>
                                         </Form.Group>
-                                        <Form.Group>
-                                            <div className="mb-3 p-2 bg-light border">
-                                                <label className="form-label">Imagen del Producto:</label>
-                                                <div className="input-group">
-                                                    <input
-                                                        type="file"
-                                                        accept=".jpg,.png,.jpeg"
-                                                        className="form-control"
-                                                        id="file"
-                                                        required
-                                                        value={values.file}
-                                                        onChange={handleFileChange}
-                                                        name="file"
-                                                    />
-                                                    <button
-                                                        className="btn btn-outline-secondary"
-                                                        onClick={handleImageSubmit}
-                                                        disabled={!imagen}
-                                                        type="button"
-                                                        id="subirImagen">
-                                                        {loading ?
-                                                            <div>
-                                                                <Spinner
-                                                                    as="span"
-                                                                    animation="grow"
-                                                                    size="sm"
-                                                                    role="status"
-                                                                    aria-hidden="true"
-                                                                /> Cargando...
-                                                            </div> : "Cargar Imagen"}
-                                                    </button>
-                                                </div>
 
-                                                <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
+                                        <div className="mb-3 p-2 bg-light border">
+                                            <label className="form-label">Imagen del Producto:</label>
+                                            <div className="input-group">
+                                                <input
+                                                    type="file"
+                                                    accept=".jpg,.png,.jpeg"
+                                                    className="form-control"
+                                                    id="file"
+                                                    required
+                                                    value={values.fiel}
+                                                    onChange={handleFileChange}
+                                                    name="file"
+                                                />
+                                                <button
+                                                    className="btn btn-outline-secondary"
+                                                    onClick={handleImageSubmit}
+                                                    disabled={!imagen}
+                                                    type="button"
+                                                    id="subirImagen">
+                                                    {loading ?
+                                                        <div>
+                                                            <Spinner
+                                                                as="span"
+                                                                animation="grow"
+                                                                size="sm"
+                                                                role="status"
+                                                                aria-hidden="true"
+                                                            /> Cargando...
+                                                        </div> : "Cargar Imagen"}
+                                                </button>
                                             </div>
-                                        </Form.Group>
+
+                                            <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
+                                        </div>
+
                                         <div className="d-grid gap-2">
                                             <Button variant="success" type="submit">
                                                 {editar ? "Modificar" : "Agregar"}
