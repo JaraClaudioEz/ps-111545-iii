@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
+
+import { useReactToPrint } from "react-to-print";
 
 import OrdenDataService from "../services/servicio-orden.js";
 
@@ -64,8 +66,59 @@ const Orden = ({ match, usuario }) => {
   };
   //console.log(cambioEstado);
 
+  class ComponentToPrint extends React.Component {
+    render() {
+      return (
+        <Container className="my-5">
+          <Row>
+            <Col>
+              <h4 className="display-6">Orden de Trabajo N° <b>{orden?.numero}</b></h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={8}>
+              <Table striped>
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    orden?.items.map(item => (
+                      <tr key={item.idProducto}>
+                        <td className="text-capitalize">{item.nombre}</td>
+                        <td>{item.cantidad}</td>
+                        <td>$ {item.precio}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </Table>
+            </Col>
+            <Col sm={4}>
+              <div>
+                <p className="text-capitalize">Estado de la Orden: <b>{orden?.estado}</b></p>
+              </div>
+              <div>
+                <p>Total abonado: <b>$ {!orden ? 0 : orden.factura}</b></p>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      );
+    }
+  }
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
-    <Container>
+    <Container className="my-5">
       {
         usuario?.result.tipo === "admin" ? (
           <div>
@@ -118,6 +171,8 @@ const Orden = ({ match, usuario }) => {
                 </div>
                 <div className="d-grid gap-2">
                   <Button variant="primary" onClick={guardarCambios}>{cambioEstado ? "Guardar Cambios" : "Volver"}</Button>
+                  <div style={{ display: "none" }}><ComponentToPrint ref={componentRef} /></div>
+                  <Button variant="info" onClick={handlePrint}>Imprimir</Button>
                 </div>
               </Col>
             </Row>
