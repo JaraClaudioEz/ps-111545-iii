@@ -3,6 +3,7 @@ import { Switch, Route, useLocation } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from "moment";
 import 'moment/locale/es';
+import "./App.css";
 
 import Navbar from "./components/navbar";
 import Inicio from "./components/inicio";

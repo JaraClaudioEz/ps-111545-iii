@@ -171,7 +171,9 @@ const Orden = ({ match, usuario }) => {
                 </div>
                 <div className="d-grid gap-2">
                   <Button variant="primary" onClick={guardarCambios}>{cambioEstado ? "Guardar Cambios" : "Volver"}</Button>
-                  <div style={{ display: "none" }}><ComponentToPrint ref={componentRef} /></div>
+                  <div style={{ display: "none" }}><ComponentToPrint 
+                  ref={componentRef}
+                  documentTitle={`OrdenTrabajo-${orden?.numero}`} /></div>
                   <Button variant="info" onClick={handlePrint}>Imprimir</Button>
                 </div>
               </Col>

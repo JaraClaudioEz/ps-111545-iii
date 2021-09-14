@@ -90,7 +90,7 @@ export default class MailerController {
                 return false
             }
 
-            //console.log("Email enviado: ", result);
+            console.log("Email enviado: ", result);
         })
     }
 }
