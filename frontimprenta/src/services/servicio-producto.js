@@ -1,7 +1,7 @@
 import http from "../http-commons";
 
 class ProductoDataService {
-    getListadoProductos(pag = 0) {
+    getListadoProductos(pag) {
         return http.get(`/productos?pag=${pag}`);
     }
 

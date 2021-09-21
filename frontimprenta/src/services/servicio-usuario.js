@@ -10,7 +10,7 @@ class UsuarioDataService {
         });
     }
 
-    getListadoUsuarios(pag = 0) {
+    getListadoUsuarios(pag) {
         return http.get(`/usuarios?pag=${pag}`);
     }
 

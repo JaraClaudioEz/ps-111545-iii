@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link, useHistory } from "react-router-dom";
-import { Table, Container, Col, Row, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Table, Container, Col, Row, InputGroup, FormControl, Button, Pagination } from 'react-bootstrap';
 import moment from "moment";
 
 import OrdenDataService from "../services/servicio-orden.js";
@@ -15,6 +15,10 @@ const ListaOrdenes = ({ usuario }) => {
 
   const history = useHistory();
 
+  const [actual, setActual] = useState(1);
+  const [paginas, setPaginas] = useState(null);
+  const [items, setItems] = useState([]);
+  let primera = false;
   //const { tipo } = props.usuario.result
   //console.log(tipo);
 
@@ -22,7 +26,7 @@ const ListaOrdenes = ({ usuario }) => {
 
   useEffect(() => {
     traerUsuarios();
-    traerOrdenes();
+    traerOrdenes(actual);
     traerEstados();
     return () => {
       setOrdenes([]);
@@ -44,11 +48,15 @@ const ListaOrdenes = ({ usuario }) => {
     setSearchEstado(searchEstado);
   };
 
-  const traerOrdenes = () => {
+  const traerOrdenes = (pag) => {
     if (usuario?.result.tipo === "admin") {
-      OrdenDataService.getListadoOrdenes()
+      OrdenDataService.getListadoOrdenes(pag - 1)
         .then(response => {
           //console.log(response.data);
+
+          const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
+          setPaginas(totalPages);
+
           setOrdenes(response.data.ordenes);
         })
         .catch(e => {
@@ -63,6 +71,10 @@ const ListaOrdenes = ({ usuario }) => {
             setOrdenes([]);
           }
           else {
+
+            const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
+            setPaginas(totalPages);
+
             setOrdenes(response.data.ordenes);
           }
 
@@ -71,6 +83,34 @@ const ListaOrdenes = ({ usuario }) => {
           console.log(e);
         });
     }
+
+  };
+
+  useEffect(() => {
+    if (!primera) {
+      armarPaginacion();
+      primera = true;
+    };
+  }, [paginas, items]);
+
+
+  const armarPaginacion = () => {
+
+    for (let number = 1; number <= paginas; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === actual} onClick={() => irPagina(number)}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+  };
+
+  const irPagina = (numero) => {
+
+    setActual(numero);
+    traerOrdenes(numero);
+    setItems([]);
+    primera = false;
 
   };
 
@@ -99,7 +139,7 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const refreshList = () => {
-    traerOrdenes();
+    traerOrdenes(actual);
   }
 
   const find = (query, by) => {
@@ -218,6 +258,11 @@ const ListaOrdenes = ({ usuario }) => {
                 </Table>
               </Col>
             </Row>
+            <Row>
+              <Pagination className="justify-content-center">
+                {items}
+              </Pagination>
+            </Row>
           </Container>
         ) : (
           <Container fluid>
@@ -253,7 +298,13 @@ const ListaOrdenes = ({ usuario }) => {
                 </Table>
               </Col>
             </Row>
+            <Row>
+              <Pagination className="justify-content-center">
+                {items}
+              </Pagination>
+            </Row>
           </Container>
+
         )
       }
     </div>

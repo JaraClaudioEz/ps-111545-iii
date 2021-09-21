@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 //import { Modal, Button } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Pagination from 'react-bootstrap/Pagination';
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
@@ -17,6 +18,11 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const [show, setShow] = useState(false);
   const [eliminado, setEliminado] = useState();
 
+  const [actual, setActual] = useState(1);
+  const [paginas, setPaginas] = useState(null);
+  const [items, setItems] = useState([]);
+  let primera = false;
+
   const handleClose = () => setShow(false);
   const handleShow = (p) => {
     setEliminado(p);
@@ -27,7 +33,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   //console.log(usuario);
 
   useEffect(() => {
-    traerProductos();
+    traerProductos(actual);
     traerCategorias();
   }, []);
 
@@ -41,10 +47,14 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
     setSearchCategoria(searchCategoria);
   };
 
-  const traerProductos = () => {
-    ProductoDataService.getListadoProductos()
+  const traerProductos = (pag) => {
+    ProductoDataService.getListadoProductos(pag - 1)
       .then(response => {
         //console.log(response.data);
+
+        const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
+        setPaginas(totalPages);
+
         setProductos(response.data.productos);
 
       })
@@ -65,13 +75,40 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
       });
   };
 
+  useEffect(() => {
+    if (!primera) {
+      armarPaginacion();
+      primera = true;
+    };
+  }, [paginas, items]);
+
+  const armarPaginacion = () => {
+
+    for (let number = 1; number <= paginas; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === actual} onClick={() => irPagina(number)}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+  };
+
+  const irPagina = (numero) => {
+
+    setActual(numero);
+    traerProductos(numero);
+    setItems([]);
+    primera = false;
+
+  };
+
   const refreshList = () => {
-    traerProductos();
+    traerProductos(actual);
   }
 
   const eliminarProducto = (id, idImagen) => {
     //console.log(id, idImagen);
-    
+
     ProductoDataService.deleteImagen(idImagen)
       .then(response => {
         console.log(response.data);
@@ -89,7 +126,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
       .catch(e => {
         console.log(e);
       });
-      
+
   }
 
   const find = (query, by) => {
@@ -228,6 +265,12 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
               }
             </tbody>
           </table>
+
+          <div className="row">
+            <Pagination className="justify-content-center">
+              {items}
+            </Pagination>
+          </div>
         </div>
       ) : (
         <div className="row">
@@ -260,6 +303,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           })}
         </div>
       )}
+
     </div>
   );
 }

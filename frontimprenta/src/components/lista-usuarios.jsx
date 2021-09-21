@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom";
-import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert, Modal } from 'react-bootstrap';
+import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert, Modal, Pagination } from 'react-bootstrap';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
 
@@ -18,6 +18,11 @@ const ListaUsuarios = ({ usuario }) => {
   const [show, setShow] = useState(false);
   const [eliminado, setEliminado] = useState();
 
+  const [actual, setActual] = useState(1);
+  const [paginas, setPaginas] = useState(null);
+  const [items, setItems] = useState([]);
+  let primera = false;
+
   const handleClose = () => setShow(false);
   const handleShow = (u) => {
     setEliminado(u);
@@ -25,8 +30,7 @@ const ListaUsuarios = ({ usuario }) => {
   };
 
   useEffect(() => {
-    traerUsuarios();
-    //setRol(props.usuario.result.tipo)
+    traerUsuarios(actual);
   }, []);
 
   const onChangeSearchNombre = e => {
@@ -34,10 +38,14 @@ const ListaUsuarios = ({ usuario }) => {
     setSearchNombre(searchNombre);
   };
 
-  const traerUsuarios = () => {
-    UsuarioDataService.getListadoUsuarios()
+  const traerUsuarios = (pag) => {
+    UsuarioDataService.getListadoUsuarios(pag - 1)
       .then(response => {
-        //console.log(response.data);
+
+        const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
+        setPaginas(totalPages);
+        //console.log(paginas);
+
         setUsuarios(response.data.usuarios);
       })
       .catch(e => {
@@ -46,8 +54,35 @@ const ListaUsuarios = ({ usuario }) => {
   };
 
   const refreshList = () => {
-    traerUsuarios();
+    traerUsuarios(actual);
   }
+
+  useEffect(() => {
+    if (!primera) {
+      armarPaginacion();
+      primera = true;
+    };
+  }, [paginas, items]);
+
+  const armarPaginacion = () => {
+
+    for (let number = 1; number <= paginas; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === actual} onClick={() => irPagina(number)}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+  };
+
+  const irPagina = (numero) => {
+    
+    setActual(numero);
+    traerUsuarios(numero);
+    setItems([]);
+    primera = false;
+
+  };
 
   const find = (query, by) => {
     UsuarioDataService.find(query, by)
@@ -66,7 +101,7 @@ const ListaUsuarios = ({ usuario }) => {
 
   const eliminarUsuario = (id) => {
     //console.log(id);
-    
+
     UsuarioDataService.deleteUsuario(id)
       .then(response => {
         refreshList();
@@ -76,7 +111,7 @@ const ListaUsuarios = ({ usuario }) => {
       .catch(e => {
         console.log(e);
       });
-    
+
   }
 
   if (!usuario) return 'Cargando...';
@@ -162,6 +197,11 @@ const ListaUsuarios = ({ usuario }) => {
                   </tbody>
                 </Table>
               </Col>
+            </Row>
+            <Row>
+              <Pagination className="justify-content-center">
+                {items}
+              </Pagination>
             </Row>
           </Container>
         ) : (
