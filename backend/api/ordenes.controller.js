@@ -299,11 +299,11 @@ export default class OrdenesController {
             }
 
             if (orden.estado === "Lista") {
-                const respuesta = await Emailer.sendOrdenLista(usuario.email, usuario.nombre)
+                const respuesta = await Emailer.sendOrdenLista(usuario.email, usuario.nombre, orden.numero)
             }
             //console.log(orden.estado);
             if (orden.estado === "Abonada") {
-                const respuesta = await Emailer.sendNuevaOrden(usuario.nombre, orden.factura, orden.items)
+                const respuesta = await Emailer.sendNuevaOrden(usuario.nombre, orden.numero, orden.factura, orden.items)
             }
             //res.status(200).json({ message: "Pago acentado" });
             res.status(200).json({ orden: orden });
