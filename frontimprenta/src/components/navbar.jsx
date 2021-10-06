@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebook, faInstagram, faWhatsapp, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
 import logo from "../assets/IntegralLogo.png";
 
@@ -10,6 +12,11 @@ const NavbarImprenta = ({ totalItems, user }) => {
     //const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
     const history = useHistory();
     const location = useLocation();
+
+    const facebook = <FontAwesomeIcon icon={faFacebook} />
+    const instagram = <FontAwesomeIcon icon={faInstagram} />
+    const whatsapp = <FontAwesomeIcon icon={faWhatsapp} />
+    const twitter = <FontAwesomeIcon icon={faTwitter} />
 
     async function logout() {
         localStorage.clear();
@@ -54,7 +61,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
+                    <Nav className="me-auto">
                         <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
                         <div>
                             {
@@ -131,6 +138,12 @@ const NavbarImprenta = ({ totalItems, user }) => {
                         </div>
                     </Nav>
                     <Nav className="mr-auto">
+                        <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{facebook}</Nav.Link>
+                        <Nav.Link href="https://instagram.com/integralimagen22" className="btn btn-floating btn-light btn-lg">{instagram}</Nav.Link>
+                        <Nav.Link href="https://wa.me/5493525432374" className="btn btn-floating btn-light btn-lg">{whatsapp}</Nav.Link>
+                        <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{twitter}</Nav.Link>
+                    </Nav>
+                    <Nav className="me-4">
                         <Form inline className="navbar-nav navbar-right">
                             <FormControl type="text" placeholder="Search" className="mr-sm-6" />
                             <Button variant="outline-success" className="ml-6">Buscar</Button>
@@ -143,3 +156,11 @@ const NavbarImprenta = ({ totalItems, user }) => {
 };
 
 export default NavbarImprenta;
+
+
+/*
+<Form inline className="navbar-nav navbar-right">
+    <FormControl type="text" placeholder="Search" className="mr-sm-6" />
+    <Button variant="outline-success" className="ml-6">Buscar</Button>
+</Form>
+*/

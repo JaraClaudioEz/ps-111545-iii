@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Container, Col, Row, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
+import { Link, useHistory } from "react-router-dom";
+import { Container, Col, Row, Form, Button, InputGroup, Spinner, Modal } from 'react-bootstrap';
 import { Formik, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -52,6 +52,8 @@ const AddProducto = props => {
 
     let editar = false;
 
+    const history = useHistory();
+
     const [categorias, setCategorias] = useState(["Seleccione..."]);
     const [producto, setProducto] = useState(estadoInicialProducto);
     const [submitted, setSubmitted] = useState(false);
@@ -59,6 +61,19 @@ const AddProducto = props => {
     const [fileData, setFileData] = useState();
     const [imagen, setImagen] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [show, setShow] = useState(false);
+
+
+    const handleClose = () => {
+        setShow(false);
+        history.push("/productos/agregar")
+    };
+    const handleShow = () => {
+        setProducto(estadoInicialProducto);
+        setShow(true);
+    };
+
 
     if (props.location.state && props.location.state.productoActual) {
         editar = true;
@@ -184,9 +199,14 @@ const AddProducto = props => {
                 .then(response => {
                     if (response.data.status === "Sin cambios") {
                         alert("No se realizaron cambios!")
-                        setSubmitted(true);
+                        //setSubmitted(true);
+                        //handleShow();
                     }
-                    setSubmitted(true);
+                    else {
+                        handleShow();
+                    }
+                    //setSubmitted(true);
+
                     console.log(response.data);
                 })
                 .catch(e => {
@@ -195,7 +215,8 @@ const AddProducto = props => {
         } else {
             ProductoDataService.addProducto(data)
                 .then(response => {
-                    setSubmitted(true);
+                    //setSubmitted(true);
+                    handleShow();
                     console.log(response.data);
                 })
                 .catch(e => {
@@ -258,6 +279,28 @@ const AddProducto = props => {
                 errors,
             }) => (
                 <Container>
+                    <Modal
+                        show={show}
+                        onHide={handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Producto {editar ? "Modificado!" : "Agregado!"}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            La carga del producto se realizó con éxito!!<br></br>
+                            Qué desea realizar a continuación?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="primary" onClick={handleClose}>
+                                Agregar nuevo Producto
+                            </Button>
+                            <Button variant="success" onClick={() => history.push("/productos")}>
+                                Volver al Listado
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                     <Row>
                         <Col></Col>
                         <Col xs={6}>

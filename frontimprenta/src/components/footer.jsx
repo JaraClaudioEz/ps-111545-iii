@@ -41,11 +41,11 @@ const Footer = () => {
 
                             <div className="mt-4">
 
-                                <a href="/" type="button" className="btn btn-floating btn-light btn-lg">{facebook}</a>
+                                <a href="https://es-la.facebook.com/integralimagen" type="button" className="btn btn-floating btn-light btn-lg">{facebook}</a>
 
-                                <a href="/" type="button" className="btn btn-floating btn-light btn-lg">{instagram}</a>
+                                <a href="https://instagram.com/integralimagen22" type="button" className="btn btn-floating btn-light btn-lg">{instagram}</a>
 
-                                <a href="/" type="button" className="btn btn-floating btn-light btn-lg">{whatsapp}</a>
+                                <a href="https://wa.me/5493525432374" type="button" className="btn btn-floating btn-light btn-lg">{whatsapp}</a>
 
                                 <a href="/" type="button" className="btn btn-floating btn-light btn-lg">{twitter}</a>
 
