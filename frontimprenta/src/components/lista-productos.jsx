@@ -4,6 +4,13 @@ import { Link, useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Pagination from 'react-bootstrap/Pagination';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import Card from 'react-bootstrap/Card';
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
@@ -166,7 +173,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   //() => { eliminarProducto(producto._id, producto.imagen.id) }
 
   return (
-    <div className="container">
+    <div>
       <Modal
         show={show}
         onHide={handleClose}
@@ -187,54 +194,52 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           <Button variant="danger" onClick={() => eliminarProducto(eliminado?._id, eliminado?.imagen.id)}>Eliminar</Button>
         </Modal.Footer>
       </Modal>
-      <div className="container-fluid">
-        <div className="row pb-3">
-          <div className="input-group col-lg-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Búsqueda por nombre"
-              value={searchNombre}
-              onChange={onChangeSearchNombre}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                onClick={findByNombre}
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-          <div className="input-group col-lg-4">
-            <select onChange={onChangeSearchCategoria}>
-              {categorias.map(categoria => {
-                return (
-                  <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
-                )
-              })}
-            </select>
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                onClick={findByCategoria}
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Container fluid>
+        <Row className="my-2">
+          <Col>
+            <h2 className="display-2">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Nuestros Productos"}</h2>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col sm={6}>
+            <InputGroup className="mb-3">
+              <FormControl
+                type="text"
+                placeholder="Búsqueda por nombre"
+                aria-label="Nombre del Producto"
+                aria-describedby="basic-addon2"
+                value={searchNombre}
+                onChange={onChangeSearchNombre}
+              />
+              <InputGroup.Append>
+                <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </Col>
+          <Col sm={4}>
+            <InputGroup className="mb-3">
+              <FormControl as="select" custom onChange={onChangeSearchCategoria}>
+                {categorias.map(categoria => {
+                  return (
+                    <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
+                  )
+                })}
+              </FormControl>
+              <InputGroup.Append>
+                <Button variant="outline-secondary" onClick={findByCategoria}>Buscar</Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </Col>
+        </Row>
+      </Container>
       {usuario?.result.tipo === "admin" ? (
-        <div className="container-fluid">
-          <div className="row">
-            <h2 className="display-2">Listado de Productos</h2>
-            <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto +</Link>
-          </div>
-
-          <table className="table table-striped">
+        <Container fluid>
+          <Row className="my-2">
+            <Col>
+              <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto +</Link>
+            </Col>
+          </Row>
+          <Table striped hover>
             <thead>
               <tr>
                 <th scope="col">Producto</th>
@@ -264,46 +269,44 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                 ))
               }
             </tbody>
-          </table>
-
-          <div className="row">
+          </Table>
+          <Row>
             <Pagination className="justify-content-center">
               {items}
             </Pagination>
-          </div>
-        </div>
+          </Row>
+        </Container>
       ) : (
-        <div className="row">
+        <Row className="my-4">
           {productos.map((producto) => {
             return (
-              <div className="col-lg-4 pb-1" key={producto._id}>
-                <div className="card">
-                  <img
+              <Col key={producto._id}>
+                <Card style={{ width: '18rem' }}>
+                  <Card.Img
+                    variant="top"
                     src={producto?.imagen.url === "" ? logo : producto.imagen.url}
-                    className="card-img-top"
                     alt="Integral Imagen"
-                    width="100"
-                    height="250" />
-                  <div className="card-body">
-                    <h5 className="card-title">{producto.nombre_producto}</h5>
-                    <p className="card-text">
+                    height="225px"
+                  />
+                  <Card.Body>
+                    <Card.Title>{producto.nombre_producto}</Card.Title>
+                    <Card.Text>
                       <strong>Categoría: </strong>{producto.categoria}<br />
                       <strong>Precio: </strong>${producto.precio} {producto.provision}
-                    </p>
-                    <div className="row">
-                      <Link to={"/productos/" + producto._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+                    </Card.Text>
+                    <Row>
+                      <Link to={"/productos/" + producto._id} className="btn btn-primary my-2 btn-block">
                         Ver Producto
                       </Link>
-                      <button className="btn btn-dark col-lg-5 mx-1 mb-1" type="button" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      <Button variant="dark" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
             );
           })}
-        </div>
+        </Row>
       )}
-
     </div>
   );
 }
