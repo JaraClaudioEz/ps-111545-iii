@@ -86,13 +86,12 @@ const Contacto = () => {
                 errors,
             }) => (
                 <Container>
-                    <Row>
+                    <Row className="my-2">
                         <Col></Col>
                         <Col xs={6}><h4 className="display-4">Contacto: </h4></Col>
                         <Col></Col>
                     </Row>
-                    <Row>
-
+                    <Row className="my-4">
                         <Col md={{ span: 6, offset: 3 }}>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3">
@@ -129,7 +128,6 @@ const Contacto = () => {
                                         {errors.asunto}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-
                                 <Form.Group className="mb-3">
                                     <Form.Label>Mensaje</Form.Label>
                                     <Form.Control
@@ -153,11 +151,9 @@ const Contacto = () => {
                                 </div>
                             </Form>
                         </Col>
-
                     </Row>
                 </Container>
-            )
-            }
+            )}
         </Formik >
     );
 };

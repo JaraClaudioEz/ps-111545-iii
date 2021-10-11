@@ -127,7 +127,7 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const traerUsuarios = () => {
-    UsuarioDataService.getListadoUsuarios()
+    UsuarioDataService.getListadoUsuarios(0)
       .then(response => {
         //console.log(response.data);
         setUsuarios(response.data.usuarios);
@@ -206,9 +206,7 @@ const ListaOrdenes = ({ usuario }) => {
                     value={searchNombre}
                     onChange={onChangeSearchNombre}
                   />
-                  <InputGroup.Append>
-                    <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
-                  </InputGroup.Append>
+                  <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
                 </InputGroup>
               </Col>
               <Col sm={4}>
@@ -219,9 +217,7 @@ const ListaOrdenes = ({ usuario }) => {
                     <option value="abonada">Abonada/En realización</option>
                     <option value="entregado">Entregado al Cliente</option>
                   </FormControl>
-                  <InputGroup.Append>
-                    <Button variant="outline-secondary" onClick={findByEstado}>Buscar</Button>
-                  </InputGroup.Append>
+                  <Button variant="outline-secondary" onClick={findByEstado}>Buscar</Button>
                 </InputGroup>
               </Col>
               <Col sm={2}>

@@ -76,7 +76,7 @@ const ListaUsuarios = ({ usuario }) => {
   };
 
   const irPagina = (numero) => {
-    
+
     setActual(numero);
     traerUsuarios(numero);
     setItems([]);
@@ -136,7 +136,7 @@ const ListaUsuarios = ({ usuario }) => {
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                  Cerrar
+                  Cancelar
                 </Button>
                 <Button variant="danger" onClick={() => eliminarUsuario(eliminado?._id)}>Eliminar</Button>
               </Modal.Footer>
@@ -157,9 +157,7 @@ const ListaUsuarios = ({ usuario }) => {
                     value={searchNombre}
                     onChange={onChangeSearchNombre}
                   />
-                  <InputGroup.Append>
-                    <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
-                  </InputGroup.Append>
+                  <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
                 </InputGroup>
               </Col>
               <Col sm={4}>

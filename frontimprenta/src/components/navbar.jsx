@@ -145,7 +145,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                     </Nav>
                     <Nav className="me-4">
                         <Form inline className="navbar-nav navbar-right">
-                            <FormControl type="text" placeholder="Search" className="mr-sm-6" />
+                            <FormControl type="text" placeholder="Buscar" className="mr-sm-6" />
                             <Button variant="outline-success" className="ml-6">Buscar</Button>
                         </Form>
                     </Nav>

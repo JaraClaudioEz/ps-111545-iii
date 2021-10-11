@@ -12,12 +12,14 @@ const port = process.env.PORT || 8000
 
 mongoose.connect(
     process.env.RESTIMPRENTA_DB_URI,
+    /*
     {
         poolSize: 50,
         wtimeout: 2500,
         useNewUrlParser: true,
         useUnifiedTopology: true
     }
+    */
 )
     .catch(err => {
         console.error(err.stack)
@@ -31,4 +33,4 @@ mongoose.connect(
         })
     })
 
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);

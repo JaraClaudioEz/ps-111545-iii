@@ -189,7 +189,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cerrar
+            Cancelar
           </Button>
           <Button variant="danger" onClick={() => eliminarProducto(eliminado?._id, eliminado?.imagen.id)}>Eliminar</Button>
         </Modal.Footer>
@@ -211,9 +211,9 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                 value={searchNombre}
                 onChange={onChangeSearchNombre}
               />
-              <InputGroup.Append>
-                <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
-              </InputGroup.Append>
+
+              <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
+
             </InputGroup>
           </Col>
           <Col sm={4}>
@@ -225,9 +225,9 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                   )
                 })}
               </FormControl>
-              <InputGroup.Append>
-                <Button variant="outline-secondary" onClick={findByCategoria}>Buscar</Button>
-              </InputGroup.Append>
+
+              <Button variant="outline-secondary" onClick={findByCategoria}>Buscar</Button>
+
             </InputGroup>
           </Col>
         </Row>

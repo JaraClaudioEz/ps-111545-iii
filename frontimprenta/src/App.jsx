@@ -17,6 +17,7 @@ import ListaOrdenes from "./components/lista-ordenes";
 import ListaUsuarios from "./components/lista-usuarios";
 import Reportes from "./components/reportes";
 import Legales from "./components/legales";
+import FAQ from "./components/faq";
 import Orden from "./components/orden";
 import ProcesoPago from "./components/procesar-pago";
 import Footer from "./components/footer";
@@ -201,6 +202,7 @@ const App = () => {
               )}
             />
             <Route exact path="/legales" component={Legales} />
+            <Route exact path="/faq" component={FAQ} />
             <Route exact path="/contacto" component={Contacto} />
           </Switch>
         </Col>

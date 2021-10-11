@@ -3,6 +3,8 @@ import ProductosDAO from "../dao/productosDAO.js"
 export default class ProductosController {
     static async apiGetProductos(req, res, next) {
 
+        //console.log(req);
+
         const productosPorPagina = req.query.productosPorPagina ? parseInt(req.productosPorPagina, 10) : 20
         const pag = req.query.pag ? parseInt(req.query.pag, 10) : 0
 
