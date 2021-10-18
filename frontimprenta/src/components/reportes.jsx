@@ -204,7 +204,7 @@ const Reportes = () => {
         <Col xs lg="3" className="d-flex align-items-center">
           <label>Filtrar por...</label>
           <InputGroup className="mb-3">
-            <FormControl as="select" custom onChange={onChangeFiltrarPeriodo}>
+            <FormControl as="select" onChange={onChangeFiltrarPeriodo}>
               <option value="day" key="1">Día</option>
               <option value="month" key="2">Mes</option>
               <option value="year" key="3">Año</option>
@@ -257,7 +257,7 @@ const Reportes = () => {
         <Col xs lg="2" className="d-flex align-items-center">
           <label>Filtrar por...</label>
           <InputGroup className="mb-3">
-            <FormControl as="select" custom onChange={onChangeFiltrarProducto}>
+            <FormControl as="select" onChange={onChangeFiltrarProducto}>
               <option value="cantidades" key="1">Cantidades</option>
               <option value="ventas" key="2">Ventas</option>
             </FormControl>

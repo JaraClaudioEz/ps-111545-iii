@@ -329,9 +329,9 @@ export default class OrdenesController {
     static async apiDeleteOrden(req, res, next) {
         try {
             const idOrden = req.query.id
-
+            
             const deleteResponse = await Orden.findByIdAndDelete({ _id: idOrden })
-
+            
             res.json({ status: "Eliminado", id: idOrden })
         } catch (e) {
             res.status(500).json({ error: e.message })

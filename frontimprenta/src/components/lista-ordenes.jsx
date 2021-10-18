@@ -93,7 +93,6 @@ const ListaOrdenes = ({ usuario }) => {
     };
   }, [paginas, items]);
 
-
   const armarPaginacion = () => {
 
     for (let number = 1; number <= paginas; number++) {
@@ -118,8 +117,7 @@ const ListaOrdenes = ({ usuario }) => {
     OrdenDataService.getEstados()
       .then(response => {
         //console.log(response.data);
-        setEstados(["Todas"].concat(response.data));
-
+        setEstados(["Todos"].concat(response.data));
       })
       .catch(e => {
         console.log(e);
@@ -140,13 +138,19 @@ const ListaOrdenes = ({ usuario }) => {
 
   const refreshList = () => {
     traerOrdenes(actual);
+    //setItems([]); FALTA CORREGIR LIMPIEZA DE ARRAY CUANDO SE BUSCA "TODOS"
   }
 
   const find = (query, by) => {
-    UsuarioDataService.find(query, by)
+    OrdenDataService.find(query, by)
       .then(response => {
-        //console.log(response.data); CRUZAR BUSQUEDA POR NOMBRE DE USUARIO Y SETEAR ORDENES
-        //setOrdenes(response.data.ordenes);
+        console.log(response.data); //CRUZAR BUSQUEDA POR NOMBRE DE USUARIO Y SETEAR ORDENES
+
+        const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
+        setPaginas(totalPages);
+
+        setItems([]);
+        setOrdenes(response.data.ordenes);
       })
       .catch(e => {
         console.log(e);
@@ -158,7 +162,7 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const findByEstado = () => {
-    if (searchEstado === "todas") {
+    if (searchEstado === "Todos") {
       refreshList();
     } else {
       find(searchEstado, "estado")
@@ -211,11 +215,12 @@ const ListaOrdenes = ({ usuario }) => {
               </Col>
               <Col sm={4}>
                 <InputGroup className="mb-3">
-                  <FormControl as="select" custom onChange={onChangeSearchEstado}>
-                    <option value="todas">Todas</option>
-                    <option value="pendiente">Pendiente de Pago</option>
-                    <option value="abonada">Abonada/En realización</option>
-                    <option value="entregado">Entregado al Cliente</option>
+                  <FormControl as="select" onChange={onChangeSearchEstado}>
+                    {estados.map(estado => {
+                      return (
+                        <option key={estado} value={estado}> {estado.substr(0, 20)} </option>
+                      )
+                    })}
                   </FormControl>
                   <Button variant="outline-secondary" onClick={findByEstado}>Buscar</Button>
                 </InputGroup>

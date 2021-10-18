@@ -144,8 +144,8 @@ const NavbarImprenta = ({ totalItems, user }) => {
                         <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{twitter}</Nav.Link>
                     </Nav>
                     <Nav className="me-4">
-                        <Form inline className="navbar-nav navbar-right">
-                            <FormControl type="text" placeholder="Buscar" className="mr-sm-6" />
+                        <Form className="navbar-nav navbar-right">
+                            <FormControl type="search" placeholder="Buscar" className="mr-sm-6" />
                             <Button variant="outline-success" className="ml-6">Buscar</Button>
                         </Form>
                     </Nav>

@@ -13,6 +13,10 @@ class OrdenDataService {
         return http.get(`/ordenes/id/${idOrden}`);
     };
 
+    find(query, by = "nombre", pag = 0) { 
+        return http.get(`/ordenes?${by}=${query}&pag=${pag}`);
+    }
+
     checkout(idUsuario) {
         return http.post(`/ordenes/${idUsuario}`);
     };

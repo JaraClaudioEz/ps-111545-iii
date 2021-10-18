@@ -218,7 +218,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           </Col>
           <Col sm={4}>
             <InputGroup className="mb-3">
-              <FormControl as="select" custom onChange={onChangeSearchCategoria}>
+              <FormControl as="select" onChange={onChangeSearchCategoria}>
                 {categorias.map(categoria => {
                   return (
                     <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>

@@ -6,7 +6,7 @@ import OrdenDataService from "../services/servicio-orden.js";
 
 const ProcesoPago = () => {
 
-    const [id, setId] = useState('');
+    const [id, setId] = useState(null);
     const [estado, setEstado] = useState('');
     const { search } = useLocation();
     const history = useHistory();
@@ -44,7 +44,7 @@ const ProcesoPago = () => {
         else {
             //Luego implementar redireccionamiento directo al pedido con cartel de alerta incluido en el mismo.
             setTimeout(() => {
-                eliminarOrden();
+                eliminarOrden(idOrden);
             }, 5000);
         }
     };
@@ -66,8 +66,9 @@ const ProcesoPago = () => {
             });
     };
 
-    const eliminarOrden = async () => {
+    const eliminarOrden = async (id) => {
         try {
+            
             const respuesta = await OrdenDataService.deleteOrden(id);
             history.push(`/pedido`);
         } catch (error) {
