@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react"
 //import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts'
-import { Container, Col, Row, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Col, Row, InputGroup, FormControl, Form, Button } from 'react-bootstrap';
 import moment from "moment";
+import DatePicker from "react-datepicker";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import es from 'date-fns/locale/es';
 
 import ReporteDataService from "../services/servicio-reporte";
 
@@ -18,6 +22,11 @@ const Reportes = () => {
   const [imprenta, setImpreta] = useState([]);
   const [estampado, setEstampado] = useState([]);
   const [carteleria, setCarteleria] = useState([]);
+  const [fechaDesde, setFechaDesde] = useState(new Date());
+  const [fechaHasta, setFechaHasta] = useState(new Date());
+
+  //setDefaultLocale('es');
+
 
   const traerOrdenes = async () => {
     const fechas = [];
@@ -25,9 +34,50 @@ const Reportes = () => {
     const formato = formatoFecha;
 
     try {
-      const { data } = await ReporteDataService.getTotalVentasPeriodo(formato);
+      const { data } = await ReporteDataService.getTotalVentas(formato);
       //const { data } = await OrdenDataService.getListadoOrdenes();
       //console.log(data, formato);
+
+      data.ordenes.forEach(item => {
+        switch (formato) {
+          case 'year':
+            fechas.push(moment(item._id).format('YYYY'));
+            break;
+          case 'month':
+            fechas.push(moment(item._id).format('MMM - YYYY'));
+            break;
+          default:
+            fechas.push(moment(item._id).format('LL'));
+            break;
+        };
+        ventas.push(item.totalVentas);
+        //console.log(item);
+      });
+
+      //console.log(fecha)
+      setFechas(fechas);
+      setVentasTotales(ventas);
+      //console.log(fechas, ventas);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const buscarPorFechas = async () => {
+    var desde = moment(fechaDesde).format('YYYY[-]MM[-]DD')
+    var hasta = moment(fechaHasta).format('YYYY[-]MM[-]DD')
+    //console.log(typeof(desde), hasta);
+    const fechas = [];
+    const ventas = [];
+    const formato = formatoFecha;
+
+    try {
+      const { data } = await ReporteDataService.getTotalVentasPeriodo(desde, hasta);
+      console.log(data, formato);
+
+      if(!data){
+        alert("No hay ventas para el período seleccionado!");
+      }
 
       data.ordenes.forEach(item => {
         switch (formato) {
@@ -99,6 +149,7 @@ const Reportes = () => {
       const { data } = await ReporteDataService.getVentasPorCategorias();
       //console.log(data);
       setFechasCategorias(fechas.reverse());
+      //console.log(fechasCategorias);
       data.imprenta.forEach(item => {
         //console.log(item);
         fechas.forEach(i => {
@@ -182,6 +233,14 @@ const Reportes = () => {
             chart: {
               id: 'ventas-periodo'
             },
+            plotOptions: {
+              bar: {
+                borderRadius: 2,
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+              }
+            },
             xaxis: {
               categories: fechas,
             },
@@ -193,7 +252,11 @@ const Reportes = () => {
               },
             },
             dataLabels: {
-              enabled: true
+              enabled: true,
+              style: {
+                colors: ['#333']
+              },
+              offsetY: -20,
             },
           }} series={[{
             name: 'Ventas',
@@ -202,7 +265,7 @@ const Reportes = () => {
           ]} type="bar" width={500} height={320} />
         </Col>
         <Col xs lg="3" className="d-flex align-items-center">
-          <label>Filtrar por...</label>
+          <Form.Label>Filtrar por...</Form.Label>
           <InputGroup className="mb-3">
             <FormControl as="select" onChange={onChangeFiltrarPeriodo}>
               <option value="day" key="1">Día</option>
@@ -211,6 +274,45 @@ const Reportes = () => {
             </FormControl>
           </InputGroup>
         </Col>
+      </Row>
+      <Row className="justify-content-md-center mb-4">
+        <Col md="auto">
+          <Form.Label>Filtrar desde:</Form.Label>
+          <DatePicker
+            selected={fechaDesde}
+            onChange={(date) => setFechaDesde(date)}
+            selectsStart
+            startDate={fechaDesde}
+            endDate={fechaHasta}
+            maxDate={new Date()}
+            locale={es}
+            dateFormat="dd/MM/yyyy"
+          />
+        </Col>
+        <Col md="auto">
+          <Form.Label>Filtrar hasta:</Form.Label>
+          <DatePicker
+            selected={fechaHasta}
+            onChange={(date) => setFechaHasta(date)}
+            selectsEnd
+            startDate={fechaDesde}
+            endDate={fechaHasta}
+            minDate={fechaDesde}
+            maxDate={new Date()}
+            locale={es}
+            dateFormat="dd/MM/yyyy"
+          />
+        </Col>
+        <Col md="auto" className="my-2">
+          <Button variant="outline-secondary" onClick={buscarPorFechas}>Buscar</Button>
+        </Col>
+        <Col md="auto" className="my-2">
+          <Form.Text id="ayudaFiltroPeriodo" muted>
+            Seleccione dentro de un rango máximo de 15 días las fechas a las cuales
+            desea filtrar las ventas realizadas.
+          </Form.Text>
+        </Col>
+
       </Row>
       <Row>
         <Col xs lg="2">
@@ -255,13 +357,17 @@ const Reportes = () => {
           }} series={cantidadesProductos} type="polarArea" width={500} height={320} />
         </Col>
         <Col xs lg="2" className="d-flex align-items-center">
-          <label>Filtrar por...</label>
-          <InputGroup className="mb-3">
-            <FormControl as="select" onChange={onChangeFiltrarProducto}>
-              <option value="cantidades" key="1">Cantidades</option>
-              <option value="ventas" key="2">Ventas</option>
-            </FormControl>
-          </InputGroup>
+          <Row>
+            <label>Filtrar por...</label>
+          </Row>
+          <Row>
+            <InputGroup className="mb-3">
+              <FormControl as="select" onChange={onChangeFiltrarProducto}>
+                <option value="cantidades" key="1">Cantidades</option>
+                <option value="ventas" key="2">Ventas</option>
+              </FormControl>
+            </InputGroup>
+          </Row>
         </Col>
       </Row>
       <Row>

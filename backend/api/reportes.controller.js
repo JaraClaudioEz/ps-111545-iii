@@ -19,17 +19,43 @@ export default class ReportesController {
                 break;
         }
 
-        var pipeline = [
-            {
-                $group: {
-                    _id: { $dateToString: { format: formato, date: "$fecha" } },
-                    //_id: "$fecha",
-                    totalVentas: {
-                        $sum: "$factura"
+        var pipeline = [];
+
+        if (!req.query.desde) {
+            pipeline = [
+                {
+                    $group: {
+                        _id: { $dateToString: { format: formato, date: "$fecha" } },
+                        //_id: "$fecha",
+                        totalVentas: {
+                            $sum: "$factura"
+                        }
+                    },
+                }
+            ];
+        }
+        else {
+            pipeline = [
+                {
+                    $group: {
+                        _id: { $dateToString: { format: formato, date: "$fecha" } },
+                        //_id: "$fecha",
+                        totalVentas: {
+                            $sum: "$factura"
+                        }
+                    },
+                },
+                {
+                    $match: {
+                        _id: {
+                            $gte: req.query.desde,
+                            $lt: req.query.hasta
+                        }
                     }
                 }
-            }
-        ];
+            ];
+        }
+
 
         try {
             const ordenes = await Orden.aggregate(pipeline).sort({ _id: 1 });
@@ -161,7 +187,7 @@ export default class ReportesController {
                     "categoria": { "$first": "$items.categoria" },
                     "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
-                    venta_total: { $sum: { $multiply: [ "$items.precio", "$items.cantidad" ] } }
+                    venta_total: { $sum: { $multiply: ["$items.precio", "$items.cantidad"] } }
                 }
             },
 
@@ -176,7 +202,7 @@ export default class ReportesController {
                     "_id",
                 ]
             },
-            
+
         ];
 
         var pipeline2 = [
@@ -200,7 +226,7 @@ export default class ReportesController {
                     "categoria": { "$first": "$items.categoria" },
                     "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
-                    venta_total: { $sum: { $multiply: [ "$items.precio", "$items.cantidad" ] } }
+                    venta_total: { $sum: { $multiply: ["$items.precio", "$items.cantidad"] } }
                 }
             },
 
@@ -238,7 +264,7 @@ export default class ReportesController {
                     "categoria": { "$first": "$items.categoria" },
                     "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
-                    venta_total: { $sum: { $multiply: [ "$items.precio", "$items.cantidad" ] } }
+                    venta_total: { $sum: { $multiply: ["$items.precio", "$items.cantidad"] } }
                 }
             },
 

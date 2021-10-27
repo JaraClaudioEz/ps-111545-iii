@@ -2,8 +2,12 @@ import http from "../http-commons";
 
 class ReporteDataService {
 
-    getTotalVentasPeriodo(formato) {
+    getTotalVentas(formato) {
         return http.get(`/reportes?formatoFecha=${formato}`);
+    };
+
+    getTotalVentasPeriodo(desde, hasta) {
+        return http.get(`/reportes?desde=${desde}&hasta=${hasta}`);
     };
 
     getCantidadesPorProducto(mayor) {
