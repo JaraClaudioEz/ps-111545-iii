@@ -58,7 +58,7 @@ export default class ReportesController {
 
 
         try {
-            const ordenes = await Orden.aggregate(pipeline).sort({ _id: 1 }).limit(15);
+            const ordenes = await Orden.aggregate(pipeline).sort({ _id: -1 }).limit(15);
             //console.log(ordenes);
 
             if (ordenes.length > 0) {

@@ -156,7 +156,7 @@ const Orden = ({ match, usuario }) => {
                   <Form>
                     <Form.Group controlId="exampleForm.ControlSelect1">
                       <Form.Label>Estado de la Orden: </Form.Label>
-                      <Form.Control as="select" custom name="estado" value={orden?.estado} onChange={handleCambioEstado}>
+                      <Form.Control as="select" name="estado" value={orden?.estado} onChange={handleCambioEstado}>
                         {estados.map(estado => {
                           return (
                             <option key={estado} value={estado} className="text-capitalize"> {estado.substr(0, 40)} </option>

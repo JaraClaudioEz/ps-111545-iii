@@ -43,7 +43,7 @@ const ListaOrdenes = ({ usuario }) => {
   const obtenerUsuario = async () => {
     try {
       const usuario = JSON.parse(localStorage.getItem('perfil'));
-      console.log(usuario);
+      //console.log(usuario);
       setUser(usuario);
     } catch (error) {
       console.log(error);
@@ -51,7 +51,7 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const traerOrdenes = (pag) => {
-    console.log(user);
+    //console.log(user);
     if (usuario?.result.tipo === "admin") {
       OrdenDataService.getListadoOrdenes(pag - 1)
         .then(response => {

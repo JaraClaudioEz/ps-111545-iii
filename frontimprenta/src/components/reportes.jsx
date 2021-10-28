@@ -55,8 +55,8 @@ const Reportes = () => {
       });
 
       //console.log(fecha)
-      setFechas(fechas);
-      setVentasTotales(ventas);
+      setFechas(fechas.reverse());
+      setVentasTotales(ventas.reverse());
       //console.log(fechas, ventas);
     } catch (error) {
       console.log(error);
@@ -73,7 +73,7 @@ const Reportes = () => {
 
     try {
       const { data } = await ReporteDataService.getTotalVentasPeriodo(desde, hasta);
-      console.log(data, formato);
+      //console.log(data, formato);
 
       if(!data){
         alert("No hay ventas para el período seleccionado!");
@@ -96,8 +96,8 @@ const Reportes = () => {
       });
 
       //console.log(fecha)
-      setFechas(fechas);
-      setVentasTotales(ventas);
+      setFechas(fechas.reverse());
+      setVentasTotales(ventas.reverse());
       //console.log(fechas, ventas);
     } catch (error) {
       console.log(error);

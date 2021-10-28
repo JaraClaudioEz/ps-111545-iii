@@ -46,6 +46,9 @@ export default class OrdenesController {
             if ("estado" in filtros) {
                 query = { "estado": { $eq: filtros["estado"] } }
             }
+            else {
+                query = { "estado": { $ne: 'Entregada' } }
+            }
         }
 
         try {
@@ -289,7 +292,7 @@ export default class OrdenesController {
             if ("idPago" in req.body) {
                 orden.idPago = idPago;
             }
-            
+
             orden.estado = estado;
             orden = await orden.save();
 
@@ -329,9 +332,9 @@ export default class OrdenesController {
     static async apiDeleteOrden(req, res, next) {
         try {
             const idOrden = req.query.id
-            
+
             const deleteResponse = await Orden.findByIdAndDelete({ _id: idOrden })
-            
+
             res.json({ status: "Eliminado", id: idOrden })
         } catch (e) {
             res.status(500).json({ error: e.message })
