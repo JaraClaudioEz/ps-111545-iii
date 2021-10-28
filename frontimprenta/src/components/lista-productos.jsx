@@ -55,6 +55,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   };
 
   const traerProductos = (pag) => {
+    
     ProductoDataService.getListadoProductos(pag - 1)
       .then(response => {
         //console.log(response.data);

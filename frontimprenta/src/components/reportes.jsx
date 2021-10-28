@@ -308,8 +308,8 @@ const Reportes = () => {
         </Col>
         <Col md="auto" className="my-2">
           <Form.Text id="ayudaFiltroPeriodo" muted>
-            Seleccione dentro de un rango máximo de 15 días las fechas a las cuales
-            desea filtrar las ventas realizadas.
+            Seleccione el rango de fechas las cuales desea conocer las ventas totales para dicho período.
+            ATENCIÓN: Sólo se mostrarán los primeros 15 resultados.
           </Form.Text>
         </Col>
 

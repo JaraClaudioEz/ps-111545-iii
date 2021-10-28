@@ -13,27 +13,19 @@ const ListaOrdenes = ({ usuario }) => {
   const [searchEstado, setSearchEstado] = useState("");
   const [estados, setEstados] = useState(["Todos"]);
 
-  const history = useHistory();
+  const [user, setUser] = useState(usuario);
+
+  //const history = useHistory();
 
   const [actual, setActual] = useState(1);
   const [paginas, setPaginas] = useState(null);
   const [items, setItems] = useState([]);
   let primera = false;
-  //const { tipo } = props.usuario.result
-  //console.log(tipo);
+  
 
   //console.log(usuario);
 
-  useEffect(() => {
-    traerUsuarios();
-    traerOrdenes(actual);
-    traerEstados();
-    return () => {
-      setOrdenes([]);
-      setUsuarios([]);
-    };
-    //setRol(props.usuario.result.tipo)
-  }, []);
+  
 
   //console.log(usuarios);
   //console.log(ordenes);
@@ -48,7 +40,18 @@ const ListaOrdenes = ({ usuario }) => {
     setSearchEstado(searchEstado);
   };
 
+  const obtenerUsuario = async () => {
+    try {
+      const usuario = JSON.parse(localStorage.getItem('perfil'));
+      console.log(usuario);
+      setUser(usuario);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const traerOrdenes = (pag) => {
+    console.log(user);
     if (usuario?.result.tipo === "admin") {
       OrdenDataService.getListadoOrdenes(pag - 1)
         .then(response => {
@@ -187,12 +190,30 @@ const ListaOrdenes = ({ usuario }) => {
     <h4>Todavía no has realizado ningún pedido. <Link to="/productos">Haz el tuyo!</Link></h4>
   );
 
+  useEffect(() => {
+    obtenerUsuario();
+    traerUsuarios();
+    //traerOrdenes(actual);
+    traerEstados();
+    
+    return () => {
+      setOrdenes([]);
+      setUsuarios([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    
+    traerOrdenes(actual);
+    
+  }, [user]);
+
   if (!usuario) return 'Cargando...';
 
   return (
     <div>
       {
-        usuario?.result.tipo === "admin" ? (
+        user.result.tipo === "admin" ? (
           <Container fluid>
             <Row>
               <Col>

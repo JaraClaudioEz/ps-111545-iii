@@ -49,7 +49,7 @@ export default class ReportesController {
                     $match: {
                         _id: {
                             $gte: req.query.desde,
-                            $lt: req.query.hasta
+                            $lt: req.query.hasta + 1
                         }
                     }
                 }
@@ -58,7 +58,7 @@ export default class ReportesController {
 
 
         try {
-            const ordenes = await Orden.aggregate(pipeline).sort({ _id: 1 });
+            const ordenes = await Orden.aggregate(pipeline).sort({ _id: 1 }).limit(15);
             //console.log(ordenes);
 
             if (ordenes.length > 0) {
