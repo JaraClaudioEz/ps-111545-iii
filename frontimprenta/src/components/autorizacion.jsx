@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Alert, Container, Col, Row, Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -42,6 +42,7 @@ const Autorizacion = () => {
             confirmPass: yup.string()
                 .oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir!')
                 .required('Debes confirmar la contraseña ingresada.'),
+            terms: yup.bool().required().oneOf([true], 'Debe aceptar antes de registrarse.'),
         }) : yup.object({
             email: yup.string()
                 .email('Email inválido!')
@@ -152,6 +153,7 @@ const Autorizacion = () => {
                 email: '',
                 password: '',
                 confirmPass: '',
+                terms: false,
             }}
             onSubmit={values => {
 
@@ -283,24 +285,46 @@ const Autorizacion = () => {
                                 </Form.Group>
                                 {
                                     registrado && (
-                                        <Form.Group className="mb-3  p-2 bg-light border">
-                                            <Form.Label>Confirmar contraseña:</Form.Label>
-                                            <Form.Control
-                                                type="password"
-                                                id="confirmPass"
-                                                required
-                                                value={values.confirmPass}
-                                                onChange={handleChange}
-                                                name="confirmPass"
-                                                placeholder="Repetir contraseña"
-                                                isValid={touched.confirmPass && !errors.confirmPass}
-                                                isInvalid={!!errors.confirmPass}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.confirmPass}
-                                            </Form.Control.Feedback>
+                                        <div>
+                                            <Form.Group className="mb-3  p-2 bg-light border">
+                                                <Form.Label>Confirmar contraseña:</Form.Label>
+                                                <Form.Control
+                                                    type="password"
+                                                    id="confirmPass"
+                                                    required
+                                                    value={values.confirmPass}
+                                                    onChange={handleChange}
+                                                    name="confirmPass"
+                                                    placeholder="Repetir contraseña"
+                                                    isValid={touched.confirmPass && !errors.confirmPass}
+                                                    isInvalid={!!errors.confirmPass}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.confirmPass}
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+                                            <Row>
+                                                <Col md="auto">
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Check
+                                                            required
+                                                            name="terms"
+                                                            label="Aceptar Términos y Condiciones"
+                                                            onChange={handleChange}
+                                                            isInvalid={!!errors.terms}
+                                                            feedback={errors.terms}
+                                                            feedbackType="invalid"
+                                                            id="validationFormik0"
+                                                        />
+                                                    </Form.Group>
 
-                                        </Form.Group>
+                                                </Col>
+                                                <Col md="auto" className="mb-4">
+                                                    <Link to="/legales">Ver aquí...</Link>
+                                                </Col>
+                                            </Row>
+
+                                        </div>
                                     )
                                 }
 
@@ -320,7 +344,7 @@ const Autorizacion = () => {
                                         cookiePolicy="single_host_origin"
                                     />
                                 </div>
-                                <div className="d-grid d-flex justify-content-end">
+                                <div className="d-grid d-flex justify-content-end mb-4">
                                     <button type="button" className="btn btn-link" onClick={cambiarModo}>
                                         {registrado ? "Ya tiene cuenta? Inicie sesión." : "No tiene cuenta? Registrarse."}
                                     </button>

@@ -1,6 +1,10 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 
 const Legales = () => {
+
+    const history = useHistory();
+
     return (
         <Container>
             <Row className="mt-4">
@@ -212,6 +216,11 @@ const Legales = () => {
                         </div>
                     </div>
                 </Col>
+            </Row>
+            <Row className="my-4" md={1}>
+                
+                    <Button onClick={() => history.goBack()}>Volver</Button>
+                
             </Row>
         </Container>
     );
