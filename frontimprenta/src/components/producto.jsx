@@ -70,6 +70,8 @@ const Producto = ({ match, usuario, alAgregarAlPedido }) => {
               {producto.oferta && (<Badge bg="success" className="m-2">En Oferta!!</Badge>)}
             </h5>
             <p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span className="text-muted text-decoration-line-through" hidden={!producto.oferta}>${producto.precio}</span><br />
               <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio)} por {producto.provision}<br />
               <strong>Características: </strong>{producto.especificaciones}
             </p>

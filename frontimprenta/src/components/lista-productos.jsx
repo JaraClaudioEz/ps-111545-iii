@@ -291,13 +291,15 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                     height="225px"
                   />
                   <Card.Body>
-                    <Card.Title>
+                    <Card.Title className="mb-2">
                       {producto.nombre_producto}
-                      {producto.oferta && (<Badge pill bg="success" className="m-2">Oferta!!</Badge>)}
+                      {producto.oferta && (<Badge pill bg="success" className="mx-2">Oferta!!</Badge>)}
                     </Card.Title>
                     <Card.Text>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span className="text-muted text-decoration-line-through" hidden={!producto.oferta}>${producto.precio}</span><br />
+                      <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio)} por {producto.provision} <br />
                       <strong>Categoría: </strong>{producto.categoria}<br />
-                      <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio) } por {producto.provision}
                     </Card.Text>
                     <Row>
                       <Link to={"/productos/" + producto._id} className="btn btn-primary my-2 btn-block">
