@@ -68,7 +68,7 @@ export default class ProductosController {
             const date = new Date()
             */
             const respuestaProducto = await ProductosDAO.addProducto(nuevoProducto)
-            console.log(respuestaProducto);
+            //console.log(respuestaProducto);
             res.json({ status: "Agregado", id: respuestaProducto._id })
         } catch (e) {
             res.status(500).json({ error: e.message })

@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import { Container, Col, Row, Form, Button, InputGroup, Spinner, Modal } from 'react-bootstrap';
 import { Formik, Field } from 'formik';
 import * as yup from 'yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faCross } from '@fortawesome/free-solid-svg-icons'
 
 import ProductoDataService from "../services/servicio-producto";
 
@@ -33,7 +35,7 @@ const AddProducto = props => {
             .required('Completa este campo.'),
         precio: yup.number()
             .required('Completa este campo.')
-            .positive('Solo valores positivos')
+            .positive('Sólo valores positivos')
             .integer(),
         especificaciones: yup.string()
             .max(50, 'Supera el limite de caracteres.')
@@ -53,10 +55,12 @@ const AddProducto = props => {
     let editar = false;
 
     const history = useHistory();
+    const chek = <FontAwesomeIcon icon={faCheck} />
+    const cross = <FontAwesomeIcon icon={faCross} />
 
     const [categorias, setCategorias] = useState(["Seleccione..."]);
     const [producto, setProducto] = useState(estadoInicialProducto);
-    const [submitted, setSubmitted] = useState(false);
+    //const [submitted, setSubmitted] = useState(false);
 
     const [fileData, setFileData] = useState();
     const [imagen, setImagen] = useState(false);
@@ -115,22 +119,25 @@ const AddProducto = props => {
     }, [props.match.params.id]);
     //console.log(producto);
 
+    /*
     const handleInputChange = event => {
         const value = event.target.value;
         setProducto({ ...producto, [event.target.name]: value });
     };
+    */
 
     const handleFileChange = ({ target }) => {
         setFileData(target.files[0]);
         setImagen(true);
+        setLoading(true);
     };
 
     const handleImageSubmit = async () => {
 
         //e.preventDefault();
-        setLoading(true);
+        //setLoading(true);
         const formdata = new FormData();
-
+        //console.log(fileData);
         formdata.append("imagen", fileData);
 
         if (editar) {
@@ -169,7 +176,14 @@ const AddProducto = props => {
                     console.log(e);
                 });
         }
+
     };
+
+    useEffect(() => {
+        if (loading) {
+            handleImageSubmit();
+        };
+    }, [loading]);
 
     const saveProducto = (prod) => {
 
@@ -309,208 +323,192 @@ const AddProducto = props => {
                         </Col>
                         <Col></Col>
                     </Row>
-                    {
-                        submitted ? (
-                            <Row>
-                                <Col md={{ span: 6, offset: 3 }}>
-                                    <div className="d-grid gap-2">
-                                        <h4>Producto {editar ? "Modificado!" : "Agregado!"}</h4>
-                                        <Link to={"/productos/agregar"} className="btn btn-primary">
-                                            Agregar nuevo Producto
-                                        </Link>
-                                        <Link to={"/productos"} className="btn btn-success">
-                                            Volver al Listado
-                                        </Link>
-                                    </div>
-                                </Col>
-                            </Row>
-                        ) : (
-                            <Row>
-                                <Col md={{ span: 6, offset: 3 }}>
-                                    <Form noValidate onSubmit={handleSubmit}>
-                                        <Form.Group className="mb-3  p-2 bg-light border">
-                                            <Form.Label>Nombre del Producto:</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="nombre_producto"
-                                                required
-                                                value={values.nombre_producto}
-                                                onChange={handleChange}
-                                                name="nombre_producto"
-                                                placeholder="Producto"
-                                                isValid={touched.nombre_producto && !errors.nombre_producto}
-                                                isInvalid={!!errors.nombre_producto}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.nombre_producto}
-                                            </Form.Control.Feedback>
-                                            <Form.Text id="ayudaProducto" muted>Introduza el nombre del producto.</Form.Text>
-                                        </Form.Group>
-                                        <Form.Group className="mb-3 p-2 bg-light border">
-                                            <Form.Label>Categoría:</Form.Label>
-                                            <Field name="categoria" as="select" className="form-control">
-                                                {categorias.map(categoria => {
-                                                    return (
-                                                        <option key={categoria} value={categoria.value}> {categoria.substr(0, 20)} </option>
-                                                    )
-                                                })}
-                                            </Field>
-                                            {errors.categoria && <div className="input-feedback text-danger form-text">{errors.categoria}</div>}
-                                            <div id="ayudaCategoria" className="form-text">Seleccione la categoría a la cual pertenece le producto.</div>
-                                        </Form.Group>
-                                        <Form.Group className="mb-3  p-2 bg-light border">
-                                            <Form.Label>Provisión del Producto:</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="provision"
-                                                required
-                                                value={values.provision}
-                                                onChange={handleChange}
-                                                name="provision"
-                                                placeholder="Provisión"
-                                                isValid={touched.provision && !errors.provision}
-                                                isInvalid={!!errors.provision}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.provision}
-                                            </Form.Control.Feedback>
-                                            <Form.Text id="ayudaProvision" muted>Introduza cómo se desea vender el producto. Ejemplo 1000 tarjetas, por metro, etc.</Form.Text>
-                                        </Form.Group>
-                                        <Form.Group className="mb-3 p-2 bg-light border">
-                                            <Form.Label>Precio del Producto:</Form.Label>
-                                            <InputGroup hasValidation className="mb-3">
-                                                <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
-                                                <Form.Control
-                                                    type="number"
-                                                    required
-                                                    value={values?.precio === null ? '' : values?.precio}
-                                                    onChange={handleChange}
-                                                    name="precio"
-                                                    placeholder="Precio"
-                                                    isValid={touched.precio && !errors.precio}
-                                                    isInvalid={!!errors.precio}
-                                                    min='0'
-                                                />
-                                                <Form.Control.Feedback type="invalid">
-                                                    {errors.precio}
-                                                </Form.Control.Feedback>
+                    <Row>
+                        <Col md={{ span: 6, offset: 3 }}>
+                            <Form noValidate onSubmit={handleSubmit}>
+                                <Form.Group controlId="file" className="mb-3 p-2 bg-light border">
+                                    <Form.Label>Imagen del Producto:</Form.Label>
+                                    <InputGroup className="mb-3">
+                                        <Form.Control
+                                            type="file"
+                                            onChange={handleFileChange}
+                                            accept=".jpg,.png,.jpeg"
+                                            name="file"
+                                            required
+                                        />
+                                        <InputGroup.Text id="basic-addon2" hidden={!imagen}>
+                                            {loading ?
+                                                <div>
+                                                    <Spinner
+                                                        as="span"
+                                                        animation="grow"
+                                                        size="sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    /> Cargando...
+                                                </div> :
+                                                <span style={{ color: "green" }} >
+                                                    {chek}
+                                                </span>}
+                                        </InputGroup.Text>
+                                    </InputGroup>
+                                    <Form.Text className="text-muted">
+                                        Seleccione la imagen a mostrar en la página para el producto.
+                                    </Form.Text>
+                                </Form.Group>
+                                <Form.Group className="mb-3  p-2 bg-light border">
+                                    <Form.Label>Nombre del Producto:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="nombre_producto"
+                                        required
+                                        value={values.nombre_producto}
+                                        onChange={handleChange}
+                                        name="nombre_producto"
+                                        placeholder="Producto"
+                                        isValid={touched.nombre_producto && !errors.nombre_producto}
+                                        isInvalid={!!errors.nombre_producto}
+                                        disabled={!imagen}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.nombre_producto}
+                                    </Form.Control.Feedback>
+                                    <Form.Text id="ayudaProducto" muted>Introduza el nombre del producto.</Form.Text>
+                                </Form.Group>
+                                <Form.Group className="mb-3 p-2 bg-light border">
+                                    <Form.Label>Categoría:</Form.Label>
+                                    <Field name="categoria" as="select" className="form-control" disabled={!imagen}>
+                                        {categorias.map(categoria => {
+                                            return (
+                                                <option key={categoria} value={categoria.value}> {categoria.substr(0, 20)} </option>
+                                            )
+                                        })}
+                                    </Field>
+                                    {errors.categoria && <div className="input-feedback text-danger form-text">{errors.categoria}</div>}
+                                    <div id="ayudaCategoria" className="form-text">Seleccione la categoría a la cual pertenece le producto.</div>
+                                </Form.Group>
+                                <Form.Group className="mb-3  p-2 bg-light border">
+                                    <Form.Label>Provisión del Producto:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="provision"
+                                        required
+                                        value={values.provision}
+                                        onChange={handleChange}
+                                        name="provision"
+                                        placeholder="Provisión"
+                                        isValid={touched.provision && !errors.provision}
+                                        isInvalid={!!errors.provision}
+                                        disabled={!imagen}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.provision}
+                                    </Form.Control.Feedback>
+                                    <Form.Text id="ayudaProvision" muted>Introduza cómo se desea vender el producto. Ejemplo 1000 tarjetas, por metro, etc.</Form.Text>
+                                </Form.Group>
+                                <Form.Group className="mb-3 p-2 bg-light border">
+                                    <Form.Label>Precio del Producto:</Form.Label>
+                                    <InputGroup hasValidation className="mb-3">
+                                        <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
+                                        <Form.Control
+                                            type="number"
+                                            required
+                                            value={values?.precio === null ? '' : values?.precio}
+                                            onChange={handleChange}
+                                            name="precio"
+                                            placeholder="Precio"
+                                            isValid={touched.precio && !errors.precio}
+                                            isInvalid={!!errors.precio}
+                                            min='0'
+                                            disabled={!imagen}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.precio}
+                                        </Form.Control.Feedback>
 
-                                            </InputGroup>
-                                            <Form.Text id="ayudaPrecio" muted>Introduza el precio del producto para la provision introducida anteriormente.</Form.Text>
-                                        </Form.Group>
-                                        <Form.Group className="mb-3 p-2 bg-light border">
-                                            <Form.Label>Especificaciones del Producto:</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="especificaciones"
-                                                required
-                                                value={values.especificaciones}
-                                                onChange={handleChange}
-                                                name="especificaciones"
-                                                placeholder="Especificaciones"
-                                                isValid={touched.especificaciones && !errors.especificaciones}
-                                                isInvalid={!!errors.especificaciones}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.especificaciones}
-                                            </Form.Control.Feedback>
-                                            <Form.Text id="ayudaEspecificaciones" muted>Introduza las especificaciones del producto. Por ejemplo calidad, gramaje, material, etc.</Form.Text>
-                                        </Form.Group>
-                                        <Form.Group className="mb-3 p-2 bg-light border">
-                                            <Form.Label>Descripción del Producto:</Form.Label>
-                                            <Form.Control
-                                                as="textarea"
-                                                id="descripcion"
-                                                value={values.descripcion}
-                                                onChange={handleChange}
-                                                name="descripcion"
-                                                placeholder="Descripción..."
-                                                isValid={touched.descripcion && !errors.descripcion}
-                                                isInvalid={!!errors.descripcion}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.descripcion}
-                                            </Form.Control.Feedback>
-                                            <Form.Text id="ayudaDescripcion" muted>Describa el producto, ventajas, usos. Información extra que desee mostrar.</Form.Text>
-                                        </Form.Group>
-                                        <Form.Group as={Col} className="mb-3 p-2 bg-light border">
-                                            <Form.Label>Oferta:</Form.Label>
-                                            <InputGroup hasValidation>
-                                                <InputGroup.Radio
-                                                    name="oferta"
-                                                    id="oferta"
-                                                    value={values.oferta}
-                                                    onChange={handleChange}
-                                                />
-                                                <InputGroup.Text id="ofertaPrepend">$</InputGroup.Text>
-                                                <Form.Control
-                                                    type="number"
-                                                    value={values?.precio_oferta === null ? '' : values?.precio_oferta}
-                                                    onChange={handleChange}
-                                                    name="precio_oferta"
-                                                    placeholder="Precio"
-                                                    isValid={touched.precio_oferta && !errors.precio_oferta}
-                                                    isInvalid={!!errors.precio_oferta}
-                                                    min='0'
+                                    </InputGroup>
+                                    <Form.Text id="ayudaPrecio" muted>Introduza el precio del producto para la provision introducida anteriormente.</Form.Text>
+                                </Form.Group>
+                                <Form.Group className="mb-3 p-2 bg-light border">
+                                    <Form.Label>Especificaciones del Producto:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="especificaciones"
+                                        required
+                                        value={values.especificaciones}
+                                        onChange={handleChange}
+                                        name="especificaciones"
+                                        placeholder="Especificaciones"
+                                        isValid={touched.especificaciones && !errors.especificaciones}
+                                        isInvalid={!!errors.especificaciones}
+                                        disabled={!imagen}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.especificaciones}
+                                    </Form.Control.Feedback>
+                                    <Form.Text id="ayudaEspecificaciones" muted>Introduza las especificaciones del producto. Por ejemplo calidad, gramaje, material, etc.</Form.Text>
+                                </Form.Group>
+                                <Form.Group className="mb-3 p-2 bg-light border">
+                                    <Form.Label>Descripción del Producto:</Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        id="descripcion"
+                                        value={values.descripcion}
+                                        onChange={handleChange}
+                                        name="descripcion"
+                                        placeholder="Descripción..."
+                                        isValid={touched.descripcion && !errors.descripcion}
+                                        isInvalid={!!errors.descripcion}
+                                        disabled={!imagen}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.descripcion}
+                                    </Form.Control.Feedback>
+                                    <Form.Text id="ayudaDescripcion" muted>Describa el producto, ventajas, usos. Información extra que desee mostrar.</Form.Text>
+                                </Form.Group>
+                                <Form.Group as={Col} className="mb-3 p-2 bg-light border">
+                                    <Form.Label>Oferta:</Form.Label>
+                                    <InputGroup hasValidation>
+                                        <InputGroup.Radio
+                                            name="oferta"
+                                            id="oferta"
+                                            value={values.oferta}
+                                            onChange={handleChange}
+                                        />
+                                        <InputGroup.Text id="ofertaPrepend">$</InputGroup.Text>
+                                        <Form.Control
+                                            type="number"
+                                            value={values?.precio_oferta === null ? '' : values?.precio_oferta}
+                                            onChange={handleChange}
+                                            name="precio_oferta"
+                                            placeholder="Precio"
+                                            isValid={touched.precio_oferta && !errors.precio_oferta}
+                                            isInvalid={!!errors.precio_oferta}
+                                            min='0'
+                                            disabled={!imagen}
 
-                                                />
-                                                <Form.Control.Feedback type="invalid">
-                                                    {errors.precio_oferta}
-                                                </Form.Control.Feedback>
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.precio_oferta}
+                                        </Form.Control.Feedback>
 
-                                            </InputGroup>
-                                            <Form.Text id="ayudaOferta" muted>Active o desactive la oferta del producto e introduzca el nuevo precio en oferta.</Form.Text>
-                                        </Form.Group>
+                                    </InputGroup>
+                                    <Form.Text id="ayudaOferta" muted>Active o desactive la oferta del producto e introduzca el nuevo precio en oferta.</Form.Text>
+                                </Form.Group>
 
-                                        <div className="mb-3 p-2 bg-light border">
-                                            <label className="form-label">Imagen del Producto:</label>
-                                            <div className="input-group">
-                                                <input
-                                                    type="file"
-                                                    accept=".jpg,.png,.jpeg"
-                                                    className="form-control"
-                                                    id="file"
-                                                    required
-                                                    value={values.fiel}
-                                                    onChange={handleFileChange}
-                                                    name="file"
-                                                />
-                                                <button
-                                                    className="btn btn-outline-secondary"
-                                                    onClick={handleImageSubmit}
-                                                    disabled={!imagen}
-                                                    type="button"
-                                                    id="subirImagen">
-                                                    {loading ?
-                                                        <div>
-                                                            <Spinner
-                                                                as="span"
-                                                                animation="grow"
-                                                                size="sm"
-                                                                role="status"
-                                                                aria-hidden="true"
-                                                            /> Cargando...
-                                                        </div> : "Cargar Imagen"}
-                                                </button>
-                                            </div>
+                                <div className="d-grid gap-2 my-4">
+                                    <Button variant="success" type="submit">
+                                        {editar ? "Modificar" : "Agregar"}
+                                    </Button>
+                                    <Link to={"/productos"} className="btn btn-danger">
+                                        Cancelar
+                                    </Link>
+                                </div>
 
-                                            <div id="ayudaEspecificaciones" className="form-text">Cargue la imagen a mostrar en la página.</div>
-                                        </div>
-
-                                        <div className="d-grid gap-2">
-                                            <Button variant="success" type="submit">
-                                                {editar ? "Modificar" : "Agregar"}
-                                            </Button>
-                                            <Link to={"/productos"} className="btn btn-danger">
-                                                Cancelar
-                                            </Link>
-                                        </div>
-
-                                    </Form>
-                                </Col>
-                            </Row>
-                        )
-                    }
+                            </Form>
+                        </Col>
+                    </Row>
+                    )
                 </Container>
             )}
         </Formik >
