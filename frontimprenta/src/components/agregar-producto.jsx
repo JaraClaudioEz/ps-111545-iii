@@ -78,6 +78,20 @@ const AddProducto = props => {
         setShow(true);
     };
 
+    /*
+    const handleDisabled = () => {
+        
+        if (editar) {
+            return false;
+        }
+        else if (imagen) {
+            return true;
+        }
+        else {
+            return false;
+        };
+    };
+    */
 
     if (props.location.state && props.location.state.productoActual) {
         editar = true;
@@ -353,7 +367,8 @@ const AddProducto = props => {
                                         </InputGroup.Text>
                                     </InputGroup>
                                     <Form.Text className="text-muted">
-                                        Seleccione la imagen a mostrar en la página para el producto.
+                                        {editar ? "Si desea cambiar la imagen del producto, seleccione la nueva imagen. Sino se mantendrá la previamente cargada." :
+                                            "Seleccione la imagen a mostrar en la página para el producto."}
                                     </Form.Text>
                                 </Form.Group>
                                 <Form.Group className="mb-3  p-2 bg-light border">
@@ -368,7 +383,7 @@ const AddProducto = props => {
                                         placeholder="Producto"
                                         isValid={touched.nombre_producto && !errors.nombre_producto}
                                         isInvalid={!!errors.nombre_producto}
-                                        disabled={!imagen}
+                                        
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.nombre_producto}
@@ -377,7 +392,7 @@ const AddProducto = props => {
                                 </Form.Group>
                                 <Form.Group className="mb-3 p-2 bg-light border">
                                     <Form.Label>Categoría:</Form.Label>
-                                    <Field name="categoria" as="select" className="form-control" disabled={!imagen}>
+                                    <Field name="categoria" as="select" className="form-control" >
                                         {categorias.map(categoria => {
                                             return (
                                                 <option key={categoria} value={categoria.value}> {categoria.substr(0, 20)} </option>
@@ -399,7 +414,7 @@ const AddProducto = props => {
                                         placeholder="Provisión"
                                         isValid={touched.provision && !errors.provision}
                                         isInvalid={!!errors.provision}
-                                        disabled={!imagen}
+                                        
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.provision}
@@ -420,7 +435,7 @@ const AddProducto = props => {
                                             isValid={touched.precio && !errors.precio}
                                             isInvalid={!!errors.precio}
                                             min='0'
-                                            disabled={!imagen}
+                                            
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {errors.precio}
@@ -441,7 +456,7 @@ const AddProducto = props => {
                                         placeholder="Especificaciones"
                                         isValid={touched.especificaciones && !errors.especificaciones}
                                         isInvalid={!!errors.especificaciones}
-                                        disabled={!imagen}
+                                        
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.especificaciones}
@@ -459,7 +474,7 @@ const AddProducto = props => {
                                         placeholder="Descripción..."
                                         isValid={touched.descripcion && !errors.descripcion}
                                         isInvalid={!!errors.descripcion}
-                                        disabled={!imagen}
+                                        
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.descripcion}
@@ -469,7 +484,7 @@ const AddProducto = props => {
                                 <Form.Group as={Col} className="mb-3 p-2 bg-light border">
                                     <Form.Label>Oferta:</Form.Label>
                                     <InputGroup hasValidation>
-                                        <InputGroup.Radio
+                                        <InputGroup.Checkbox
                                             name="oferta"
                                             id="oferta"
                                             value={values.oferta}
@@ -485,7 +500,7 @@ const AddProducto = props => {
                                             isValid={touched.precio_oferta && !errors.precio_oferta}
                                             isInvalid={!!errors.precio_oferta}
                                             min='0'
-                                            disabled={!imagen}
+                                            disabled={!values.oferta}
 
                                         />
                                         <Form.Control.Feedback type="invalid">

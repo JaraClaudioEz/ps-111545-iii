@@ -11,6 +11,7 @@ import Table from 'react-bootstrap/Table';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
+import Badge from 'react-bootstrap/Badge';
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
@@ -55,7 +56,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   };
 
   const traerProductos = (pag) => {
-    
+
     ProductoDataService.getListadoProductos(pag - 1)
       .then(response => {
         //console.log(response.data);
@@ -282,7 +283,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           {productos.map((producto) => {
             return (
               <Col key={producto._id}>
-                <Card style={{ width: '18rem' }}>
+                <Card style={{ width: '18rem' }} className="my-2">
                   <Card.Img
                     variant="top"
                     src={producto?.imagen.url === "" ? logo : producto.imagen.url}
@@ -290,10 +291,13 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                     height="225px"
                   />
                   <Card.Body>
-                    <Card.Title>{producto.nombre_producto}</Card.Title>
+                    <Card.Title>
+                      {producto.nombre_producto}
+                      {producto.oferta && (<Badge pill bg="success" className="m-2">Oferta!!</Badge>)}
+                    </Card.Title>
                     <Card.Text>
                       <strong>Categoría: </strong>{producto.categoria}<br />
-                      <strong>Precio: </strong>${producto.precio} {producto.provision}
+                      <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio) } por {producto.provision}
                     </Card.Text>
                     <Row>
                       <Link to={"/productos/" + producto._id} className="btn btn-primary my-2 btn-block">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Container, Row, Col, Button, Image } from 'react-bootstrap';
+import { Container, Row, Col, Button, Image, Badge } from 'react-bootstrap';
 
 import ProductoDataService from "../services/servicio-producto";
 import logo from "../assets/IntegralLogo.png";
@@ -65,9 +65,12 @@ const Producto = ({ match, usuario, alAgregarAlPedido }) => {
             <Image src={producto?.imagen.url === "" ? logo : producto.imagen.url} alt="Logo" rounded className="card-img-top" />
           </Col>
           <Col sm={4}>
-            <h5>{producto.nombre_producto}</h5>
+            <h5>
+              {producto.nombre_producto}
+              {producto.oferta && (<Badge bg="success" className="m-2">En Oferta!!</Badge>)}
+            </h5>
             <p>
-              <strong>Precio: </strong>${producto.precio} por {producto.provision}<br />
+              <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio)} por {producto.provision}<br />
               <strong>Características: </strong>{producto.especificaciones}
             </p>
             {usuario?.result.tipo === "admin" ? (
