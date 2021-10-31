@@ -112,9 +112,8 @@ export default class UsuariosController {
 
     static async apiSaveUsuarioGoogle(req, res, next) {
 
-
         const nuevoUsuario = req.body;
-
+        
         try {
             const usuarioExistente = await Usuario.findOne({ email: nuevoUsuario.email });
             if (usuarioExistente) {

@@ -70,6 +70,9 @@ const Autorizacion = () => {
                 //history.push("/imprenta")
 
             } catch (error) {
+                if (error.response.status === 400) {
+                    alert("El email utilizado ya se encuentra registrado!")
+                }
                 console.log({ message: "No se pudo registrar nuevo usuario", error });
             }
         }
@@ -92,9 +95,11 @@ const Autorizacion = () => {
 
     }
 
+    /*
     const handleInputChange = (e) => {
         setUsuario({ ...usuario, [e.target.name]: e.target.value })
     }
+    */
 
     const cambiarModo = () => {
         setRegistrado((prevRegistrado) => !prevRegistrado);
@@ -109,19 +114,18 @@ const Autorizacion = () => {
         let result = res?.profileObj;
         const token = res?.tokenId;
 
-        const data = {
+        const user = {
             googleId: result.googleId,
             nombre: result.name,
             email: result.email,
         };
 
-
         try {
 
             if (registrado) {
-                //console.log(data);
-                await UsuarioDataService.saveUsuarioGoogle(data);
-                //console.log(estado);
+
+                const res = await UsuarioDataService.saveUsuarioGoogle(user);
+                //console.log(res);
             }
 
             localStorage.setItem('perfil', JSON.stringify({ result, token }))
@@ -134,12 +138,15 @@ const Autorizacion = () => {
             history.push('/imprenta')
 
         } catch (error) {
+            if (error.response.status === 400) {
+                alert("El email utilizado ya se encuentra registrado!")
+            }
             console.log(error);
         }
     }
 
     const googleFailure = (error) => {
-        console.log("No se pudo iniciar sesión con Google", error);
+        //console.log("No se pudo iniciar sesión con Google", error);
         alert("No se pudo iniciar sesión con Google");
     }
 
