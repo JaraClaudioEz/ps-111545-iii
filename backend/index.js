@@ -2,10 +2,15 @@ import app from "./server.js";
 //import mongodb from "mongodb";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-//import ProductosDAO from "./dao/productosDAO.js";
-//import UsuariosDAO from "./dao/usuariosDAO.js";
+import https from 'https';
+import fs from 'fs';
 
 dotenv.config();
+
+const options = {
+    key: fs.readFileSync(process.env.SSL_KEY), 
+    cert: fs.readFileSync(process.env.SSL)
+};
 
 //const MongoClient = mongodb.MongoClient
 const port = process.env.PORT || 8000
@@ -22,15 +27,13 @@ mongoose.connect(
     */
 )
     .catch(err => {
-        console.error(err.stack)
-        process.exit(1)
+        console.error(err.stack);
+        process.exit(1);
     })
     .then(async client => {
-        //await ProductosDAO.injectDB(client)
-        //await UsuariosDAO.injectDB(client)
-        app.listen(port, () => {
+        https.createServer(options, app).listen(port, () => {
             console.log(`Listening on port ${port}`);
-        })
-    })
+        });
+    });
 
 //mongoose.set('useFindAndModify', false);

@@ -1,4 +1,4 @@
-import http from "../http-commons";
+import http from "../https-commons";
 
 class UsuarioDataService {
     constructor(){
