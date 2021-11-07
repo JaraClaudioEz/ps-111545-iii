@@ -1,6 +1,7 @@
 import express from "express"
 import cloudinary from "../utils/cloudinary.config.js";
 import multer from "../utils/multer.js";
+import ImagenesController from "./image.controller.js";
 
 const router = express.Router()
 
@@ -66,17 +67,10 @@ router.put("/:id", multer.single("imagen"), async (req, res) => {
   }
 });
 
+
+router.route("/").get(ImagenesController.apiGetPostIG)
+
 /*
-router.get("/", async (req, res) => {
-  try {
-    let user = await find();
-    res.json(user);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-
 router.get("/:id", async (req, res) => {
   try {
     // Find user by id

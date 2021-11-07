@@ -1,9 +1,9 @@
-import react from "react"
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Carousel, Image } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngrycreative } from '@fortawesome/free-brands-svg-icons'
+import { faAngrycreative, faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { faBookOpen, faStamp, faPalette, faAward } from '@fortawesome/free-solid-svg-icons'
 
 import Contacto from './contacto'
@@ -12,14 +12,35 @@ import intimg from "../assets/intimg.png"
 import portada from "../assets/portada.png"
 import CarouselInicio from "./carousel";
 
+import ImganeDataService from "../services/servicio-imagen";
+
 const Inicio = () => {
+
+  const [imagenes, setImagenes] = useState([]);
 
   const angry = <FontAwesomeIcon icon={faAngrycreative} className="fa" />
   const imprenta = <FontAwesomeIcon icon={faBookOpen} className="fa" />
   const estampado = <FontAwesomeIcon icon={faStamp} className="fa" />
   const carteleria = <FontAwesomeIcon icon={faPalette} className="fa" />
+  const instagram = <FontAwesomeIcon icon={faInstagram} className="fa fa-5x" />
 
   const ser1 = <FontAwesomeIcon icon={faAward} className="fa" />
+
+  useEffect(() => {
+    traerImagenesIG();
+  }, []);
+
+  const traerImagenesIG = () => {
+
+    ImganeDataService.getImagenesIG()
+      .then(response => {
+        //console.log(response.data);
+        setImagenes(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   return (
     <div className="my-5">
@@ -208,6 +229,27 @@ const Inicio = () => {
           <Row>
             <div className='portfolio-items'>
               <Row>
+                {imagenes.map((imagen) => {
+                  return (
+                    <Col key={imagen.id}>
+                      <div className='portfolio-item'>
+                        <div className='hover-bg'>
+                          {' '}
+                          <a
+                            href={imagen.permalink}
+                            title='Project Title'
+                            data-lightbox-gallery='gallery1'
+                          >
+                            <div className='hover-text'>
+                              <h4>{instagram}</h4>
+                            </div>
+                            <Image src={imagen.media_url} fluid alt='Integral Imagen' />{' '}
+                          </a>{' '}
+                        </div>
+                      </div>
+                    </Col>
+                  );
+                })}
                 <Col>
                   <div className='portfolio-item'>
                     <div className='hover-bg'>
@@ -218,7 +260,7 @@ const Inicio = () => {
                         data-lightbox-gallery='gallery1'
                       >
                         <div className='hover-text'>
-                          <h4>Lorem Ipsum</h4>
+                        <h4>{instagram}</h4>
                         </div>
                         <Image src={intimg} fluid alt='Project Title' />{' '}
                       </a>{' '}
@@ -235,7 +277,7 @@ const Inicio = () => {
                         data-lightbox-gallery='gallery1'
                       >
                         <div className='hover-text'>
-                          <h4>Adipiscing Elit</h4>
+                        {instagram}
                         </div>
                         <Image src={intimg} fluid alt='Project Title' />{' '}
                       </a>{' '}
@@ -270,8 +312,8 @@ const Inicio = () => {
                         title='Project Title'
                         data-lightbox-gallery='gallery1'
                       >
-                        <div className='hover-text'>
-                          <h4>Lorem Ipsum</h4>
+                        <div className='hover-text' style={{ fontSize: '1rem' }}>
+                        {instagram}
                         </div>
                         <Image src={intimg} fluid alt='Project Title' />{' '}
                       </a>{' '}
@@ -288,7 +330,7 @@ const Inicio = () => {
                         data-lightbox-gallery='gallery1'
                       >
                         <div className='hover-text'>
-                          <h4>Adipiscing Elit</h4>
+                        {instagram}
                         </div>
                         <Image src={intimg} fluid alt='Project Title' />{' '}
                       </a>{' '}
