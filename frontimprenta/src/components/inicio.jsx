@@ -32,10 +32,20 @@ const Inicio = () => {
 
   const traerImagenesIG = () => {
 
+    const fotos = [];
+    let max = 0;
+
     ImganeDataService.getImagenesIG()
       .then(response => {
         //console.log(response.data);
-        setImagenes(response.data);
+        response.data.forEach(element => {
+
+          if (element.media_type === 'IMAGE' && max < 9) {
+            fotos.push(element);
+            max++;
+          }
+        });
+        setImagenes(fotos);
       })
       .catch(e => {
         console.log(e);
@@ -231,182 +241,24 @@ const Inicio = () => {
               <Row>
                 {imagenes.map((imagen) => {
                   return (
-                    <Col key={imagen.id}>
+                    <Col key={imagen.id} xs={6} md={4} className='d-flex align-items-center'>
                       <div className='portfolio-item'>
                         <div className='hover-bg'>
                           {' '}
                           <a
                             href={imagen.permalink}
-                            title='Project Title'
-                            data-lightbox-gallery='gallery1'
+                            title='Ver en Instagram...'
                           >
                             <div className='hover-text'>
-                              <h4>{instagram}</h4>
+                              <h4 style={{ fontSize: '1.25vw' }}>{instagram}</h4>
                             </div>
-                            <Image src={imagen.media_url} fluid alt='Integral Imagen' />{' '}
+                            <Image src={imagen.media_url} alt='Integral Imagen' rounded fluid/>{' '}
                           </a>{' '}
                         </div>
                       </div>
                     </Col>
                   );
                 })}
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href={intimg}
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                        <h4>{instagram}</h4>
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/02-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                        {instagram}
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/03-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                          <h4>Lorem Ipsum</h4>
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/04-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text' style={{ fontSize: '1rem' }}>
-                        {instagram}
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/05-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                        {instagram}
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/06-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                          <h4>Dolor Sit</h4>
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/07-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                          <h4>Dolor Sit</h4>
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/08-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                          <h4>Lorem Ipsum</h4>
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <div className='portfolio-item'>
-                    <div className='hover-bg'>
-                      {' '}
-                      <a
-                        href='img/portfolio/09-large.jpg'
-                        title='Project Title'
-                        data-lightbox-gallery='gallery1'
-                      >
-                        <div className='hover-text'>
-                          <h4>Adipiscing Elit</h4>
-                        </div>
-                        <Image src={intimg} fluid alt='Project Title' />{' '}
-                      </a>{' '}
-                    </div>
-                  </div>
-                </Col>
               </Row>
             </div>
           </Row>
