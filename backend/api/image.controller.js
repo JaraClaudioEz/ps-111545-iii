@@ -1,5 +1,4 @@
 import Instagram from 'instagram-web-api';
-import https from 'https';
 import axios from 'axios';
 
 export default class ImagenesController {

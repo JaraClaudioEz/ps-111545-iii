@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Carousel, Image } from 'react-bootstrap';
+//import { Link } from "react-router-dom";
+import { Container, Row, Col, Image } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngrycreative, faInstagram } from '@fortawesome/free-brands-svg-icons'
@@ -8,7 +8,7 @@ import { faBookOpen, faStamp, faPalette, faAward } from '@fortawesome/free-solid
 
 import Contacto from './contacto'
 import "../inicio.css";
-import intimg from "../assets/intimg.png"
+//import intimg from "../assets/intimg.png"
 import portada from "../assets/portada.png"
 import CarouselInicio from "./carousel";
 

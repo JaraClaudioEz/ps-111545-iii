@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faWhatsapp, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
@@ -10,6 +10,7 @@ import logo from "../assets/IntegralLogo.png";
 const NavbarImprenta = ({ totalItems, user }) => {
 
     //const [user, setUser] = useState(JSON.parse(localStorage.getItem('perfil')));
+    const [show, setShow] = useState(true);
     const history = useHistory();
     const location = useLocation();
 
@@ -49,7 +50,8 @@ const NavbarImprenta = ({ totalItems, user }) => {
 
     return (
         <Col>
-            <Navbar bg="light" expand="lg">
+            <Navbar collapseOnSelect bg="light" expand="md" onToggle={() => setShow(!show)}>
+            <Container>
                 <Navbar.Brand href="/">
                     <img
                         src={logo}
@@ -137,19 +139,14 @@ const NavbarImprenta = ({ totalItems, user }) => {
                             }
                         </div>
                     </Nav>
-                    <Nav className="mr-auto">
+                    <Nav className="mr-auto" hidden={!show}>
                         <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{facebook}</Nav.Link>
                         <Nav.Link href="https://instagram.com/integralimagen22" className="btn btn-floating btn-light btn-lg">{instagram}</Nav.Link>
                         <Nav.Link href="https://wa.me/5493525432374" className="btn btn-floating btn-light btn-lg">{whatsapp}</Nav.Link>
                         <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{twitter}</Nav.Link>
                     </Nav>
-                    <Nav className="me-4">
-                        <Form className="navbar-nav navbar-right">
-                            <FormControl type="search" placeholder="Buscar" className="mr-sm-6" />
-                            <Button variant="outline-success" className="ml-6">Buscar</Button>
-                        </Form>
-                    </Nav>
                 </Navbar.Collapse>
+                </Container>
             </Navbar>
         </Col>
     );
@@ -159,8 +156,10 @@ export default NavbarImprenta;
 
 
 /*
-<Form inline className="navbar-nav navbar-right">
-    <FormControl type="text" placeholder="Search" className="mr-sm-6" />
-    <Button variant="outline-success" className="ml-6">Buscar</Button>
-</Form>
+<Nav className="me-4">
+    <Form className="navbar-nav navbar-right">
+        <FormControl type="search" placeholder="Buscar" className="mr-sm-6" />
+        <Button variant="outline-success" className="ml-6">Buscar</Button>
+    </Form>
+</Nav>
 */
