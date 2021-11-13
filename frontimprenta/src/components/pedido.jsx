@@ -52,7 +52,7 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
   const PedidoCompleto = () => (
     <Col>
       {pedido.items.map((item) => (
-        <Row key={item._id}>
+        <Row key={item._id} className="shadow-sm p-3 my-2 bg-body rounded">
           <ItemPedido item={item} alAgregarItemPedido={agregarAlPedido} alQuitarItemPedido={handleQuitarItemPedido} />
         </Row>
       ))}
@@ -120,12 +120,12 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
       {
         !pedido ? (
           <div>
-            <Row>
+            <Row className="my-2">
               <Col>
                 <h4 className="display-4">Lista productos de tu pedido:</h4>
               </Col>
             </Row>
-            <Row>
+            <Row className="my-2">
               <Col sm={8}>
                 <PedidoVacio />
               </Col>
@@ -143,12 +143,12 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
           </div>
         ) : (
           <div>
-            <Row>
+            <Row className="my-2">
               <Col>
                 <h4 className="display-4">Lista productos de tu pedido:</h4>
               </Col>
             </Row>
-            <Row>
+            <Row className="my-2">
               <Col sm={8}>
                 {
                   !pedido.items.length ? <PedidoVacio /> : <PedidoCompleto />

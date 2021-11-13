@@ -32,7 +32,12 @@ export default class PedidosController {
                 res.status(404).send('Producto no encontrado!')
             }
 
-            const precio = item.precio;
+            let precio = 0;
+            if (item.oferta) {
+                precio = item.precio_oferta;
+            } else {
+                precio = item.precio;
+            }
             const nombre = item.nombre_producto;
             const categoria = item.categoria;
 

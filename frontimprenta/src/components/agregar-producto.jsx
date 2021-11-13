@@ -49,7 +49,11 @@ const AddProducto = props => {
                 ['Imprenta', 'Cartelería', 'Estampado'],
                 'Seleccione una categoría del producto!'
             )
-            .required('Seleccione una categoría del producto!')
+            .required('Seleccione una categoría del producto!'),
+        precio_oferta: yup.number()
+            .required('Completa este campo.')
+            .positive('Sólo valores positivos')
+            .integer(),
     });
 
     let editar = false;
@@ -332,8 +336,8 @@ const AddProducto = props => {
                     <Row>
                         <Col></Col>
                         <Col xs={6}>
-                            <h4 className="display-4">{editar ? "Editar" : "Nuevo"} Producto</h4>
-                            <h3>{values.nombre_producto}</h3>
+                            <h3>{editar ? "Editar" : "Nuevo"} Producto:</h3>
+                            <h4 className="display-4">{values.nombre_producto}</h4>
                         </Col>
                         <Col></Col>
                     </Row>
@@ -383,7 +387,7 @@ const AddProducto = props => {
                                         placeholder="Producto"
                                         isValid={touched.nombre_producto && !errors.nombre_producto}
                                         isInvalid={!!errors.nombre_producto}
-                                        
+
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.nombre_producto}
@@ -414,7 +418,7 @@ const AddProducto = props => {
                                         placeholder="Provisión"
                                         isValid={touched.provision && !errors.provision}
                                         isInvalid={!!errors.provision}
-                                        
+
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.provision}
@@ -435,7 +439,7 @@ const AddProducto = props => {
                                             isValid={touched.precio && !errors.precio}
                                             isInvalid={!!errors.precio}
                                             min='0'
-                                            
+
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {errors.precio}
@@ -456,7 +460,7 @@ const AddProducto = props => {
                                         placeholder="Especificaciones"
                                         isValid={touched.especificaciones && !errors.especificaciones}
                                         isInvalid={!!errors.especificaciones}
-                                        
+
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.especificaciones}
@@ -474,7 +478,7 @@ const AddProducto = props => {
                                         placeholder="Descripción..."
                                         isValid={touched.descripcion && !errors.descripcion}
                                         isInvalid={!!errors.descripcion}
-                                        
+
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.descripcion}
@@ -501,7 +505,7 @@ const AddProducto = props => {
                                             isInvalid={!!errors.precio_oferta}
                                             min='0'
                                             disabled={!values.oferta}
-
+                                            required={values.oferta}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {errors.precio_oferta}

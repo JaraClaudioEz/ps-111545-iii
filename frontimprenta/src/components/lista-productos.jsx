@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 //import { Modal, Button } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -30,6 +32,8 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const [paginas, setPaginas] = useState(null);
   const [items, setItems] = useState([]);
   let primera = false;
+
+  const chek = <FontAwesomeIcon icon={faCheckCircle} />
 
   const handleClose = () => setShow(false);
   const handleShow = (p) => {
@@ -247,8 +251,9 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                 <th scope="col">Producto</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Especificaciones</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Precio Oferta</th>
+                <th scope="col" className="text-center">Precio</th>
+                <th scope="col" className="text-center">En Oferta</th>
+                <th scope="col" className="text-center">Precio Oferta</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -261,8 +266,9 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                     <td>{producto.nombre_producto}</td>
                     <td>{producto.categoria}</td>
                     <td>{producto.especificaciones}</td>
-                    <td>{producto.precio}</td>
-                    <td>{producto.precio_oferta}</td>
+                    <td className="text-center">${producto.precio}</td>
+                    <td style={{ color: "green" }} className="text-center">{producto.oferta && chek}</td>
+                    <td className="text-center">{producto.precio_oferta ? `$${producto.precio_oferta}` : ""}</td>
                     <td><Link to={{ pathname: "/productos/" + producto._id, state: { productoActual: producto } }} className="btn btn-primary">Ver</Link></td>
                     <td><Link to={{ pathname: "/productos/agregar/" + producto._id, state: { productoActual: producto } }} className="btn btn-success">Editar</Link></td>
                     <td><button className="btn btn-warning" type="button" onClick={() => handleShow(producto)}>Eliminar</button></td>

@@ -64,7 +64,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
+                        <Nav.Link as={Link} to="/productos">{user && user?.result.tipo === "admin" ? "Productos" : "Tienda"}</Nav.Link>
                         <div>
                             {
                                 user === null ? (
@@ -76,7 +76,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                                                 <Nav.Link as={Link} to="/ordenes">Ordenes</Nav.Link>
                                             ) : (
                                                 <Nav.Link as={Link} to="/pedido">
-                                                    Mi Pedido <Badge variant="dark" className="btn-success">({totalItems})</Badge>
+                                                    Mi Carrito <Badge variant="dark" className="btn-success">({totalItems})</Badge>
                                                 </Nav.Link>
                                             )
                                         }
@@ -105,7 +105,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                         <div>
                             {
                                 user && user?.result.tipo !== "admin" ? (
-                                    <Nav.Link as={Link} to="/ordenes">Mis Ordenes</Nav.Link>
+                                    <Nav.Link as={Link} to="/ordenes">Mis Compras</Nav.Link>
 
                                 ) : (
                                     <span></span>
