@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Link, useHistory } from "react-router-dom";
-import { Container, Row, Col, Button, Table, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Form, Image } from 'react-bootstrap';
 
 import { useReactToPrint } from "react-to-print";
 
+//import logo from "../assets/ColibriLogo.png";
+import integral from "../assets/IntegralLogo.png";
 import OrdenDataService from "../services/servicio-orden.js";
 
 const Orden = ({ match, usuario }) => {
@@ -70,19 +72,25 @@ const Orden = ({ match, usuario }) => {
     render() {
       return (
         <Container className="my-5">
-          <Row>
+          <Row className="mb-5 text-center">
+            <Col>
+              <Image src={integral} rounded style={{ height: "100px" }} />
+            </Col>
+          </Row>
+          <Row className="m-2">
             <Col>
               <h4 className="display-6">Orden de Trabajo N° <b>{orden?.numero}</b></h4>
             </Col>
           </Row>
-          <Row>
-            <Col sm={8}>
+          <Row className="m-2">
+            
+            <Col md={8}>
               <Table striped>
                 <thead>
                   <tr>
                     <th>Producto</th>
                     <th>Cantidad</th>
-                    <th>Precio Unitario</th>
+                    <th className="text-end">Precio Unitario</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -91,19 +99,22 @@ const Orden = ({ match, usuario }) => {
                       <tr key={item.idProducto}>
                         <td className="text-capitalize">{item.nombre}</td>
                         <td>{item.cantidad}</td>
-                        <td>$ {item.precio}</td>
+                        <td className="text-end">$ {item.precio}</td>
                       </tr>
                     ))
                   }
                 </tbody>
               </Table>
             </Col>
+            
+          </Row>
+          <Row className="m-2">
             <Col sm={4}>
               <div>
-                <p className="text-capitalize">Estado de la Orden: <b>{orden?.estado}</b></p>
+                <p className="text-capitalize fs-5">Estado de la Orden: <b>{orden?.estado}</b></p>
               </div>
               <div>
-                <p>Total abonado: <b>$ {!orden ? 0 : orden.factura}</b></p>
+                <p className="fs-3">Total abonado: <b>$ {!orden ? 0 : orden.factura}</b></p>
               </div>
             </Col>
           </Row>
@@ -171,9 +182,9 @@ const Orden = ({ match, usuario }) => {
                 </div>
                 <div className="d-grid gap-2">
                   <Button variant="primary" onClick={guardarCambios}>{cambioEstado ? "Guardar Cambios" : "Volver"}</Button>
-                  <div style={{ display: "none" }}><ComponentToPrint 
-                  ref={componentRef}
-                  documentTitle={`OrdenTrabajo-${orden?.numero}`} /></div>
+                  <div style={{ display: "none" }}><ComponentToPrint
+                    ref={componentRef}
+                    documentTitle={`OrdenTrabajo-${orden?.numero}`} /></div>
                   <Button variant="info" onClick={handlePrint}>Imprimir</Button>
                 </div>
               </Col>

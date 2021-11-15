@@ -75,7 +75,7 @@ const Reportes = () => {
       const { data } = await ReporteDataService.getTotalVentasPeriodo(desde, hasta);
       //console.log(data, formato);
 
-      if(!data){
+      if (!data) {
         alert("No hay ventas para el período seleccionado!");
       }
 
@@ -108,18 +108,22 @@ const Reportes = () => {
     const cantidades = [];
     const nombres = [];
     const mayor = mayores;
+    const max = 10;
 
     try {
       const { data } = await ReporteDataService.getCantidadesPorProducto(mayor);
       //console.log(data);
+
       data.productos.forEach(item => {
-        if (mayor === 'ventas') {
-          cantidades.push(item.venta_total);
+        if (nombres.length < max) {
+          if (mayor === 'ventas') {
+            cantidades.push(item.venta_total);
+          }
+          else {
+            cantidades.push(item.cantidad_total);
+          }
+          nombres.push(item.producto);
         }
-        else {
-          cantidades.push(item.cantidad_total);
-        }
-        nombres.push(item.producto);
       });
       //console.log(cantidades);
       setCantidadesProductos(cantidades);

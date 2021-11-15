@@ -21,12 +21,8 @@ const ListaOrdenes = ({ usuario }) => {
   const [paginas, setPaginas] = useState(null);
   const [items, setItems] = useState([]);
   let primera = false;
-  
 
   //console.log(usuario);
-
-  
-
   //console.log(usuarios);
   //console.log(ordenes);
 
@@ -195,7 +191,7 @@ const ListaOrdenes = ({ usuario }) => {
     traerUsuarios();
     //traerOrdenes(actual);
     traerEstados();
-    
+
     return () => {
       setOrdenes([]);
       setUsuarios([]);
@@ -203,9 +199,9 @@ const ListaOrdenes = ({ usuario }) => {
   }, []);
 
   useEffect(() => {
-    
+
     traerOrdenes(actual);
-    
+
   }, [user]);
 
   if (!usuario) return 'Cargando...';
@@ -217,10 +213,11 @@ const ListaOrdenes = ({ usuario }) => {
           <Container fluid>
             <Row>
               <Col>
-                <h2 className="display-2">Listado de Ordenes</h2>
+                <h2 className="display-2">Listado de Órdenes</h2>
               </Col>
             </Row>
             <Row>
+              {/*
               <Col sm={6}>
                 <InputGroup className="mb-3">
                   <FormControl
@@ -234,6 +231,7 @@ const ListaOrdenes = ({ usuario }) => {
                   <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
                 </InputGroup>
               </Col>
+              */}
               <Col sm={4}>
                 <InputGroup className="mb-3">
                   <FormControl as="select" onChange={onChangeSearchEstado}>
@@ -246,9 +244,11 @@ const ListaOrdenes = ({ usuario }) => {
                   <Button variant="outline-secondary" onClick={findByEstado}>Buscar</Button>
                 </InputGroup>
               </Col>
+              {/* 
               <Col sm={2}>
                 <Button variant="outline-info" onClick={refreshList}>Todos</Button>
               </Col>
+              */}
             </Row>
             <Row>
               <Col>
@@ -259,8 +259,8 @@ const ListaOrdenes = ({ usuario }) => {
                       <th>Email</th>
                       <th>Importe Abonado</th>
                       <th>Fecha Compra</th>
-                      <th>Estado Orden</th>
-                      <th>Items Solicitados</th>
+                      <th className="text-center">Estado Orden</th>
+                      <th className="text-center">Items Solicitados</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -269,10 +269,10 @@ const ListaOrdenes = ({ usuario }) => {
                         <tr key={orden._id}>
                           <td className="text-capitalize">{buscarNombre(orden.idUsuario)}</td>
                           <td>{buscarEmail(orden.idUsuario)}</td>
-                          <td>$ {orden.factura}</td>
+                          <td className="text-center">$ {orden.factura}</td>
                           <td>{moment(orden.fecha).format('LL')}</td>
-                          <td className="text-capitalize">{orden.estado}</td>
-                          <td className="text-capitalize"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Orden</Link></td>
+                          <td className="text-capitalize text-center">{orden.estado}</td>
+                          <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Orden</Link></td>
                         </tr>
                       ))
                     }
@@ -290,7 +290,7 @@ const ListaOrdenes = ({ usuario }) => {
           <Container fluid>
             <Row>
               <Col>
-                <h3 className="display-3">Mis Ordenes de Compra</h3>
+                <h3 className="display-3">Mis Órdenes de Compra</h3>
               </Col>
             </Row>
             <Row>
@@ -301,8 +301,8 @@ const ListaOrdenes = ({ usuario }) => {
                     <tr>
                       <th>Fecha Compra</th>
                       <th>Importe Abonado</th>
-                      <th>Estado Orden</th>
-                      <th>Items Solicitados</th>
+                      <th className="text-center">Estado Orden</th>
+                      <th className="text-center">Items Solicitados</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -311,8 +311,8 @@ const ListaOrdenes = ({ usuario }) => {
                         <tr key={orden._id}>
                           <td>{moment(orden.fecha).format('LL')}</td>
                           <td>$ {orden.factura}</td>
-                          <td className="text-capitalize">{orden.estado}</td>
-                          <td className="text-capitalize"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
+                          <td className="text-capitalize text-center">{orden.estado}</td>
+                          <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
                         </tr>
                       ))
                     }

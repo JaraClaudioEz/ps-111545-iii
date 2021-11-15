@@ -116,10 +116,11 @@ const App = () => {
   //console.log(pedido);
   //console.log(user);
 
+  document.body.style.backgroundColor = "#0d73d8";
 
   return (
     <Container>
-      <Row>
+      <Row className="fill-window">
         <Col>
           <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
         </Col>
@@ -207,7 +208,7 @@ const App = () => {
           </Switch>
         </Col>
       </Row>
-      <Row>
+      <Row className="fill-window">
         <Col>
           <Footer />
         </Col>

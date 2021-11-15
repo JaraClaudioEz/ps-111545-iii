@@ -492,6 +492,7 @@ const AddProducto = props => {
                                             name="oferta"
                                             id="oferta"
                                             value={values.oferta}
+                                            checked={values.oferta}
                                             onChange={handleChange}
                                         />
                                         <InputGroup.Text id="ofertaPrepend">$</InputGroup.Text>
