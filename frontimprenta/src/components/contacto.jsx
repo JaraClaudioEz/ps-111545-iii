@@ -136,7 +136,7 @@ const Contacto = () => {
                                         value={values.texto}
                                         onChange={handleChange}
                                         name="texto"
-                                        placeholder="Escríbenos tu comentario..."
+                                        placeholder="Dejanos tu comentario..."
                                         isValid={touched.texto && !errors.texto}
                                         isInvalid={!!errors.texto}
                                     />

@@ -6,8 +6,25 @@ html {
   color: #777;
   font-weight: 400;
   width: 100% !important;
-  height: 100% !important;
+  /*height: 100% !important;*/
+  background: crimson;
 }
+
+.fill-window {
+  
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.wrapper {
+  background-color: chocolate;
+  background: cover; 
+  color: #333;
+  
+}
+
 h2,
 h3,
 h4 {
@@ -116,9 +133,10 @@ hr {
 .intro {
     display: table;
     width: 100%;
+    height: 500px;
     padding: 0;
     background: url(./assets/portada.png) center center no-repeat;
-    background-color: #e5e5e5;
+    /*background-color: #e5e5e5;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -312,4 +330,11 @@ hr {
   }
   .hover-bg:hover .hover-text {
     opacity: 1;
+  }
+
+  .landing {
+    height: 100%;
+    width: 100%;
+    background: aquamarine;
+    
   }

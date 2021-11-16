@@ -3,7 +3,7 @@ import { Switch, Route, useLocation } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from "moment";
 import 'moment/locale/es';
-import "./App.css";
+import "./inicio.css";
 
 import Navbar from "./components/navbar";
 import Inicio from "./components/inicio";
@@ -22,6 +22,7 @@ import Orden from "./components/orden";
 import ProcesoPago from "./components/procesar-pago";
 import Footer from "./components/footer";
 import Contacto from "./components/contacto";
+import Empresa from "./components/empresa";
 
 import PedidoDataService from "./services/servicio-pedido";
 import UsuarioDataService from "./services/servicio-usuario";
@@ -116,11 +117,9 @@ const App = () => {
   //console.log(pedido);
   //console.log(user);
 
-  document.body.style.backgroundColor = "#0d73d8";
-
   return (
     <Container>
-      <Row className="fill-window">
+      <Row>
         <Col>
           <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
         </Col>
@@ -205,10 +204,11 @@ const App = () => {
             <Route exact path="/legales" component={Legales} />
             <Route exact path="/faq" component={FAQ} />
             <Route exact path="/contacto" component={Contacto} />
+            <Route exact path="/empresa" component={Empresa} />
           </Switch>
         </Col>
       </Row>
-      <Row className="fill-window">
+      <Row>
         <Col>
           <Footer />
         </Col>

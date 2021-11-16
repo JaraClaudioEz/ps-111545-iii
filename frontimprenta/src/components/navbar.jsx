@@ -65,6 +65,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/productos">{user && user?.result.tipo === "admin" ? "Productos" : "Tienda"}</Nav.Link>
+                        <Nav.Link as={Link} to="/empresa">Sobre Nosotros</Nav.Link>
                         <div>
                             {
                                 user === null ? (
@@ -127,7 +128,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                             <NavDropdown.Item as={Link} to="/faq">Preguntas Frecuentes</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/legales">Términos y Condiciones</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to="/info">Acerca de...</NavDropdown.Item>
+                            {/*<NavDropdown.Item as={Link} to="/info">Acerca de...</NavDropdown.Item>*/}
                         </NavDropdown>
                         <div>
                             {

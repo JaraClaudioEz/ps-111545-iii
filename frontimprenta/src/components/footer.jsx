@@ -16,6 +16,8 @@ const Footer = () => {
     const email = <FontAwesomeIcon icon={faEnvelope} />
     const phone = <FontAwesomeIcon icon={faPhone} />
 
+    //className="fill-window"
+
     return (
 
         <div>
@@ -32,7 +34,8 @@ const Footer = () => {
                                 <ListGroup.Item action as={Link} to="/contacto" className="bg-light">Contacto</ListGroup.Item>
                                 <ListGroup.Item action as={Link} to="/faq" className="bg-light">Preguntas Frecuentes</ListGroup.Item>
                                 <ListGroup.Item action as={Link} to="/legales" className="bg-light">Términos y Condiciones</ListGroup.Item>
-                                <ListGroup.Item action as={Link} to="/" className="bg-light">Acerca de...</ListGroup.Item>
+                                <ListGroup.Item action as={Link} to="/empresa" className="bg-light">Sobre Nosotros</ListGroup.Item>
+                                {/*<ListGroup.Item action as={Link} to="/" className="bg-light">Acerca de...</ListGroup.Item>*/}
                             </ListGroup>
                         </Col>
 
