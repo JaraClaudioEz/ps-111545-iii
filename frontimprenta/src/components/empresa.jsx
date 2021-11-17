@@ -8,6 +8,8 @@ import { faBookOpen, faStamp, faPalette, faAward } from '@fortawesome/free-solid
 import portada from "../assets/portada.png"
 import CarouselInicio from "./carousel";
 
+import "../empresa.css";
+
 //<img src={portada} className="img-responsive" alt="" />
 
 const Empresa = () => {

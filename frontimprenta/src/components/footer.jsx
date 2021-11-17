@@ -16,19 +16,19 @@ const Footer = () => {
     const email = <FontAwesomeIcon icon={faEnvelope} />
     const phone = <FontAwesomeIcon icon={faPhone} />
 
-    //className="fill-window"
+    // style={{ backgroundColor: '#8A3033' }}
 
     return (
 
         <div>
-            <footer className="text-dark text-center text-lg-start bg-light">
+            <footer className="text-dark text-center text-lg-start bg-ligth">
 
                 <Container>
 
                     <Row>
 
                         <Col className="mb-4 mb-lg-0">
-                            <h5 className="text-uppercase mb-4">Asistencia</h5>
+                            <h5 className="text-uppercase my-4 text-center">Asistencia</h5>
 
                             <ListGroup variant="flush">
                                 <ListGroup.Item action as={Link} to="/contacto" className="bg-light">Contacto</ListGroup.Item>
@@ -40,9 +40,9 @@ const Footer = () => {
                         </Col>
 
                         <Col>
-                            <h5 className="text-uppercase mb-4">Encuéntranos</h5>
+                            <h5 className="text-uppercase my-4 text-center">Encuéntranos</h5>
 
-                            <div className="mt-4">
+                            <div className="mt-4 text-center">
 
                                 <a href="https://es-la.facebook.com/integralimagen" type="button" className="btn btn-floating btn-light btn-lg">{facebook}</a>
 
@@ -50,39 +50,37 @@ const Footer = () => {
 
                                 <a href="https://wa.me/5493525432374" type="button" className="btn btn-floating btn-light btn-lg">{whatsapp}</a>
 
-                                <a href="/" type="button" className="btn btn-floating btn-light btn-lg">{twitter}</a>
-
                             </div>
 
                             <ul className="fa-ul mt-2" style={{ marginLeft: "1.65em" }}>
                                 <li className="mb-3">
-                                    <span className="fa-li">{home}</span><span className="ms-2">Tucumán 666, Jesús María, Córdoba</span>
+                                    <span className="fa-li">{home}</span><span className="ms-2">Cástulo Peña 769, Jesús María, Córdoba</span>
                                 </li>
                                 <li className="mb-3">
-                                    <span className="fa-li">{email}</span><span className="ms-2">integral.imagen.test@gmail.com</span>
+                                    <span className="fa-li">{email}</span><span className="ms-2">integralimagen@hotmail.com</span>
                                 </li>
                                 <li className="mb-3">
-                                    <span className="fa-li">{phone}</span><span className="ms-2">+ 54 3525 666666</span>
+                                    <span className="fa-li">{phone}</span><span className="ms-2">+ 54 3525 427985</span>
                                 </li>
                             </ul>
                         </Col>
 
                         <Col>
-                            <h5 className="text-uppercase mb-4">Nuestros Horarios</h5>
+                            <h5 className="text-uppercase my-4 text-center">Nuestros Horarios</h5>
 
                             <table className="table text-center text-dark">
                                 <tbody className="fw-normal">
                                     <tr>
                                         <td>Lun - Vie:</td>
-                                        <td>8am - 9pm</td>
+                                        <td>9am - 12am</td>
+                                    </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <td>17pm - 20pm</td>
                                     </tr>
                                     <tr>
                                         <td>Sábados:</td>
-                                        <td>8am - 1am</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Domingos:</td>
-                                        <td>9am - 10pm</td>
+                                        <td>9am - 12am</td>
                                     </tr>
                                 </tbody>
                             </table>

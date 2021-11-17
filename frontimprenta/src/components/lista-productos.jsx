@@ -200,10 +200,10 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           <Button variant="danger" onClick={() => eliminarProducto(eliminado?._id, eliminado?.imagen.id)}>Eliminar</Button>
         </Modal.Footer>
       </Modal>
-      <Container fluid>
+      <Container>
         <Row className="my-2">
           <Col>
-            <h2 className="display-2">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Nuestros Productos"}</h2>
+            <h2 className="display-2">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Tienda"}</h2>
           </Col>
         </Row>
         <Row className="mt-4">
@@ -239,7 +239,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
         </Row>
       </Container>
       {usuario?.result.tipo === "admin" ? (
-        <Container fluid>
+        <Container>
           <Row className="my-2">
             <Col>
               <Link to={"/productos/agregar"} className="btn btn-primary">nuevo producto +</Link>

@@ -1,9 +1,9 @@
 body,
 html {
-  font-family: "Gadugi", "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
-  color:cornsilk;
+  color: #777;
   font-weight: 400;
   width: 100% !important;
   height: 100% !important;
@@ -19,7 +19,7 @@ h2 {
   margin: 0 0 20px;
   font-weight: 800;
   font-size: 36px;
-  color:cornsilk;
+  color: #333;
 }
 h3 {
   font-size: 20px;
@@ -320,10 +320,6 @@ hr {
     height: 100%;
     width: 100%;
     background:#201E1E;
-    
-    /*position: absolute;
-    left: 0;
-    overflow: hidden;*/
   }
 
   .cabeza {

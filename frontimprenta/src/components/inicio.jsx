@@ -7,6 +7,7 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import Contacto from './contacto'
 
 import ImganeDataService from "../services/servicio-imagen";
+import logo from "../assets/header.jpeg"
 
 const Inicio = () => {
 
@@ -41,66 +42,72 @@ const Inicio = () => {
   };
 
   return (
-    <div className="my-5">
+    <div>
       <div className='overlay'>
-        <Container fluid>
+        <Container >
           <Row>
             <Col>
-              <div className='col-md-8 col-md-offset-2 intro-text'>
-                <h1>
-                  IMPRENTA INTEGRAL IMAGEN
-                  <span></span>
-                </h1>
-                <p>Todo el branding que tu negocio necesita lo tenemos nosotros.</p>
-                <a
-                  href="/productos"
-                  className='btn btn-custom btn-lg page-scroll'
-                >
-                  Hacé tu pedido!!!
-                </a>{' '}
-              </div>
+              <Image src={logo} alt='Integral Imagen' />
             </Col>
           </Row>
         </Container>
       </div>
-      <div id='portfolio' className='text-center'>
-        <Container>
-          <Row>
-            <div className='portfolio-items'>
-              <Row>
-                {imagenes.map((imagen) => {
-                  return (
-                    <Col key={imagen.id} xs={6} md={4} className='d-flex align-items-center'>
-                      <div className='portfolio-item'>
-                        <div className='hover-bg'>
-                          {' '}
-                          <a
-                            href={imagen.permalink}
-                            title='Ver en Instagram...'
-                          >
-                            <div className='hover-text'>
-                              <h4 style={{ fontSize: '1.25vw' }}>{instagram}</h4>
-                            </div>
-                            <Image src={imagen.media_url} alt='Integral Imagen' rounded fluid />{' '}
-                          </a>{' '}
+      <div className="mb-2 pt-5 landing">
+        <div id='portfolio' className='text-center'>
+          <Container>
+            <Row>
+              <div className='portfolio-items'>
+                <Row>
+                  {imagenes.map((imagen) => {
+                    return (
+                      <Col key={imagen.id} xs={6} md={4} className='d-flex align-items-center'>
+                        <div className='portfolio-item'>
+                          <div className='hover-bg'>
+                            {' '}
+                            <a
+                              href={imagen.permalink}
+                              title='Ver en Instagram...'
+                            >
+                              <div className='hover-text'>
+                                <h4 style={{ fontSize: '1.25vw' }}>{instagram}</h4>
+                              </div>
+                              <Image src={imagen.media_url} alt='Integral Imagen' rounded fluid />{' '}
+                            </a>{' '}
+                          </div>
                         </div>
-                      </div>
-                    </Col>
-                  );
-                })}
-              </Row>
-            </div>
-          </Row>
-        </Container>
-      </div>
-      <Row>
-        <Col>
-          <Contacto />
-        </Col>
-      </Row>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </div>
+            </Row>
+          </Container>
+        </div>
+        <Row>
+          <Col>
+            <Contacto />
+          </Col>
+        </Row>
 
+      </div>
     </div>
   );
 }
 
 export default Inicio;
+
+/*
+<div className='col-md-8 col-md-offset-2 intro-text'>
+                <h1>
+                  Hacemos que te <b>distingas...</b>
+                  <span></span>
+                </h1>
+
+                <a
+                  href="/productos"
+                  className='btn btn-custom btn-lg page-scroll'
+                >
+                  Encargá Aquí
+                </a>{' '}
+              </div>
+              */

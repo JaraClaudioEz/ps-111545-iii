@@ -23,6 +23,7 @@ import ProcesoPago from "./components/procesar-pago";
 import Footer from "./components/footer";
 import Contacto from "./components/contacto";
 import Empresa from "./components/empresa";
+import NotFound from "./components/404";
 
 import PedidoDataService from "./services/servicio-pedido";
 import UsuarioDataService from "./services/servicio-usuario";
@@ -118,7 +119,7 @@ const App = () => {
   //console.log(user);
 
   return (
-    <Container>
+    <Container fluid className="no-padding">
       <Row>
         <Col>
           <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
@@ -205,6 +206,7 @@ const App = () => {
             <Route exact path="/faq" component={FAQ} />
             <Route exact path="/contacto" component={Contacto} />
             <Route exact path="/empresa" component={Empresa} />
+            <Route component={NotFound}/>
           </Switch>
         </Col>
       </Row>

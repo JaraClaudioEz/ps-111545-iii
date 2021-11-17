@@ -210,7 +210,7 @@ const ListaOrdenes = ({ usuario }) => {
     <div>
       {
         user.result.tipo === "admin" ? (
-          <Container fluid>
+          <Container>
             <Row>
               <Col>
                 <h2 className="display-2">Listado de Órdenes</h2>
@@ -287,7 +287,7 @@ const ListaOrdenes = ({ usuario }) => {
             </Row>
           </Container>
         ) : (
-          <Container fluid>
+          <Container>
             <Row>
               <Col>
                 <h3 className="display-3">Mis Órdenes de Compra</h3>

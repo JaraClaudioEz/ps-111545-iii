@@ -120,7 +120,7 @@ const ListaUsuarios = ({ usuario }) => {
     <div>
       {
         usuario.result.tipo === "admin" ? (
-          <Container fluid>
+          <Container>
             <Modal
               show={show}
               onHide={handleClose}
@@ -203,7 +203,7 @@ const ListaUsuarios = ({ usuario }) => {
             </Row>
           </Container>
         ) : (
-          <Container fluid>
+          <Container>
             <Row>
               <Col>
                 <Alert variant="danger" onClose={() => history.push("/")} dismissible>

@@ -127,15 +127,15 @@ const NavbarImprenta = ({ totalItems, user }) => {
                             <NavDropdown.Item as={Link} to="/contacto">Contáctenos</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/faq">Preguntas Frecuentes</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/legales">Términos y Condiciones</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            {/*<NavDropdown.Item as={Link} to="/info">Acerca de...</NavDropdown.Item>*/}
+                            {/*<NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to="/info">Acerca de...</NavDropdown.Item>*/}
                         </NavDropdown>
                         <div>
                             {
                                 user ? (
-                                    <Nav.Link onClick={logout} className="btn btn-danger">Cerrar Sesión</Nav.Link>
+                                    <Nav.Link onClick={logout} className="btn btn-outline-danger">Cerrar Sesión</Nav.Link>
                                 ) : (
-                                    <Nav.Link as={Link} to="/autorizacion" className="btn btn-success">Iniciar Sesión</Nav.Link>
+                                    <Nav.Link as={Link} to="/autorizacion" className="btn btn-outline-dark">Iniciar Sesión</Nav.Link>
                                 )
                             }
                         </div>
@@ -144,7 +144,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                         <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{facebook}</Nav.Link>
                         <Nav.Link href="https://instagram.com/integralimagen22" className="btn btn-floating btn-light btn-lg">{instagram}</Nav.Link>
                         <Nav.Link href="https://wa.me/5493525432374" className="btn btn-floating btn-light btn-lg">{whatsapp}</Nav.Link>
-                        <Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{twitter}</Nav.Link>
+                        {/*<Nav.Link href="https://es-la.facebook.com/integralimagen" className="btn btn-floating btn-light btn-lg">{twitter}</Nav.Link>*/}
                     </Nav>
                 </Navbar.Collapse>
                 </Container>
@@ -156,7 +156,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
 export default NavbarImprenta;
 
 
-/*
+/*IMPLEMENTAR BUSQUEDA DINAMICA
 <Nav className="me-4">
     <Form className="navbar-nav navbar-right">
         <FormControl type="search" placeholder="Buscar" className="mr-sm-6" />
