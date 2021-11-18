@@ -200,44 +200,50 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           <Button variant="danger" onClick={() => eliminarProducto(eliminado?._id, eliminado?.imagen.id)}>Eliminar</Button>
         </Modal.Footer>
       </Modal>
-      <Container>
-        <Row className="my-2">
-          <Col>
-            <h2 className="display-2">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Tienda"}</h2>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col sm={6}>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="text"
-                placeholder="Búsqueda por nombre"
-                aria-label="Nombre del Producto"
-                aria-describedby="basic-addon2"
-                value={searchNombre}
-                onChange={onChangeSearchNombre}
-              />
+      <div className="head" >
+        <Container className="py-2">
+          <Row className="py-2">
+            <Col>
+              <h4 className="display-4">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Tienda"}</h4>
+            </Col>
+          </Row>
+          <Row className="py-2">
+            <Col sm={6}>
+              <InputGroup className="mb-3">
+                <FormControl
+                  type="text"
+                  placeholder="Búsqueda por nombre"
+                  aria-label="Nombre del Producto"
+                  aria-describedby="basic-addon2"
+                  value={searchNombre}
+                  onChange={onChangeSearchNombre}
+                />
 
-              <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
+                <Button variant="secondary" onClick={findByNombre}>Buscar</Button>
 
-            </InputGroup>
-          </Col>
-          <Col sm={4}>
-            <InputGroup className="mb-3">
-              <FormControl as="select" onChange={onChangeSearchCategoria}>
-                {categorias.map(categoria => {
-                  return (
-                    <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
-                  )
-                })}
-              </FormControl>
+              </InputGroup>
+            </Col>
+            <Col sm={4}>
+              <InputGroup className="mb-3">
+                <InputGroup.Text>
+                  Categoría
+                </InputGroup.Text>
+                <FormControl as="select" onChange={onChangeSearchCategoria}>
+                  {categorias.map(categoria => {
+                    return (
+                      <option key={categoria} value={categoria}> {categoria.substr(0, 20)} </option>
+                    )
+                  })}
+                </FormControl>
 
-              <Button variant="outline-secondary" onClick={findByCategoria}>Buscar</Button>
+                <Button variant="secondary" onClick={findByCategoria}>Buscar</Button>
 
-            </InputGroup>
-          </Col>
-        </Row>
-      </Container>
+              </InputGroup>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
       {usuario?.result.tipo === "admin" ? (
         <Container>
           <Row className="my-2">
@@ -285,40 +291,44 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           </Row>
         </Container>
       ) : (
-        <Row className="my-4">
-          {productos.map((producto) => {
-            return (
-              <Col key={producto._id}>
-                <Card style={{ width: '18rem' }} className="my-2">
-                  <Card.Img
-                    variant="top"
-                    src={producto?.imagen.url === "" ? logo : producto.imagen.url}
-                    alt="Integral Imagen"
-                    height="225px"
-                  />
-                  <Card.Body>
-                    <Card.Title className="mb-2">
-                      {producto.nombre_producto}
-                      {producto.oferta && (<Badge pill bg="success" className="mx-2">Oferta!!</Badge>)}
-                    </Card.Title>
-                    <Card.Text>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <span className="text-muted text-decoration-line-through" hidden={!producto.oferta}>${producto.precio}</span><br />
-                      <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio)} por {producto.provision} <br />
-                      <strong>Categoría: </strong>{producto.categoria}<br />
-                    </Card.Text>
-                    <Row>
-                      <Link to={"/productos/" + producto._id} className="btn btn-primary my-2 btn-block">
-                        Ver Producto
-                      </Link>
-                      <Button variant="dark" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
+        <div className="tienda">
+          <Container>
+            <Row className="py-4">
+              {productos.map((producto) => {
+                return (
+                  <Col key={producto._id}>
+                    <Card style={{ width: '18rem' }} className="my-2">
+                      <Card.Img
+                        variant="top"
+                        src={producto?.imagen.url === "" ? logo : producto.imagen.url}
+                        alt="Integral Imagen"
+                        height="225px"
+                      />
+                      <Card.Body>
+                        <Card.Title className="mb-2">
+                          {producto.nombre_producto}
+                          {producto.oferta && (<Badge pill bg="success" className="mx-2">Oferta!!</Badge>)}
+                        </Card.Title>
+                        <Card.Text>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <span className="text-muted text-decoration-line-through" hidden={!producto.oferta}>${producto.precio}</span><br />
+                          <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio)} por {producto.provision} <br />
+                          <strong>Categoría: </strong>{producto.categoria}<br />
+                        </Card.Text>
+                        <Row>
+                          <Link to={"/productos/" + producto._id} className="btn btn-primary my-2 btn-block">
+                            Ver Producto
+                          </Link>
+                          <Button variant="dark" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
+            </Row>
+          </Container>
+        </div>
       )}
     </div>
   );

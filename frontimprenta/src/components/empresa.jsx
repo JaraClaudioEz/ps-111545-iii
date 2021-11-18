@@ -22,7 +22,7 @@ const Empresa = () => {
     const ser1 = <FontAwesomeIcon icon={faAward} className="fa" />
 
     return (
-        <div>
+        <div className="landing">
             <Row>
                 <Col>
                     <div id="about">
@@ -61,11 +61,11 @@ const Empresa = () => {
                     </div>
                 </Col>
             </Row>
-            <Row className="my-4">
+            <Row className="py-2">
                 <Col>
                     <div id='especialidades' className='text-center'>
                         <div className='container'>
-                            <div className='col-md-10 col-md-offset-1 section-title'>
+                            <div className='col-md-10 py-2'>
                                 <h2>Especialidades</h2>
                             </div>
                             <div className='row'>
@@ -98,7 +98,7 @@ const Empresa = () => {
                     </div>
                 </Col>
             </Row>
-            <Row className="mb-4">
+            <Row>
                 <Col>
                     <div id='services' className='text-center'>
                         <div className='container'>

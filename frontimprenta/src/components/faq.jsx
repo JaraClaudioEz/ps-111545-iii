@@ -5,7 +5,7 @@ import Accordion from 'react-bootstrap/Accordion'
 
 const FAQ = () => {
     return (
-        <Container>
+        <Container className="landing pb-4 pt-2" fluid>
             <Row className="mt-4">
                 <Col md={{ span: 6, offset: 3 }}>
                     <div>

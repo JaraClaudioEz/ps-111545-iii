@@ -6,7 +6,7 @@ const Legales = () => {
     const history = useHistory();
 
     return (
-        <Container>
+        <Container className="landing pb-4 pt-2" fluid>
             <Row className="mt-4">
                 <Col md={{ span: 6, offset: 3 }}>
                     <div>
@@ -217,11 +217,13 @@ const Legales = () => {
                     </div>
                 </Col>
             </Row>
-            <Row className="my-4" md={1}>
-                
-                    <Button onClick={() => history.goBack()}>Volver</Button>
-                
-            </Row>
+            <div className="d-grid gap-2">
+                <Row className="my-4">
+                    <Col md={{ span: 8, offset: 2 }} className="d-grid gap-2">
+                        <Button onClick={() => history.goBack()}>Volver</Button>
+                    </Col>
+                </Row>
+            </div>
         </Container>
     );
 }

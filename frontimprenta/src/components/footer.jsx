@@ -21,7 +21,7 @@ const Footer = () => {
     return (
 
         <div>
-            <footer className="text-dark text-center text-lg-start bg-ligth">
+            <footer className="text-dark text-center text-lg-start bg-light">
 
                 <Container>
 

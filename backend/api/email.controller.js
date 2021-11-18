@@ -24,7 +24,7 @@ export default class MailerController {
             from: 'Integral Imagen',
             to: email,
             subject: 'Orden Lista!',
-            html: `<head>Hola! ${nombre} </head><body><h4>Tu orden de compra N°${numero} está lista para retirar.<p>Te invitamos a llegar por nuestro local en Tucumán 544 de lunes a viernes 8 a 13 hs y 16 a 20hs</p></h4></body><br>`,
+            html: `<head>Hola! ${nombre} </head><body><h4>Tu orden de compra N°${numero} está lista para retirar.<p>Te invitamos a llegar por nuestro local en Cástulo Peña 769 de lunes a viernes 9 a 12 hs y 17 a 20hs</p></h4></body><br>`,
         }
 
         transporter.sendMail(mensaje, (err, result) => {

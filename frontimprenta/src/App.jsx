@@ -119,103 +119,105 @@ const App = () => {
   //console.log(user);
 
   return (
-    <Container fluid className="no-padding">
-      <Row>
-        <Col>
-          <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Switch>
-            <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
-            <Route exact path={"/orden/respuestamp"} component={ProcesoPago} usuario={user} />
-            <Route
-              exact path="/productos"
-              render={(props) => (
-                <ListaProductos {...props} usuario={user} alAgregarAlPedido={agregarAlPedido} />
-              )}
-            />
-            <Route
-              path="/productos/agregar/:id"
-              render={(props) => (
-                <AddProducto {...props} usuario={user} />
-              )}
-            />
-            <Route
-              path="/productos/agregar"
-              render={(props) => (
-                <AddProducto {...props} usuario={user} />
-              )}
-            />
-            <Route
-              path="/productos/:id"
-              render={(props) => (
-                <Producto {...props} usuario={user} alAgregarAlPedido={agregarAlPedido} />
-              )}
-            />
-            <Route
-              path="/ordenes"
-              render={(props) => (
-                <ListaOrdenes {...props} usuario={user} />
-              )}
-            />
-            <Route
-              path="/orden/:id"
-              render={(props) => (
-                <Orden {...props} usuario={user} />
-              )}
-            />
-            <Route
-              path="/pedido"
-              render={(props) => (
-                <Pedido {...props}
-                  usuario={user}
-                  pedido={pedido}
-                  agregarAlPedido={agregarAlPedido}
-                  handleQuitarItemPedido={handleQuitarItemPedido}
-                  handleVaciarPedido={handleVaciarPedido}
-                />
-              )}
-            />
-            <Route
-              path="/reportes"
-              render={(props) => (
-                <Reportes {...props} usuario={user} />
-              )}
-            />
-            <Route
-              path="/autorizacion"
-              render={(props) => (
-                <Autorizacion {...props} login={Autorizacion} />
-              )}
-            />
-            <Route
-              path="/usuarios"
-              render={(props) => (
-                <ListaUsuarios {...props} usuario={user} />
-              )}
-            />
-            <Route
-              path="/usuario/:nombre"
-              render={(props) => (
-                <Usuario {...props} usuario={user} />
-              )}
-            />
-            <Route exact path="/legales" component={Legales} />
-            <Route exact path="/faq" component={FAQ} />
-            <Route exact path="/contacto" component={Contacto} />
-            <Route exact path="/empresa" component={Empresa} />
-            <Route component={NotFound}/>
-          </Switch>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Footer />
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Container fluid style={{ paddingLeft: '0px', paddingRight: '0px' }}>
+        <Row >
+          <Col>
+            <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Switch>
+              <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
+              <Route exact path={"/orden/respuestamp"} component={ProcesoPago} usuario={user} />
+              <Route
+                exact path="/productos"
+                render={(props) => (
+                  <ListaProductos {...props} usuario={user} alAgregarAlPedido={agregarAlPedido} />
+                )}
+              />
+              <Route
+                path="/productos/agregar/:id"
+                render={(props) => (
+                  <AddProducto {...props} usuario={user} />
+                )}
+              />
+              <Route
+                path="/productos/agregar"
+                render={(props) => (
+                  <AddProducto {...props} usuario={user} />
+                )}
+              />
+              <Route
+                path="/productos/:id"
+                render={(props) => (
+                  <Producto {...props} usuario={user} alAgregarAlPedido={agregarAlPedido} />
+                )}
+              />
+              <Route
+                path="/ordenes"
+                render={(props) => (
+                  <ListaOrdenes {...props} usuario={user} />
+                )}
+              />
+              <Route
+                path="/orden/:id"
+                render={(props) => (
+                  <Orden {...props} usuario={user} />
+                )}
+              />
+              <Route
+                path="/pedido"
+                render={(props) => (
+                  <Pedido {...props}
+                    usuario={user}
+                    pedido={pedido}
+                    agregarAlPedido={agregarAlPedido}
+                    handleQuitarItemPedido={handleQuitarItemPedido}
+                    handleVaciarPedido={handleVaciarPedido}
+                  />
+                )}
+              />
+              <Route
+                path="/reportes"
+                render={(props) => (
+                  <Reportes {...props} usuario={user} />
+                )}
+              />
+              <Route
+                path="/autorizacion"
+                render={(props) => (
+                  <Autorizacion {...props} login={Autorizacion} />
+                )}
+              />
+              <Route
+                path="/usuarios"
+                render={(props) => (
+                  <ListaUsuarios {...props} usuario={user} />
+                )}
+              />
+              <Route
+                path="/usuario/:nombre"
+                render={(props) => (
+                  <Usuario {...props} usuario={user} />
+                )}
+              />
+              <Route exact path="/legales" component={Legales} />
+              <Route exact path="/faq" component={FAQ} />
+              <Route exact path="/contacto" component={Contacto} />
+              <Route exact path="/empresa" component={Empresa} />
+              <Route component={NotFound} />
+            </Switch>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Footer />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 

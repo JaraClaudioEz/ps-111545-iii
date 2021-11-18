@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInstagram } from '@fortawesome/free-brands-svg-icons'
@@ -7,7 +7,7 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import Contacto from './contacto'
 
 import ImganeDataService from "../services/servicio-imagen";
-import logo from "../assets/header.jpeg"
+import logo from "../assets/logo.jpeg"
 
 const Inicio = () => {
 
@@ -43,16 +43,28 @@ const Inicio = () => {
 
   return (
     <div>
-      <div className='overlay'>
+      <div className="head">
         <Container >
-          <Row>
-            <Col>
-              <Image src={logo} alt='Integral Imagen' />
+          <Row className="align-items-center">
+            <Col sm={8}>
+              <p className="display-4">
+                Hacemos que te <b>distingas...</b>
+                <span></span>
+              </p>
+              <div id="btn-tienda" className="d-grid gap-2">
+                <Button variant="light" size="lg" href="/productos">
+                  Encargá Aquí
+                </Button>
+              </div>
+              {' '}
+            </Col>
+            <Col sm={4} className="p-3">
+              <Image src={logo} alt='Integral Imagen' fluid />
             </Col>
           </Row>
         </Container>
       </div>
-      <div className="mb-2 pt-5 landing">
+      <div className="landing">
         <div id='portfolio' className='text-center'>
           <Container>
             <Row>
@@ -95,19 +107,3 @@ const Inicio = () => {
 }
 
 export default Inicio;
-
-/*
-<div className='col-md-8 col-md-offset-2 intro-text'>
-                <h1>
-                  Hacemos que te <b>distingas...</b>
-                  <span></span>
-                </h1>
-
-                <a
-                  href="/productos"
-                  className='btn btn-custom btn-lg page-scroll'
-                >
-                  Encargá Aquí
-                </a>{' '}
-              </div>
-              */

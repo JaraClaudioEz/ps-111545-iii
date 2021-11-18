@@ -85,7 +85,7 @@ const Contacto = () => {
                 isValid,
                 errors,
             }) => (
-                <Container>
+                <Container className="landing py-2" fluid>
                     <Row className="my-2">
                         <Col></Col>
                         <Col xs={6}><h4 className="display-4">Contacto: </h4></Col>
