@@ -5,7 +5,7 @@ import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Badge, Col, Contai
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faWhatsapp, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
-import logo from "../assets/IntegralLogo.png";
+import logo from "../assets/ColibriLogo.png";
 
 const NavbarImprenta = ({ totalItems, user }) => {
 
@@ -55,7 +55,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                     <Navbar.Brand href="/">
                         <img
                             src={logo}
-                            width="160"
+                            width="35"
                             height="50"
                             className="d-inline-block align-top"
                             alt="Integral Imagen"

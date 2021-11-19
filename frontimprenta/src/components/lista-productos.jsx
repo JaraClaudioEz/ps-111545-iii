@@ -291,13 +291,13 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
           </Row>
         </Container>
       ) : (
-        <div className="tienda">
+        <div className="landing">
           <Container>
             <Row className="py-4">
               {productos.map((producto) => {
                 return (
                   <Col key={producto._id}>
-                    <Card style={{ width: '18rem' }} className="my-2">
+                    <Card style={{ width: '18rem' }} className="my-2" bg="dark">
                       <Card.Img
                         variant="top"
                         src={producto?.imagen.url === "" ? logo : producto.imagen.url}
@@ -316,10 +316,10 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                           <strong>Categoría: </strong>{producto.categoria}<br />
                         </Card.Text>
                         <Row>
-                          <Link to={"/productos/" + producto._id} className="btn btn-primary my-2 btn-block">
+                          <Link to={"/productos/" + producto._id} className="btn btn-outline-primary my-2 btn-block">
                             Ver Producto
                           </Link>
-                          <Button variant="dark" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
+                          <Button variant="outline-secondary" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
                         </Row>
                       </Card.Body>
                     </Card>
