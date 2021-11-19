@@ -316,10 +316,10 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                           <strong>Categoría: </strong>{producto.categoria}<br />
                         </Card.Text>
                         <Row>
-                          <Link to={"/productos/" + producto._id} className="btn btn-outline-primary my-2 btn-block">
+                          <Link to={"/productos/" + producto._id} className="btn btn-danger my-2 btn-block">
                             Ver Producto
                           </Link>
-                          <Button variant="outline-secondary" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
+                          <Button variant="light" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
                         </Row>
                       </Card.Body>
                     </Card>

@@ -171,7 +171,7 @@ hr {
     height: 100px;
     padding: 30px 0;
     border-radius: 50%;
-    background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+    background: linear-gradient(to right, #ed3237 0%, #f26f35 100%);
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
   }
 
@@ -227,7 +227,7 @@ hr {
   /* Services Section */
 #services {
     padding: 100px 0;
-    background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+    background: linear-gradient(to right, #ed3237 0%, #f26f35 100%);
     color: #fff;
   }
   #services .service-desc {
@@ -251,7 +251,7 @@ hr {
     width: 120px;
     height: 120px;
     padding: 40px 0;
-    background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+    background: #000000;
     border-radius: 50%;
     color: #fff;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);

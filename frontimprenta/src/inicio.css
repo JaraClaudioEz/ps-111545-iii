@@ -139,16 +139,12 @@ hr {
     background: #000000;
   }
 
-.cabeza {
-  background: url(./assets/intimg.png) center no-repeat;
-  /*background-color:#ED3237;*/
-  width: 100%;
+.head {
+  background:linear-gradient(to right, #ed3237 0%, #f26f35 100%);
   color: cornsilk;
 }
-
-.head {
-  background:#ed3237;
-  color: cornsilk;
+.head .btn-danger {
+  background-color: #ed3237;
 }
 
 #btn-tienda {

@@ -7,7 +7,7 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import Contacto from './contacto'
 
 import ImganeDataService from "../services/servicio-imagen";
-import logo from "../assets/logo.png"
+import logo from "../assets/integral.png"
 
 const Inicio = () => {
 
@@ -42,9 +42,9 @@ const Inicio = () => {
   };
 
   return (
-    <div>
+    <div >
       <div className="head">
-        <Container >
+        <Container>
           <Row className="align-items-center">
             <Col sm={8}>
               <p className="display-4">

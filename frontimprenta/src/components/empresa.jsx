@@ -2,8 +2,7 @@ import React from "react";
 import { Image, Row, Col } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngrycreative } from '@fortawesome/free-brands-svg-icons'
-import { faBookOpen, faStamp, faPalette, faAward } from '@fortawesome/free-solid-svg-icons'
+import { faTint, faTshirt, faSign, faAward, faHandshake } from '@fortawesome/free-solid-svg-icons'
 
 import portada from "../assets/portada.png"
 import CarouselInicio from "./carousel";
@@ -14,157 +13,147 @@ import "../empresa.css";
 
 const Empresa = () => {
 
-    const angry = <FontAwesomeIcon icon={faAngrycreative} className="fa" />
-    const imprenta = <FontAwesomeIcon icon={faBookOpen} className="fa" />
-    const estampado = <FontAwesomeIcon icon={faStamp} className="fa" />
-    const carteleria = <FontAwesomeIcon icon={faPalette} className="fa" />
+  const manos = <FontAwesomeIcon icon={faHandshake} className="fa" />
+  const imprenta = <FontAwesomeIcon icon={faTint} className="fa" />
+  const estampado = <FontAwesomeIcon icon={faTshirt} className="fa" />
+  const carteleria = <FontAwesomeIcon icon={faSign} className="fa" />
 
-    const ser1 = <FontAwesomeIcon icon={faAward} className="fa" />
+  const ser1 = <FontAwesomeIcon icon={faAward} className="fa" />
 
-    return (
-        <div className="landing">
-            <Row>
-                <Col>
-                    <div id="about">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-xs-12 col-md-6">
-                                    {" "}
-                                    <Image src={portada} alt='Integral Imagen' rounded fluid />
-                                    {" "}
-                                </div>
-                                <div className="col-xs-12 col-md-6">
-                                    <div className="about-text">
-                                        <h2>Sobre Nosotros</h2>
-                                        <p>Somos una empresa familiar con 20 años de experiencia. Cubrimos la más amplia gama de productos...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
-                                        <h3>Por qué elegirnos?</h3>
-                                        <div className="list-style">
-                                            <div className="col-lg-6 col-sm-6 col-xs-12">
-                                                <ul>
-                                                    <li>Bueno</li>
-                                                    <li>Barato</li>
-                                                    <li>Bonito</li>
-                                                </ul>
-                                            </div>
-                                            <div className="col-lg-6 col-sm-6 col-xs-12">
-                                                <ul>
-                                                    <li>Recontra bueno</li>
-                                                    <li>Recontra barato</li>
-                                                    <li>Recontra bonito</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+  return (
+    <div className="landing">
+      <Row className="head">
+        <Col>
+          <div id="about">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12 col-md-6">
+                  {" "}
+                  <Image src={portada} alt='Integral Imagen' rounded fluid />
+                  {" "}
+                </div>
+                <div className="col-xs-12 col-md-6">
+                  <div className="about-text">
+                    <h2>Sobre Nosotros</h2>
+                    <p>Somos una empresa familiar con más de 15 años de experiencia dedicada a la solución gráfica de nuestros clientes, basada en la calidad el compromiso y el trabajo en equipo.</p>
+                    <h3>Por qué elegirnos?</h3>
+                    <div className="list-style">
+                      <div className="col-lg-6 col-sm-6 col-xs-12">
+                        <p>Nos detacamos en brindar beneficios al cliente en cuanto a calidad y velocidad de entrega.</p>
+                      </div>
+
                     </div>
-                </Col>
-            </Row>
-            <Row className="py-2">
-                <Col>
-                    <div id='especialidades' className='text-center'>
-                        <div className='container'>
-                            <div className='col-md-10 py-2'>
-                                <h2>Especialidades</h2>
-                            </div>
-                            <div className='row'>
-                                <div className='col-xs-6 col-md-3'>
-                                    {' '}
-                                    {angry}
-                                    <h3>Creatividad</h3>
-                                    <p>Nuestros diseños van como piña!</p>
-                                </div>
-                                <div className='col-xs-6 col-md-3'>
-                                    {' '}
-                                    {imprenta}
-                                    <h3>Imprenta</h3>
-                                    <p>Todos los papelistos!</p>
-                                </div>
-                                <div className='col-xs-6 col-md-3'>
-                                    {' '}
-                                    {estampado}
-                                    <h3>Estampado</h3>
-                                    <p>Remeras, chombas, sábanas!</p>
-                                </div>
-                                <div className='col-xs-6 col-md-3'>
-                                    {' '}
-                                    {carteleria}
-                                    <h3>Cartelería</h3>
-                                    <p>Aniverasarios, negocios, eventos!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <div id='services' className='text-center'>
-                        <div className='container'>
-                            <div className='section-title'>
-                                <h2>Nuestros Servicios</h2>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-                                    dapibus leonec.
-                                </p>
-                            </div>
-                            <div className='row'>
-                                <div className='col-md-4'>
-                                    {' '}
-                                    {ser1}
-                                    <div className='service-desc'>
-                                        <h3>Lorem ipsum dolor</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.</p>
-                                    </div>
-                                </div>
-                                <div className='col-md-4'>
-                                    {' '}
-                                    {ser1}
-                                    <div className='service-desc'>
-                                        <h3>Lorem ipsum dolor</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.</p>
-                                    </div>
-                                </div>
-                                <div className='col-md-4'>
-                                    {' '}
-                                    {ser1}
-                                    <div className='service-desc'>
-                                        <h3>Lorem ipsum dolor</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.</p>
-                                    </div>
-                                </div>
-                                <div className='col-md-4'>
-                                    {' '}
-                                    {ser1}
-                                    <div className='service-desc'>
-                                        <h3>Lorem ipsum dolor</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.</p>
-                                    </div>
-                                </div>
-                                <div className='col-md-4'>
-                                    {' '}
-                                    {ser1}
-                                    <div className='service-desc'>
-                                        <h3>Lorem ipsum dolor</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.</p>
-                                    </div>
-                                </div>
-                                <div className='col-md-4'>
-                                    {' '}
-                                    {ser1}
-                                    <div className='service-desc'>
-                                        <h3>Lorem ipsum dolor</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-        </div>
-    );
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row className="py-2">
+        <Col>
+          <div id='especialidades' className='text-center'>
+            <div className='container'>
+              <div className='col-md-10 py-2'>
+                <h2>Especialidades</h2>
+              </div>
+              <div className='row'>
+              <div className='col-xs-6 col-md-3'>
+                  {' '}
+                  {manos}
+                  <h3>Calidad Humana</h3>
+                  
+                </div>
+                
+                <div className='col-xs-6 col-md-3'>
+                  {' '}
+                  {imprenta}
+                  <h3>Imprenta</h3>
+                  
+                </div>
+                <div className='col-xs-6 col-md-3'>
+                  {' '}
+                  {estampado}
+                  <h3>Estampado</h3>
+                  
+                </div>
+                <div className='col-xs-6 col-md-3'>
+                  {' '}
+                  {carteleria}
+                  <h3>Cartelería</h3>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div id='services' className='text-center'>
+            <div className='container'>
+              <div className='section-title'>
+                <h2>Nuestros Servicios</h2>
+                <p>
+                  Contamos con el mejor servicio gráfico del mercado.
+                </p>
+              </div>
+              <div className='row'>
+                <div className='col-md-4'>
+                  {' '}
+                  {ser1}
+                  <div className='service-desc'>
+                    <h3>Calidad</h3>
+                    <p>Usted estará orgulloso de saber que los productos que entregará a sus clientes están por encima de la calidad promedio, Impresionarte no posee imprenta propia, esto nos permite seleccionar el proveedor de impresión con el estándar más alto del mercado.</p>
+                  </div>
+                </div>
+                <div className='col-md-4'>
+                  {' '}
+                  {ser1}
+                  <div className='service-desc'>
+                    <h3>Servicio</h3>
+                    <p>Cada vez que recibimos un pedido, éste es registrado y seguido muy de cerca en cada etapa, desde el control de la aptitud para impresión del archivo, pasando por la coordinación de proveedores, hasta el aviso por e-mail cuando el trabajo esta listo.</p>
+                  </div>
+                </div>
+                <div className='col-md-4'>
+                  {' '}
+                  {ser1}
+                  <div className='service-desc'>
+                    <h3>Experiencia</h3>
+                    <p>Trabajamos hace tiempo casi exclusivamente con clientes vía Internet, hemos logrado simplificar al máximo esta metodología para que trabajar a distancia sea aún mas conveniente.</p>
+                  </div>
+                </div>
+                <div className='col-md-4'>
+                  {' '}
+                  {ser1}
+                  <div className='service-desc'>
+                    <h3>Tecnología</h3>
+                    <p>El sistema de gestión administrativa que poseemos fue diseñado específicamente para nuestras necesidades y es optimizado permanentemente.</p>
+                  </div>
+                </div>
+                <div className='col-md-4'>
+                  {' '}
+                  {ser1}
+                  <div className='service-desc'>
+                    <h3>Atención al CLiente</h3>
+                    <p>Se podrá contactar con nosotros por e-mail, teléfono, redes sociales o por formulario de contacto, obteniendo siempre una rápida respuesta, y soluciones acordes a sus necesidades.</p>
+                  </div>
+                </div>
+                <div className='col-md-4'>
+                  {' '}
+                  {ser1}
+                  <div className='service-desc'>
+                    <h3>Productos de alta rotación</h3>
+                    <p>Los productos que ofrecemos están entre los mas comúnmente solicitados y son de alta rotación.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </div>
+  );
 }
 
 export default Empresa;
