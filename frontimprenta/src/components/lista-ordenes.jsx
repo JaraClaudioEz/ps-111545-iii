@@ -234,6 +234,9 @@ const ListaOrdenes = ({ usuario }) => {
               */}
               <Col sm={4}>
                 <InputGroup className="mb-3">
+                  <InputGroup.Text>
+                    Estado
+                  </InputGroup.Text>
                   <FormControl as="select" onChange={onChangeSearchEstado}>
                     {estados.map(estado => {
                       return (

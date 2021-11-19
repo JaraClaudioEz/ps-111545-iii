@@ -134,7 +134,7 @@ const Reportes = () => {
   };
 
   const traerCategorias = async () => {
-    const NUM_OF_DAYS = 15;
+    const NUM_OF_DAYS = 13;
 
     const fechas = [];
     let ventas_imprenta = Array(NUM_OF_DAYS).fill(0);
@@ -144,8 +144,8 @@ const Reportes = () => {
 
     for (let i = 0; i < NUM_OF_DAYS; i++) {
       let fecha = moment();
-      fecha.subtract(i, 'day');
-      fechas.push(fecha.format('YYYY-MM-DD'));
+      fecha.subtract(i, 'month');
+      fechas.push(fecha.format('YYYY-MM'));
     }
     //console.log(fechas);
 
@@ -217,7 +217,7 @@ const Reportes = () => {
   const formatoFechasCategorias = () => {
     const nuevo = [];
     fechasCategorias.forEach(fecha => {
-      nuevo.push(moment(fecha).format('L'));
+      nuevo.push(moment(fecha).format('MMMM YYYY'));
     });
     return nuevo;
   };

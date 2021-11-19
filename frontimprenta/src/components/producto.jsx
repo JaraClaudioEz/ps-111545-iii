@@ -59,10 +59,10 @@ const Producto = ({ match, usuario, alAgregarAlPedido }) => {
   return (
 
     producto ? (
-      <Container className="my-5">
+      <Container className="py-5 landing" fluid>
         <Row>
-          <Col sm={8}>
-            <Image src={producto?.imagen.url === "" ? logo : producto.imagen.url} alt="Logo" rounded className="card-img-top" />
+          <Col sm={8} >
+            <Image src={producto?.imagen.url === "" ? logo : producto.imagen.url} alt="Logo" rounded className="card-img-top" fluid/>
           </Col>
           <Col sm={4}>
             <h5>
@@ -87,7 +87,7 @@ const Producto = ({ match, usuario, alAgregarAlPedido }) => {
             )}
           </Col>
         </Row>
-        <Row>
+        <Row className="py-3">
           <Col>
             <h4> {producto.descripcion} </h4>
             <Link to={"/productos"} className="btn btn-primary">

@@ -120,8 +120,8 @@ const App = () => {
 
   return (
     <div>
-      <Container fluid style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-        <Row >
+      <Container style={{ paddingLeft: '0px', paddingRight: '0px' }} fluid>
+        <Row>
           <Col>
             <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
           </Col>

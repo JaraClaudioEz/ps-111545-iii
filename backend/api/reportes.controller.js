@@ -183,7 +183,7 @@ export default class ReportesController {
 
             {
                 "$group": {
-                    "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
+                    "_id": { $dateToString: { format: "%Y-%m", date: "$fecha" } },
                     "categoria": { "$first": "$items.categoria" },
                     "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
@@ -222,7 +222,7 @@ export default class ReportesController {
 
             {
                 "$group": {
-                    "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
+                    "_id": { $dateToString: { format: "%Y-%m", date: "$fecha" } },
                     "categoria": { "$first": "$items.categoria" },
                     "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
@@ -260,7 +260,7 @@ export default class ReportesController {
 
             {
                 "$group": {
-                    "_id": { $dateToString: { format: "%Y-%m-%d", date: "$fecha" } },
+                    "_id": { $dateToString: { format: "%Y-%m", date: "$fecha" } },
                     "categoria": { "$first": "$items.categoria" },
                     "venta": { "$sum": "$items.precio" },
                     "cantidad_total": { "$sum": "$items.cantidad" },
