@@ -50,10 +50,15 @@ const AddProducto = props => {
                 'Seleccione una categoría del producto!'
             )
             .required('Seleccione una categoría del producto!'),
+        oferta: yup.boolean(),
         precio_oferta: yup.number()
-            .required('Completa este campo.')
-            .positive('Sólo valores positivos')
-            .integer(),
+            .when('oferta', {
+                is: true,
+                then: yup.number()
+                    .required('Completa este campo.')
+                    .positive('Sólo valores positivos')
+                    .integer(),
+            }),
     });
 
     let editar = false;
@@ -135,6 +140,7 @@ const AddProducto = props => {
             obtenerProducto(props.match.params.id);
         }
     }, [props.match.params.id]);
+
     //console.log(producto);
 
     /*
@@ -503,7 +509,7 @@ const AddProducto = props => {
                                             name="precio_oferta"
                                             placeholder="Precio"
                                             isValid={touched.precio_oferta && !errors.precio_oferta}
-                                            isInvalid={!!errors.precio_oferta}
+                                            isInvalid={values.oferta && !!errors.precio_oferta}
                                             min='0'
                                             disabled={!values.oferta}
                                             required={values.oferta}
@@ -528,7 +534,7 @@ const AddProducto = props => {
                             </Form>
                         </Col>
                     </Row>
-                    )
+
                 </Container>
             )}
         </Formik >
