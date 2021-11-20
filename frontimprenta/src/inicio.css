@@ -1,4 +1,4 @@
-body,
+/*body,
 html {
   
   font-family: "Gadugi", "Open Sans", sans-serif;
@@ -9,7 +9,7 @@ html {
   width: 100% !important;
   height: 100% !important;
   
-}
+}*/
 
 h2,
 h3,
@@ -146,21 +146,13 @@ hr {
 .head {
   background:linear-gradient(to right, #ed3237 0%, #f26f35 100%);
   color: cornsilk;
-}
-.head h4 {
+  }
+  .head h4 {
   color: cornsilk;
-}
+  }
 
 #btn-tienda {
   width: 50%;
   padding-bottom: 0.5rem;
-}
-
-.tienda {
-  background: url(./assets/intimg.png) center no-repeat;
-  background-color: #861313;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}
+  }
+  

@@ -156,13 +156,13 @@ const Usuario = props => {
             }) => (
                 <Container className="px-0" fluid>
 
-                    <Row className="head py-2">
+                    <Row className="head py-2 mx-0">
                         <Col></Col>
-                        <Col xs={6} style={{ color: "cornsilk" }}><h4 className="display-4">Datos de Contacto: {user.nombre}</h4></Col>
+                        <Col xs={6} style={{ color: "cornsilk" }}><h4 className="display-4 px-0">Datos de Contacto: {user.nombre}</h4></Col>
                         <Col></Col>
                     </Row>
-                    <Row className="landing py-4">
-                        <Col md={{ span: 6, offset: 3 }}>
+                    <Row className="landing py-4 mx-0">
+                        <Col md={{ span: 6, offset: 3 }} className="px-0">
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3 p-2">
                                     <Form.Label>Nombre completo:</Form.Label>

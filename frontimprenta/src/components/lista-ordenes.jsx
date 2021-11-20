@@ -292,15 +292,15 @@ const ListaOrdenes = ({ usuario }) => {
         ) : (
           <div>
             <Container className="px-0" fluid>
-              <Row className="head py-4">
+              <Row className="head py-4 mx-0">
                 <Col></Col>
                 <Col xs={8}>
-                  <h3 className="display-3">Mis Órdenes de Compra</h3>
+                  <h3 className="display-3 px-0">Mis Órdenes de Compra</h3>
                 </Col>
                 <Col></Col>
               </Row>
-              <Row className="landing py-2">
-                <Col md={{ span: 8, offset: 2 }}>
+              <Row className="landing py-2 mx-0">
+                <Col md={{ span: 8, offset: 2 }} className="px-0">
                   {!ordenes && <SinOrdenes />}
                   <Table striped hover variant="dark">
                     <thead>

@@ -122,13 +122,13 @@ const App = () => {
   return (
     <div>
       <Container className="px-0" fluid>
-        <Row>
-          <Col>
+        <Row className="mx-0">
+          <Col className="px-0">
             <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="mx-0">
+          <Col className="px-0">
             <Switch>
               <Route exact path={["/", "/imprenta"]} component={Inicio} usuario={user} />
               <Route exact path={"/orden/respuestamp"} component={ProcesoPago} usuario={user} />
@@ -212,8 +212,8 @@ const App = () => {
             </Switch>
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="mx-0">
+          <Col className="px-0">
             <Footer />
           </Col>
         </Row>

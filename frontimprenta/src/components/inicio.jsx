@@ -95,8 +95,8 @@ const Inicio = () => {
             </Row>
           </Container>
         </div>
-        <Row>
-          <Col>
+        <Row className="mx-0">
+          <Col className="px-0">
             <Contacto />
           </Col>
         </Row>

@@ -22,8 +22,8 @@ const Empresa = () => {
 
   return (
     <div className="landing">
-      <Row className="head">
-        <Col>
+      <Row className="head mx-0">
+        <Col className="px-0">
           <div id="about">
             <div className="container">
               <div className="row">
@@ -50,8 +50,8 @@ const Empresa = () => {
           </div>
         </Col>
       </Row>
-      <Row className="py-2">
-        <Col>
+      <Row className="py-2 mx-0">
+        <Col className="px-0">
           <div id='especialidades' className='text-center'>
             <div className='container'>
               <div className='col-md-10 py-2'>
@@ -88,8 +88,8 @@ const Empresa = () => {
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col>
+      <Row className="mx-0">
+        <Col className="px-0">
           <div id='services' className='text-center'>
             <div className='container'>
               <div className='section-title'>
