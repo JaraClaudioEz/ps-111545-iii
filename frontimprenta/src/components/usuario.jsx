@@ -154,17 +154,17 @@ const Usuario = props => {
                 isValid,
                 errors,
             }) => (
-                <Container className="my-5">
+                <Container className="px-0" fluid>
 
-                    <Row>
+                    <Row className="head py-2">
                         <Col></Col>
-                        <Col xs={6}><h4 className="display-4">Datos de Contacto: {user.nombre}</h4></Col>
+                        <Col xs={6} style={{ color: "cornsilk" }}><h4 className="display-4">Datos de Contacto: {user.nombre}</h4></Col>
                         <Col></Col>
                     </Row>
-                    <Row>
+                    <Row className="landing py-4">
                         <Col md={{ span: 6, offset: 3 }}>
                             <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group className="mb-3  p-2 bg-light border">
+                                <Form.Group className="mb-3 p-2">
                                     <Form.Label>Nombre completo:</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -182,20 +182,20 @@ const Usuario = props => {
                                         {errors.nombre}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group className="mb-3  p-2 bg-light border">
+                                <Form.Group className="mb-3 p-2">
                                     <Form.Label>Email:</Form.Label>
                                     <Form.Control
                                         type="email"
                                         id="email"
                                         required
                                         value={user?.email}
-
                                         name="email"
                                         placeholder="Dirección de Email"
                                         disabled
+                                        style={{ color: '#333' }}
                                     />
                                 </Form.Group>
-                                <Row className="mb-3 p-2 bg-light border">
+                                <Row className="mb-3 p-2">
                                     <Form.Label>Dirección:</Form.Label>
                                     <Form.Group as={Col}>
                                         <Form.Control
@@ -251,7 +251,7 @@ const Usuario = props => {
                                     </Form.Group>
                                 </Row>
 
-                                <Form.Group className="mb-3 p-2 bg-light border">
+                                <Form.Group className="mb-3 p-2">
                                     <Form.Label>Teléfono: </Form.Label>
                                     <PhoneInput
                                         country='ar'
@@ -263,13 +263,20 @@ const Usuario = props => {
                                         onlyCountries={['ar']}
                                         masks={{ ar: '(....) ..-....' }}
                                         type='text'
+                                        inputStyle={{ color: '#333' }}
+                                        buttonStyle={{ backgroundColor: '#000000' }}
 
                                     />
                                 </Form.Group>
 
-                                <div className="d-grid gap-2">
+                                <div className="d-grid gap-2 py-2">
                                     <Button variant="primary" type="submit">
                                         Guardar
+                                    </Button>
+                                </div>
+                                <div className="d-grid gap-2 py-2">
+                                    <Button variant="danger" href="/">
+                                        Cancelar
                                     </Button>
                                 </div>
                             </Form>

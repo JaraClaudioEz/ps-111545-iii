@@ -213,7 +213,7 @@ const ListaOrdenes = ({ usuario }) => {
           <Container>
             <Row>
               <Col>
-                <h2 className="display-2">Listado de Órdenes</h2>
+                <h4 className="display-4">Listado de Órdenes</h4>
               </Col>
             </Row>
             <Row>
@@ -290,46 +290,45 @@ const ListaOrdenes = ({ usuario }) => {
             </Row>
           </Container>
         ) : (
-          <Container>
-            <Row>
-              <Col>
-                <h3 className="display-3">Mis Órdenes de Compra</h3>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                {!ordenes && <SinOrdenes />}
-                <Table striped hover>
-                  <thead>
-                    <tr>
-                      <th>Fecha Compra</th>
-                      <th>Importe Abonado</th>
-                      <th className="text-center">Estado Orden</th>
-                      <th className="text-center">Items Solicitados</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      ordenes?.map(orden => (
-                        <tr key={orden._id}>
-                          <td>{moment(orden.fecha).format('LL')}</td>
-                          <td>$ {orden.factura}</td>
-                          <td className="text-capitalize text-center">{orden.estado}</td>
-                          <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-            <Row>
-              <Pagination className="justify-content-center">
-                {items}
-              </Pagination>
-            </Row>
-          </Container>
-
+          <div>
+            <Container className="px-0" fluid>
+              <Row className="head py-4">
+                <Col></Col>
+                <Col xs={8}>
+                  <h3 className="display-3">Mis Órdenes de Compra</h3>
+                </Col>
+                <Col></Col>
+              </Row>
+              <Row className="landing py-2">
+                <Col md={{ span: 8, offset: 2 }}>
+                  {!ordenes && <SinOrdenes />}
+                  <Table striped hover variant="dark">
+                    <thead>
+                      <tr>
+                        <th>Fecha Compra</th>
+                        <th>Importe Abonado</th>
+                        <th className="text-center">Estado Orden</th>
+                        <th className="text-center">Items Solicitados</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        ordenes?.map(orden => (
+                          <tr key={orden._id}>
+                            <td>{moment(orden.fecha).format('LL')}</td>
+                            <td>$ {orden.factura}</td>
+                            <td className="text-capitalize text-center">{orden.estado}</td>
+                            <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </Table>
+                </Col>
+              </Row>
+              
+            </Container>
+          </div>
         )
       }
     </div>
@@ -337,3 +336,11 @@ const ListaOrdenes = ({ usuario }) => {
 }
 
 export default ListaOrdenes;
+
+/*
+<Row>
+  <Pagination className="justify-content-center">
+    {items}
+  </Pagination>
+</Row>
+*/

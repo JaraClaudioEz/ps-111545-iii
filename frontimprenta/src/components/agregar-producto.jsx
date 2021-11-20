@@ -336,7 +336,7 @@ const AddProducto = props => {
                     <Row>
                         <Col></Col>
                         <Col xs={6}>
-                            <h3>{editar ? "Editar" : "Nuevo"} Producto:</h3>
+                            <h3 style={{ color: "#333" }}>{editar ? "Editar" : "Nuevo"} Producto:</h3>
                             <h4 className="display-4">{values.nombre_producto}</h4>
                         </Col>
                         <Col></Col>

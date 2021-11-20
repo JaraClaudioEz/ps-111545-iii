@@ -143,7 +143,7 @@ const ListaUsuarios = ({ usuario }) => {
             </Modal>
             <Row>
               <Col>
-                <h2 className="display-2">Listado de Clientes</h2>
+                <h4 className="display-4">Listado de Clientes</h4>
               </Col>
             </Row>
             <Row>

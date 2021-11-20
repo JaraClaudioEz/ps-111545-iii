@@ -5,7 +5,7 @@ import { Container, Row, Col, Button, Table, Form, Image } from 'react-bootstrap
 import { useReactToPrint } from "react-to-print";
 
 //import logo from "../assets/ColibriLogo.png";
-import integral from "../assets/IntegralLogo.png";
+import integral from "../assets/integral_negro.png";
 import OrdenDataService from "../services/servicio-orden.js";
 
 const Orden = ({ match, usuario }) => {

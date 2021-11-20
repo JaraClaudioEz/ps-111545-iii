@@ -205,7 +205,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
         <Container >
           <Row className="py-2">
             <Col sm={8} className="mt-4">
-              <h4 className="display-4">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Tienda"}</h4>
+              <h3 className="display-4">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Tienda"}</h3>
             </Col>
             <Col sm={4} className="p-3">
               <Image src={logo} alt='Integral Imagen' fluid />
@@ -302,7 +302,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                         variant="top"
                         src={producto?.imagen.url === "" ? logo : producto.imagen.url}
                         alt="Integral Imagen"
-                        height="225px"
+                        height="275px"
                       />
                       <Card.Body>
                         <Card.Title className="mb-2">

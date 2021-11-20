@@ -225,7 +225,7 @@ const Reportes = () => {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center py-4">
         <Col xs lg="2">
 
         </Col>

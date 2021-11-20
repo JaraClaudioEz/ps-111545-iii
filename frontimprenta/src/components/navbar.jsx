@@ -49,7 +49,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
     }, [location])
 
     return (
-        <Col>
+        <div>
             <Navbar collapseOnSelect bg="light" expand="md" onToggle={() => setShow(!show)}>
                 <Container>
                     <Navbar.Brand href="/">
@@ -158,7 +158,7 @@ const NavbarImprenta = ({ totalItems, user }) => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-        </Col>
+        </div>
     );
 };
 

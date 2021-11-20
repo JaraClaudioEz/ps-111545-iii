@@ -117,10 +117,11 @@ const App = () => {
 
   //console.log(pedido);
   //console.log(user);
+  //style={{ paddingLeft: '0px', paddingRight: '0px' }}
 
   return (
     <div>
-      <Container style={{ paddingLeft: '0px', paddingRight: '0px' }} fluid>
+      <Container className="px-0" fluid>
         <Row>
           <Col>
             <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
