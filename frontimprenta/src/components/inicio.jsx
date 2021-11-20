@@ -58,11 +58,8 @@ const Inicio = () => {
               </div>
               {' '}
             </Col>
-            <Col sm={4} className="p-3">
-              <div className="m-4">
+            <Col sm={4} className="p-4">
               <Image src={logo} alt='Integral Imagen' fluid />
-              </div>
-              
             </Col>
           </Row>
         </Container>

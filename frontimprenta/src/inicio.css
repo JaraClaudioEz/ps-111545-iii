@@ -138,13 +138,13 @@ hr {
   .landing .form-control{
     background: #000000;
   }
+  .landing .btn-danger {
+    background-color: #ed3237;
+  }
 
 .head {
   background:linear-gradient(to right, #ed3237 0%, #f26f35 100%);
   color: cornsilk;
-}
-.head .btn-danger {
-  background-color: #ed3237;
 }
 
 #btn-tienda {

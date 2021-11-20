@@ -35,11 +35,11 @@ const Empresa = () => {
                 <div className="col-xs-12 col-md-6">
                   <div className="about-text">
                     <h2>Sobre Nosotros</h2>
-                    <p>Somos una empresa familiar con más de 15 años de experiencia dedicada a la solución gráfica de nuestros clientes, basada en la calidad el compromiso y el trabajo en equipo.</p>
+                    <p>Somos una empresa familiar con más de 15 años de experiencia dedicada a la solución gráfica de nuestros clientes, basada en la calidad, el compromiso y el trabajo en equipo.</p>
                     <h3>Por qué elegirnos?</h3>
                     <div className="list-style">
                       <div className="col-lg-6 col-sm-6 col-xs-12">
-                        <p>Nos detacamos en brindar beneficios al cliente en cuanto a calidad y velocidad de entrega.</p>
+                        <p>Nos destacamos en brindar beneficios al cliente en cuanto a calidad y velocidad de entrega.</p>
                       </div>
 
                     </div>
@@ -104,7 +104,7 @@ const Empresa = () => {
                   {ser1}
                   <div className='service-desc'>
                     <h3>Calidad</h3>
-                    <p>Usted estará orgulloso de saber que los productos que entregará a sus clientes están por encima de la calidad promedio, Impresionarte no posee imprenta propia, esto nos permite seleccionar el proveedor de impresión con el estándar más alto del mercado.</p>
+                    <p>Estamos orgullosos de saber que los productos que entregamos a nuestros clientes están por encima de la calidad promedio, en Integral Imagen seleccionamos los proveedores con lo estándares más alto del mercado.</p>
                   </div>
                 </div>
                 <div className='col-md-4'>
@@ -112,7 +112,7 @@ const Empresa = () => {
                   {ser1}
                   <div className='service-desc'>
                     <h3>Servicio</h3>
-                    <p>Cada vez que recibimos un pedido, éste es registrado y seguido muy de cerca en cada etapa, desde el control de la aptitud para impresión del archivo, pasando por la coordinación de proveedores, hasta el aviso por e-mail cuando el trabajo esta listo.</p>
+                    <p>Cada vez que recibimos un pedido, éste es registrado y seguido muy de cerca en cada etapa, desde el control de la elaboración del producto, pasando por la coordinación de proveedores, hasta el aviso por e-mail cuando el trabajo esta listo.</p>
                   </div>
                 </div>
                 <div className='col-md-4'>
@@ -120,7 +120,7 @@ const Empresa = () => {
                   {ser1}
                   <div className='service-desc'>
                     <h3>Experiencia</h3>
-                    <p>Trabajamos hace tiempo casi exclusivamente con clientes vía Internet, hemos logrado simplificar al máximo esta metodología para que trabajar a distancia sea aún mas conveniente.</p>
+                    <p>Nuestros 15 años de trayectoria avalan nuestra experiencia a la hora de elaborar un producto, seleccionar un proveedor y brindar el mejor asesoramiento.</p>
                   </div>
                 </div>
                 <div className='col-md-4'>
@@ -143,7 +143,7 @@ const Empresa = () => {
                   {' '}
                   {ser1}
                   <div className='service-desc'>
-                    <h3>Productos de alta rotación</h3>
+                    <h3>Rotación</h3>
                     <p>Los productos que ofrecemos están entre los mas comúnmente solicitados y son de alta rotación.</p>
                   </div>
                 </div>

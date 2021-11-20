@@ -14,9 +14,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
+import Image from 'react-bootstrap/Image';
 
 import ProductoDataService from "../services/servicio-producto";
-import logo from "../assets/IntegralLogo.png";
+import logo from "../assets/integral.png"
 
 const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const [productos, setProductos] = useState([]);
@@ -201,14 +202,17 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
         </Modal.Footer>
       </Modal>
       <div className="head" >
-        <Container className="py-2">
+        <Container >
           <Row className="py-2">
-            <Col>
+            <Col sm={8} className="mt-4">
               <h4 className="display-4">{usuario?.result.tipo === "admin" ? "Listado de Productos" : "Tienda"}</h4>
             </Col>
+            <Col sm={4} className="p-3">
+              <Image src={logo} alt='Integral Imagen' fluid />
+            </Col>
           </Row>
-          <Row className="py-2">
-            <Col sm={6}>
+          <Row >
+            <Col sm={4}>
               <InputGroup className="mb-3">
                 <FormControl
                   type="text"
@@ -218,9 +222,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                   value={searchNombre}
                   onChange={onChangeSearchNombre}
                 />
-
                 <Button variant="secondary" onClick={findByNombre}>Buscar</Button>
-
               </InputGroup>
             </Col>
             <Col sm={4}>
@@ -235,9 +237,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
                     )
                   })}
                 </FormControl>
-
                 <Button variant="secondary" onClick={findByCategoria}>Buscar</Button>
-
               </InputGroup>
             </Col>
           </Row>
