@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useHistory, Link } from 'react-router-dom';
-import { Alert, Container, Col, Row, Form, Button } from 'react-bootstrap';
+import { Alert, Container, Col, Row, Form, Button, Image } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
+import google from "../assets/google.png"
 
 const Autorizacion = () => {
 
@@ -210,7 +211,7 @@ const Autorizacion = () => {
                                 {
                                     registrado && (
                                         <div>
-                                            <Form.Group className="mb-3 p-2 bg-dark">
+                                            <Form.Group className="mb-1 p-2">
                                                 <Form.Label>Nombre:</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -227,7 +228,7 @@ const Autorizacion = () => {
                                                     {errors.nombre}
                                                 </Form.Control.Feedback>
                                             </Form.Group>
-                                            <Form.Group className="mb-3 p-2 bg-dark">
+                                            <Form.Group className="mb-1 p-2">
                                                 <Form.Label>Apellido:</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -248,7 +249,7 @@ const Autorizacion = () => {
                                     )
                                 }
 
-                                <Form.Group className="mb-3 p-2 bg-dark">
+                                <Form.Group className="mb-1 p-2">
                                     <Form.Label>Email:</Form.Label>
                                     <Form.Control
                                         type="email"
@@ -265,7 +266,7 @@ const Autorizacion = () => {
                                         {errors.email}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group className="mb-3 p-2 bg-dark">
+                                <Form.Group className="mb-1 p-2">
                                     <Form.Label>Contraseña:</Form.Label>
                                     <Form.Control
                                         type="password"
@@ -293,7 +294,7 @@ const Autorizacion = () => {
                                 {
                                     registrado && (
                                         <div>
-                                            <Form.Group className="mb-3  p-2 bg-dark">
+                                            <Form.Group className="mb-1 p-2">
                                                 <Form.Label>Confirmar contraseña:</Form.Label>
                                                 <Form.Control
                                                     type="password"
@@ -312,7 +313,7 @@ const Autorizacion = () => {
                                             </Form.Group>
                                             <Row>
                                                 <Col md="auto">
-                                                    <Form.Group className="mb-3">
+                                                    <Form.Group className="mb-2 px-2">
                                                         <Form.Check
                                                             required
                                                             name="terms"
@@ -326,7 +327,7 @@ const Autorizacion = () => {
                                                     </Form.Group>
 
                                                 </Col>
-                                                <Col md="auto" className="mb-4">
+                                                <Col md="auto" className="mb-3 px-0">
                                                     <Link to="/legales">Ver aquí...</Link>
                                                 </Col>
                                             </Row>
@@ -335,15 +336,23 @@ const Autorizacion = () => {
                                     )
                                 }
 
-                                <div className="d-grid gap-2">
+                                <div className="d-grid gap-2 px-2 mt-2">
                                     <Button variant="primary" type="submit">
                                         {registrado ? "Registrarse" : "Iniciar Sesión"}
                                     </Button>
                                     <GoogleLogin
                                         clientId="849202159020-cc8hh5juek0gbur3mglf240sg8j4em6f.apps.googleusercontent.com"
                                         render={(renderProps) => (
-                                            <button className="btn btn-primary" onClick={renderProps.onClick} >
-                                                {registrado ? "Registrarse con Google" : "Iniciar Sesión con Google"}
+                                            <button className="btn btn-light" onClick={renderProps.onClick} >
+                                                {registrado ? (
+                                                    <Col>
+                                                        <span><Image src={google} alt='Google' rounded className="pr-2" />  Registrarse con Google</span>
+                                                    </Col>
+                                                ) : (
+                                                    <Col>
+                                                        <span><Image src={google} alt='Google' rounded className="pr-2" />  Iniciar Sesión con Google</span>
+                                                    </Col>
+                                                )}
                                             </button>
                                         )}
                                         onSuccess={googleSuccess}
