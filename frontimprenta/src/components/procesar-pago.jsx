@@ -3,6 +3,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Container, Row, Col, Alert } from 'react-bootstrap';
 
 import OrdenDataService from "../services/servicio-orden.js";
+import PedidoDataService from "../services/servicio-pedido.js";
 
 const ProcesoPago = () => {
 
@@ -68,7 +69,7 @@ const ProcesoPago = () => {
 
     const eliminarOrden = async (id) => {
         try {
-            
+
             const respuesta = await OrdenDataService.deleteOrden(id);
             history.push(`/pedido`);
         } catch (error) {

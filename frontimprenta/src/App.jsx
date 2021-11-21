@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 import moment from "moment";
 import 'moment/locale/es';
@@ -34,6 +34,8 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [pedido, setPedido] = useState(null);
   const location = useLocation();
+  const history = useHistory();
+  const [items, setItems] = useState(0);
 
   moment.locale('es');
   //console.log(location);
@@ -45,6 +47,8 @@ const App = () => {
         const { data } = await PedidoDataService.getProductosPedido(resultado.data._id);
         if (data) {
           setPedido(data);
+          setItems(data.items.length);
+          console.log(data);
         }
         //localStorage.setItem('pedido', JSON.stringify(data))
         //console.log({ "Respuesta al traer pedido del usuario: ": data });
@@ -62,8 +66,9 @@ const App = () => {
     try {
 
       const { data } = await PedidoDataService.addProductoPedido(user.result._id, idProducto, cantidad)
-      //console.log(data);
+      
       setPedido(data);
+      setItems(data.items.length);
 
     } catch (error) {
       console.log(error);
@@ -75,6 +80,7 @@ const App = () => {
       //console.log(user.result._id);
       const { data } = await PedidoDataService.deleteProductoPedido(user.result._id, idProducto);
       setPedido(data);
+      setItems(data.items.length);
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +89,7 @@ const App = () => {
   const handleVaciarPedido = async () => {
     const { data } = await PedidoDataService.vaciarPedido(user.result._id);
     if (data !== null) {
+      setItems(0);
       setPedido(data);
     }
     else {
@@ -103,18 +110,23 @@ const App = () => {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('perfil')));
-    //fetchPedido();
+    setItems(!pedido ? 0 : pedido.items.length)
   }, [location]);
 
   useEffect(() => {
     obtenerUsuario();
     fetchPedido();
+    setItems(!pedido ? 0 : pedido.items.length)
+    
   }, []);
 
   useEffect(() => {
     fetchPedido();
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    setItems(!pedido ? 0 : pedido.items.length)
+  }, [history]);
   //console.log(pedido);
   //console.log(user);
   //style={{ paddingLeft: '0px', paddingRight: '0px' }}
@@ -124,7 +136,7 @@ const App = () => {
       <Container className="px-0" fluid>
         <Row className="mx-0">
           <Col className="px-0">
-            <Navbar totalItems={!pedido ? 0 : pedido.items.length} user={user} />
+            <Navbar totalItems={items} user={user} />
           </Col>
         </Row>
         <Row className="mx-0">
