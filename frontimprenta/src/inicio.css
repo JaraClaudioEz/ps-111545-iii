@@ -155,4 +155,12 @@ hr {
   width: 50%;
   padding-bottom: 0.5rem;
   }
-  
+
+#mostrar {
+  position: absolute;
+  top: 1%;
+  left: 37%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+};

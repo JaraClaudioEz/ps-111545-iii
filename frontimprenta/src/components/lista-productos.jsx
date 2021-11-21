@@ -297,26 +297,35 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
               {productos.map((producto) => {
                 return (
                   <Col key={producto._id}>
-                    <Card style={{ width: '18rem' }} className="my-2" bg="dark">
-                      <Card.Img
-                        variant="top"
-                        src={producto?.imagen.url === "" ? logo : producto.imagen.url}
-                        alt="Integral Imagen"
-                        height="275px"
-                      />
+                    <Card style={{ width: '18rem' }} className="my-1" bg="dark">
+                      <div className="container m-0 p-0">
+                        <Card.Img
+                          variant="top"
+                          src={producto?.imagen.url === "" ? logo : producto.imagen.url}
+                          alt="Integral Imagen"
+                          height="275px"
+                        />
+                        {producto.oferta && (
+                          <div id="mostrar">
+                            <Card.ImgOverlay className="text-end">
+                              <h2><Badge pill bg="success" className="mx-2">OFERTA!!</Badge></h2>
+                            </Card.ImgOverlay>
+                          </div>
+
+                        )}
+                      </div>
                       <Card.Body>
-                        <Card.Title className="mb-2">
+                        <Card.Title className="mb-0">
                           {producto.nombre_producto}
-                          {producto.oferta && (<Badge pill bg="success" className="mx-2">Oferta!!</Badge>)}
                         </Card.Title>
-                        <Card.Text>
+                        <Card.Text style={{ height: '56px' }}>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          <span className="text-muted text-decoration-line-through" hidden={!producto.oferta}>${producto.precio}</span><br />
+                          <span className="text-muted text-decoration-line-through" hidden={!producto.oferta} style={{ fontSize: '14px' }}>${producto.precio}</span><br />
                           <strong>Precio: </strong>${producto.oferta ? (producto.precio_oferta) : (producto.precio)} por {producto.provision} <br />
-                          <strong>Categoría: </strong>{producto.categoria}<br />
+                          {producto.especificaciones}
                         </Card.Text>
                         <Row>
-                          <Link to={"/productos/" + producto._id} className="btn btn-danger my-2 btn-block">
+                          <Link to={"/productos/" + producto._id} className="btn btn-danger mb-2 btn-block">
                             Ver Producto
                           </Link>
                           <Button variant="light" onClick={() => handleOnClick(producto._id)}>Agrerar al Pedido</Button>
