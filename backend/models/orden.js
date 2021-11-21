@@ -39,7 +39,7 @@ const ordenSchema = mongoose.Schema({
     },
     estado: {
         type: String,
-        default: "pendiente"
+        default: "Pendiente"
     }
 })
 

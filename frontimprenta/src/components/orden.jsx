@@ -83,7 +83,7 @@ const Orden = ({ match, usuario }) => {
             </Col>
           </Row>
           <Row className="m-2">
-            
+
             <Col md={8}>
               <Table striped>
                 <thead>
@@ -106,7 +106,7 @@ const Orden = ({ match, usuario }) => {
                 </tbody>
               </Table>
             </Col>
-            
+
           </Row>
           <Row className="m-2">
             <Col sm={4}>

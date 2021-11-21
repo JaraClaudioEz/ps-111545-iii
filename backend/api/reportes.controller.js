@@ -24,18 +24,32 @@ export default class ReportesController {
         if (!req.query.desde) {
             pipeline = [
                 {
+                    $match: {
+                        "estado": {
+                            "$ne": "Pendiente",
+                        },
+                    }
+                },
+                {
                     $group: {
                         _id: { $dateToString: { format: formato, date: "$fecha" } },
                         //_id: "$fecha",
                         totalVentas: {
                             $sum: "$factura"
-                        }
+                        },
                     },
-                }
+                },
             ];
         }
         else {
             pipeline = [
+                {
+                    $match: {
+                        "estado": {
+                            "$ne": "Pendiente",
+                        },
+                    }
+                },
                 {
                     $group: {
                         _id: { $dateToString: { format: formato, date: "$fecha" } },
@@ -50,7 +64,7 @@ export default class ReportesController {
                         _id: {
                             $gte: req.query.desde,
                             $lt: req.query.hasta + 1
-                        }
+                        },
                     }
                 }
             ];
@@ -92,13 +106,15 @@ export default class ReportesController {
                     path: "$items",
                 }
             },
-            /*
-            {$match: {
-              "items.precio": {
-                $gt: NumberDecimal("1000.00"),
-              },
-            }},
-            */
+
+            {
+                $match: {
+                    "estado": {
+                        "$ne": "Pendiente",
+                    },
+                }
+            },
+
             // Group by product type, capturing each product's total value + quantity
             {
                 "$group": {
@@ -178,6 +194,9 @@ export default class ReportesController {
                     "items.categoria": {
                         "$eq": "Imprenta",
                     },
+                    "estado": {
+                        "$ne": "Pendiente",
+                    },
                 }
             },
 
@@ -217,6 +236,9 @@ export default class ReportesController {
                     "items.categoria": {
                         "$eq": "Estampado",
                     },
+                    "estado": {
+                        "$ne": "Pendiente",
+                    },
                 }
             },
 
@@ -254,6 +276,9 @@ export default class ReportesController {
                 "$match": {
                     "items.categoria": {
                         "$eq": "Cartelería",
+                    },
+                    "estado": {
+                        "$ne": "Pendiente",
                     },
                 }
             },

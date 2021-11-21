@@ -346,11 +346,11 @@ const Autorizacion = () => {
                                             <button className="btn btn-light" onClick={renderProps.onClick} >
                                                 {registrado ? (
                                                     <Col>
-                                                        <span><Image src={google} alt='Google' rounded className="pr-2" />  Registrarse con Google</span>
+                                                        <span><Image src={google} alt='Google' className="pr-2" style={{ height: '36px' }}/>  Registrarse con Google</span>
                                                     </Col>
                                                 ) : (
                                                     <Col>
-                                                        <span><Image src={google} alt='Google' rounded className="pr-2" />  Iniciar Sesión con Google</span>
+                                                        <span><Image src={google} alt='Google' className="pr-2" style={{ height: '36px' }}/>  Iniciar Sesión con Google</span>
                                                     </Col>
                                                 )}
                                             </button>
