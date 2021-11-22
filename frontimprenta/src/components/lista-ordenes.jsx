@@ -55,7 +55,7 @@ const ListaOrdenes = ({ usuario }) => {
 
           const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
           setPaginas(totalPages);
-
+          setItems([]);
           setOrdenes(response.data.ordenes);
         })
         .catch(e => {
@@ -104,10 +104,10 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const irPagina = (numero) => {
-
+    //armarPaginacion();
     setActual(numero);
     traerOrdenes(numero);
-    setItems([]);
+    //setItems([]);
     primera = false;
 
   };
@@ -136,18 +136,18 @@ const ListaOrdenes = ({ usuario }) => {
   };
 
   const refreshList = () => {
-    traerOrdenes(actual);
+    traerOrdenes(1);
     //setItems([]); FALTA CORREGIR LIMPIEZA DE ARRAY CUANDO SE BUSCA "TODOS"
   }
 
-  const find = (query, by) => {
-    OrdenDataService.find(query, by)
+  const find = (query, by, pag) => {
+
+    OrdenDataService.find(query, by, pag - 1)
       .then(response => {
-        console.log(response.data); //CRUZAR BUSQUEDA POR NOMBRE DE USUARIO Y SETEAR ORDENES
+        //console.log(response.data); //CRUZAR BUSQUEDA POR NOMBRE DE USUARIO Y SETEAR ORDENES
 
         const totalPages = Math.ceil(response.data.total_resultados / 20); //cantidad registros hardcoded
         setPaginas(totalPages);
-
         setItems([]);
         setOrdenes(response.data.ordenes);
       })
@@ -164,7 +164,8 @@ const ListaOrdenes = ({ usuario }) => {
     if (searchEstado === "Todos") {
       refreshList();
     } else {
-      find(searchEstado, "estado")
+      find(searchEstado, "estado", actual)
+      setItems([]);
     }
   };
 
@@ -199,10 +200,13 @@ const ListaOrdenes = ({ usuario }) => {
   }, []);
 
   useEffect(() => {
-
     traerOrdenes(actual);
-
   }, [user]);
+  /*
+    useEffect(() => {
+      setItems([]);
+    }, [paginas]);
+  */
 
   if (!usuario) return 'Cargando...';
 
@@ -326,7 +330,7 @@ const ListaOrdenes = ({ usuario }) => {
                   </Table>
                 </Col>
               </Row>
-              
+
             </Container>
           </div>
         )

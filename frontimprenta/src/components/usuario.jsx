@@ -177,6 +177,7 @@ const Usuario = props => {
                                         disabled={user?.googleId === "No Tiene" ? false : true}
                                         isValid={touched.nombre && !errors.nombre}
                                         isInvalid={!!errors.nombre}
+                                        style={{ color: '#333' }}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.nombre}

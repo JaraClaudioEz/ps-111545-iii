@@ -52,7 +52,7 @@ const Inicio = () => {
                 <span></span>
               </p>
               <div id="btn-tienda" className="d-grid gap-2">
-                <Button variant="light" size="lg" href="/productos">
+                <Button variant="light" size="lg" href="/productos" style={{ fontSize: '32px' }}>
                   Encargá Aquí
                 </Button>
               </div>

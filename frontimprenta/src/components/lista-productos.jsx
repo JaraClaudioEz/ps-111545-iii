@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-//import { Modal, Button } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Pagination from 'react-bootstrap/Pagination';
@@ -146,7 +145,7 @@ const ListaProductos = ({ usuario, alAgregarAlPedido }) => {
   const find = (query, by) => {
     ProductoDataService.find(query, by)
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         setProductos(response.data.productos);
       })
       .catch(e => {

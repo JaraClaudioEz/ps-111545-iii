@@ -13,7 +13,7 @@ class OrdenDataService {
         return http.get(`/ordenes/id/${idOrden}`);
     };
 
-    find(query, by = "nombre", pag = 0) { 
+    find(query, by = "nombre", pag) { 
         return http.get(`/ordenes?${by}=${query}&pag=${pag}`);
     }
 

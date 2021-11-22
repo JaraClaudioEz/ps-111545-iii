@@ -45,10 +45,11 @@ const App = () => {
         const resultado = await UsuarioDataService.getUsuario(user.result.email);
         //console.log(resultado.data._id);
         const { data } = await PedidoDataService.getProductosPedido(resultado.data._id);
+
         if (data) {
           setPedido(data);
           setItems(data.items.length);
-          console.log(data);
+          //console.log(data);
         }
         //localStorage.setItem('pedido', JSON.stringify(data))
         //console.log({ "Respuesta al traer pedido del usuario: ": data });
@@ -66,7 +67,7 @@ const App = () => {
     try {
 
       const { data } = await PedidoDataService.addProductoPedido(user.result._id, idProducto, cantidad)
-      
+
       setPedido(data);
       setItems(data.items.length);
 
@@ -117,16 +118,17 @@ const App = () => {
     obtenerUsuario();
     fetchPedido();
     setItems(!pedido ? 0 : pedido.items.length)
-    
+
   }, []);
 
+  //console.log(location.pathname);
   useEffect(() => {
     fetchPedido();
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setItems(!pedido ? 0 : pedido.items.length)
-  }, [history]);
+  }, [history, location.pathname]);
   //console.log(pedido);
   //console.log(user);
   //style={{ paddingLeft: '0px', paddingRight: '0px' }}
