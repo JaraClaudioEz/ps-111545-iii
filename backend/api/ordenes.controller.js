@@ -52,7 +52,12 @@ export default class OrdenesController {
         }
 
         try {
-            const listaOrdenes = await Orden.find(query, { preferenceId: 0 }).limit(ordenesPorPagina).skip(ordenesPorPagina * pag)
+            let orden = 1;
+            if (filtros.estado === "Entregada") {
+                orden = -1
+            }
+            
+            const listaOrdenes = await Orden.find(query, { preferenceId: 0 }).sort({fecha: orden}).limit(ordenesPorPagina).skip(ordenesPorPagina * pag)
             const totalOrdenes = await Orden.countDocuments(query)
 
             let response = {

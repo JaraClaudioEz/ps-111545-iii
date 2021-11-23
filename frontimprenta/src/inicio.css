@@ -124,6 +124,36 @@ hr {
     opacity: 1;
   }
 
+    /* XXS (phones, 600px and down) */
+@media only screen and (max-width: 240px) {
+  #instagram {height: 10vh; width: 50vw;}
+}
+
+  /* Extra small devices (phones, 420px and up) */
+@media only screen and (min-width: 420px) {
+  #instagram {height: 20vh; width: 50vw;}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #instagram {height: 30vh; width: 50vw;}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  #instagram {height: 40vh; width: 50vw;}
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #instagram {height: 50vh; width: 50vw;}
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .instagram {height: 57vh; width: 50vw;}
+}
+
 .landing {
   color: cornsilk;
   background:#000000;

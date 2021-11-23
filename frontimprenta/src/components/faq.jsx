@@ -17,7 +17,7 @@ const FAQ = () => {
                 <Col md={{ span: 8, offset: 2 }}>
                     <Accordion>
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header>Hacen entregas a domicilio?</Accordion.Header>
+                            <Accordion.Header>¿Hacen entregas a domicilio?</Accordion.Header>
                             <Accordion.Body>
                                 No. Por el momento todas las órdenes de compra realizadas deben ser retiradas
                                 en nuestro local personalmente. No realizamos envíos ni reparto en la ciudad de
@@ -26,7 +26,7 @@ const FAQ = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">
-                            <Accordion.Header>Tengo que proveer mis datos bancarios, de Tarjetas de Crédito, etc?</Accordion.Header>
+                            <Accordion.Header>¿Tengo que proveer mis datos bancarios, de Tarjetas de Crédito, etc?</Accordion.Header>
                             <Accordion.Body>
                                 No. No guardamos ningún dato bancario y/o de tarjetas de crédito. Los pagos
                                 Realizados en nuestra página son gestionados íntegramente por Mercado Pago, no
@@ -35,7 +35,7 @@ const FAQ = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="2">
-                            <Accordion.Header>Cómo es el proceso de compra?</Accordion.Header>
+                            <Accordion.Header>¿Cómo es el proceso de compra?</Accordion.Header>
                             <Accordion.Body>
                                 Primeramente para efectuar una compra debe poseer una cuenta registrada. Paso
                                 seguido seleccione los productos que desea comprar y las cantidades de los mismos,
@@ -47,7 +47,7 @@ const FAQ = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="3">
-                            <Accordion.Header>Tengo un problema con mi producto, aceptan devoluciones?</Accordion.Header>
+                            <Accordion.Header>¿Tengo un problema con mi producto, aceptan devoluciones?</Accordion.Header>
                             <Accordion.Body>
                                 No. Es muy importante que revise el producto al momento de retirarlo, cualquier
                                 inquietud la solucionaremos en ese instante. Pasado este momento no nos responsabilizamos
@@ -55,7 +55,7 @@ const FAQ = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="4">
-                            <Accordion.Header>Desde que realizo el pago, cuantó tiempo demora la entrega?</Accordion.Header>
+                            <Accordion.Header>¿Desde que realizo el pago, cuantó tiempo demora la entrega?</Accordion.Header>
                             <Accordion.Body>
                                 Una vez recibida la confirmación de compra, nos contactaremos para ultimar detalles de 
                                 su compra. Luego realizaremos su pedido y en un plazo aproximado de dos semanas 

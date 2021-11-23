@@ -41,6 +41,8 @@ const Inicio = () => {
       });
   };
 
+  //style={{height: '35vh', width: '50vw'}}
+
   return (
     <div >
       <div className="head">
@@ -72,8 +74,8 @@ const Inicio = () => {
                 <Row>
                   {imagenes.map((imagen) => {
                     return (
-                      <Col key={imagen.id} xs={6} md={4} className='d-flex align-items-center'>
-                        <div className='portfolio-item'>
+                      <Col key={imagen.id} xs={6} md={4} className='d-flex align-items-center justify-content-center'>
+                        <div className='portfolio-item p-2'>
                           <div className='hover-bg'>
                             {' '}
                             <a
@@ -83,7 +85,9 @@ const Inicio = () => {
                               <div className='hover-text'>
                                 <h4 style={{ fontSize: '1.25vw' }}>{instagram}</h4>
                               </div>
-                              <Image src={imagen.media_url} alt='Integral Imagen' rounded fluid />{' '}
+                              <Col>
+                                <Image src={imagen.media_url} alt='Integral Imagen' rounded fluid style={{ maxHeight: '55vh' }} />{' '}
+                              </Col>
                             </a>{' '}
                           </div>
                         </div>
