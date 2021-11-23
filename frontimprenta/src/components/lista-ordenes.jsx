@@ -106,11 +106,17 @@ const ListaOrdenes = ({ usuario }) => {
   const irPagina = (numero) => {
     //armarPaginacion();
     setActual(numero);
-    traerOrdenes(numero);
+    
+    if (searchEstado !== "Todos") {
+      findByEstado(numero)
+    }
+    else {
+      traerOrdenes(numero);
+    }
     //setItems([]);
     primera = false;
 
-  };
+  }; //   619d669f99124791fd4934d0
 
   const traerEstados = () => {
     OrdenDataService.getEstados()
@@ -160,11 +166,11 @@ const ListaOrdenes = ({ usuario }) => {
     find(searchNombre, "nombre")
   };
 
-  const findByEstado = () => {
+  const findByEstado = (num) => {
     if (searchEstado === "Todos") {
       refreshList();
     } else {
-      find(searchEstado, "estado", actual)
+      find(searchEstado, "estado", num)
       setItems([]);
     }
   };
@@ -248,7 +254,7 @@ const ListaOrdenes = ({ usuario }) => {
                       )
                     })}
                   </FormControl>
-                  <Button variant="outline-secondary" onClick={findByEstado}>Buscar</Button>
+                  <Button variant="outline-secondary" onClick={() => findByEstado(actual)}>Buscar</Button>
                 </InputGroup>
               </Col>
               {/* 
