@@ -5,6 +5,7 @@ import moment from "moment";
 
 import OrdenDataService from "../services/servicio-orden.js";
 import UsuarioDataService from "../services/servicio-usuario.js";
+import AccessDenied from "../components/403.jsx";
 
 const ListaOrdenes = ({ usuario }) => {
   const [ordenes, setOrdenes] = useState([]);
@@ -106,7 +107,7 @@ const ListaOrdenes = ({ usuario }) => {
   const irPagina = (numero) => {
     //armarPaginacion();
     setActual(numero);
-    
+
     if (searchEstado !== "Todos") {
       findByEstado(numero)
     }
@@ -214,20 +215,22 @@ const ListaOrdenes = ({ usuario }) => {
     }, [paginas]);
   */
 
-  if (!usuario) return 'Cargando...';
+  //if (!usuario) return 'Cargando...';
 
   return (
     <div>
-      {
-        user.result.tipo === "admin" ? (
-          <Container>
-            <Row>
-              <Col>
-                <h4 className="display-4">Listado de Órdenes</h4>
-              </Col>
-            </Row>
-            <Row>
-              {/*
+      {usuario ? (
+        <div>
+          {
+            user.result.tipo === "admin" ? (
+              <Container>
+                <Row>
+                  <Col>
+                    <h4 className="display-4">Listado de Órdenes</h4>
+                  </Col>
+                </Row>
+                <Row>
+                  {/*
               <Col sm={6}>
                 <InputGroup className="mb-3">
                   <FormControl
@@ -242,106 +245,111 @@ const ListaOrdenes = ({ usuario }) => {
                 </InputGroup>
               </Col>
               */}
-              <Col sm={4}>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text>
-                    Estado
-                  </InputGroup.Text>
-                  <FormControl as="select" onChange={onChangeSearchEstado}>
-                    {estados.map(estado => {
-                      return (
-                        <option key={estado} value={estado}> {estado.substr(0, 20)} </option>
-                      )
-                    })}
-                  </FormControl>
-                  <Button variant="outline-secondary" onClick={() => findByEstado(actual)}>Buscar</Button>
-                </InputGroup>
-              </Col>
-              {/* 
+                  <Col sm={4}>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text>
+                        Estado
+                      </InputGroup.Text>
+                      <FormControl as="select" onChange={onChangeSearchEstado}>
+                        {estados.map(estado => {
+                          return (
+                            <option key={estado} value={estado}> {estado.substr(0, 20)} </option>
+                          )
+                        })}
+                      </FormControl>
+                      <Button variant="outline-secondary" onClick={() => findByEstado(actual)}>Buscar</Button>
+                    </InputGroup>
+                  </Col>
+                  {/* 
               <Col sm={2}>
                 <Button variant="outline-info" onClick={refreshList}>Todos</Button>
               </Col>
               */}
-            </Row>
-            <Row>
-              <Col>
-                <Table striped hover>
-                  <thead>
-                    <tr>
-                      <th>Nombre Cliente</th>
-                      <th>Email</th>
-                      <th>Importe Abonado</th>
-                      <th>Fecha Compra</th>
-                      <th className="text-center">Estado Orden</th>
-                      <th className="text-center">Items Solicitados</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      ordenes?.map(orden => (
-                        <tr key={orden._id}>
-                          <td className="text-capitalize">{buscarNombre(orden.idUsuario)}</td>
-                          <td>{buscarEmail(orden.idUsuario)}</td>
-                          <td className="text-center">$ {orden.factura}</td>
-                          <td>{moment(orden.fecha).format('LL')}</td>
-                          <td className="text-capitalize text-center">{orden.estado}</td>
-                          <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Orden</Link></td>
+                </Row>
+                <Row>
+                  <Col>
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>Nombre Cliente</th>
+                          <th>Email</th>
+                          <th>Importe Abonado</th>
+                          <th>Fecha Compra</th>
+                          <th className="text-center">Estado Orden</th>
+                          <th className="text-center">Items Solicitados</th>
                         </tr>
-                      ))
-                    }
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-            <Row>
-              <Pagination className="justify-content-center">
-                {items}
-              </Pagination>
-            </Row>
-          </Container>
-        ) : (
-          <div>
-            <Container className="px-0" fluid>
-              <Row className="head py-4 mx-0">
-                <Col></Col>
-                <Col xs={8}>
-                  <h3 className="display-3 px-0">Mis Órdenes de Compra</h3>
-                </Col>
-                <Col></Col>
-              </Row>
-              <Row className="landing py-2 mx-0">
-                <Col md={{ span: 8, offset: 2 }} className="px-0">
-                  {!ordenes && <SinOrdenes />}
-                  <Table striped hover variant="dark">
-                    <thead>
-                      <tr>
-                        <th>Fecha Compra</th>
-                        <th>Importe Abonado</th>
-                        <th className="text-center">Estado Orden</th>
-                        <th className="text-center">Items Solicitados</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        ordenes?.map(orden => (
-                          <tr key={orden._id}>
-                            <td>{moment(orden.fecha).format('LL')}</td>
-                            <td>$ {orden.factura}</td>
-                            <td className="text-capitalize text-center">{orden.estado}</td>
-                            <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
+                      </thead>
+                      <tbody>
+                        {
+                          ordenes?.map(orden => (
+                            <tr key={orden._id}>
+                              <td className="text-capitalize">{buscarNombre(orden.idUsuario)}</td>
+                              <td>{buscarEmail(orden.idUsuario)}</td>
+                              <td className="text-center">$ {orden.factura}</td>
+                              <td>{moment(orden.fecha).format('LL')}</td>
+                              <td className="text-capitalize text-center">{orden.estado}</td>
+                              <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Orden</Link></td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                    </Table>
+                  </Col>
+                </Row>
+                <Row>
+                  <Pagination className="justify-content-center">
+                    {items}
+                  </Pagination>
+                </Row>
+              </Container>
+            ) : (
+              <div>
+                <Container className="px-0" fluid>
+                  <Row className="head py-4 mx-0">
+                    <Col></Col>
+                    <Col xs={8}>
+                      <h3 className="display-3 px-0">Mis Órdenes de Compra</h3>
+                    </Col>
+                    <Col></Col>
+                  </Row>
+                  <Row className="landing py-2 mx-0">
+                    <Col md={{ span: 8, offset: 2 }} className="px-0">
+                      {!ordenes && <SinOrdenes />}
+                      <Table striped hover variant="dark">
+                        <thead>
+                          <tr>
+                            <th>Fecha Compra</th>
+                            <th>Importe Abonado</th>
+                            <th className="text-center">Estado Orden</th>
+                            <th className="text-center">Items Solicitados</th>
                           </tr>
-                        ))
-                      }
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
+                        </thead>
+                        <tbody>
+                          {
+                            ordenes?.map(orden => (
+                              <tr key={orden._id}>
+                                <td>{moment(orden.fecha).format('LL')}</td>
+                                <td>$ {orden.factura}</td>
+                                <td className="text-capitalize text-center">{orden.estado}</td>
+                                <td className="text-capitalize text-center"><Link to={{ pathname: "/orden/" + orden._id, state: { ordenActual: orden } }} className="btn btn-primary">Ver Detalle</Link></td>
+                              </tr>
+                            ))
+                          }
+                        </tbody>
+                      </Table>
+                    </Col>
+                  </Row>
 
-            </Container>
-          </div>
-        )
-      }
+                </Container>
+              </div>
+            )
+          }
+        </div>
+      ) : (
+        <AccessDenied />
+      )}
     </div>
+
   );
 }
 

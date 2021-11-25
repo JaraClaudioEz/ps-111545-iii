@@ -4,8 +4,9 @@ import { Container, Row, Col, Alert } from 'react-bootstrap';
 
 import OrdenDataService from "../services/servicio-orden.js";
 import PedidoDataService from "../services/servicio-pedido.js";
+import AccessDenied from "../components/403.jsx";
 
-const ProcesoPago = () => {
+const ProcesoPago = ({ usuario }) => {
 
     const [id, setId] = useState(null);
     const [estado, setEstado] = useState('');
@@ -92,7 +93,7 @@ const ProcesoPago = () => {
     //console.log(usuario);
 
     return (
-        <Container>
+        <Container className="py-4">
             <Row>
                 <Col>
                     {
@@ -103,7 +104,6 @@ const ProcesoPago = () => {
                                 <Cancelado />
                             )
                     }
-
                 </Col>
             </Row>
         </Container>

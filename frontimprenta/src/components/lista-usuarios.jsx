@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Table, Container, Col, Row, InputGroup, FormControl, Button, Alert, Modal, Pagination } from 'react-bootstrap';
 
 import UsuarioDataService from "../services/servicio-usuario.js";
+import AccessDenied from "../components/403.jsx";
 
 const ListaUsuarios = ({ usuario }) => {
 
@@ -114,112 +115,105 @@ const ListaUsuarios = ({ usuario }) => {
 
   }
 
-  if (!usuario) return 'Cargando...';
+  //if (!usuario) return 'Cargando...';
 
   return (
     <div>
-      {
-        usuario.result.tipo === "admin" ? (
-          <Container>
-            <Modal
-              show={show}
-              onHide={handleClose}
-              backdrop="static"
-              keyboard={false}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Atencion!</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                Está por eliminar al siguiente cliente: <b>{eliminado?.nombre}</b><br></br>
-                Está seguro de continuar con la operación?
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Cancelar
-                </Button>
-                <Button variant="danger" onClick={() => eliminarUsuario(eliminado?._id)}>Eliminar</Button>
-              </Modal.Footer>
-            </Modal>
-            <Row>
-              <Col>
-                <h4 className="display-4">Listado de Clientes</h4>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={8}>
-                <InputGroup className="mb-3">
-                  <FormControl
-                    type="text"
-                    placeholder="Nombre del Cliente"
-                    aria-label="Nombre del Cliente"
-                    aria-describedby="basic-addon2"
-                    value={searchNombre}
-                    onChange={onChangeSearchNombre}
-                  />
-                  <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
-                </InputGroup>
-              </Col>
-              <Col sm={4}>
-                <Button variant="outline-info" onClick={refreshList}>Todos</Button>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Table striped hover>
-                  <thead>
-                    <tr>
-                      <th>Nombre Completo</th>
-                      <th>Email</th>
-                      <th>Teléfono</th>
-                      <th>Dirección</th>
-                      <th>Localidad</th>
-                      <th>Estado</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      usuarios.map(usuario => (
-                        <tr key={usuario._id}>
-                          <td>{usuario.nombre}</td>
-                          <td>{usuario.email}</td>
-                          <td>{usuario.telefono}</td>
-                          <td className="text-capitalize">{usuario.direccion.calle} {usuario.direccion.numero}</td>
-                          <td className="text-capitalize">{usuario.direccion.localidad}</td>
-                          <td className={usuario.verificado ? "text-success" : "text-danger"}>{usuario.verificado ? "Verificado" : "No verficado"}</td>
-                          <td><button className="btn btn-warning" type="button" onClick={() => handleShow(usuario)}>Eliminar</button></td>
+      {usuario ? (
+        <div>
+          {
+            usuario.result.tipo === "admin" ? (
+              <Container>
+                <Modal
+                  show={show}
+                  onHide={handleClose}
+                  backdrop="static"
+                  keyboard={false}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Atencion!</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Está por eliminar al siguiente cliente: <b>{eliminado?.nombre}</b><br></br>
+                    Está seguro de continuar con la operación?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={() => eliminarUsuario(eliminado?._id)}>Eliminar</Button>
+                  </Modal.Footer>
+                </Modal>
+                <Row>
+                  <Col>
+                    <h4 className="display-4">Listado de Clientes</h4>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm={8}>
+                    <InputGroup className="mb-3">
+                      <FormControl
+                        type="text"
+                        placeholder="Nombre del Cliente"
+                        aria-label="Nombre del Cliente"
+                        aria-describedby="basic-addon2"
+                        value={searchNombre}
+                        onChange={onChangeSearchNombre}
+                      />
+                      <Button variant="outline-secondary" onClick={findByNombre}>Buscar</Button>
+                    </InputGroup>
+                  </Col>
+                  <Col sm={4}>
+                    <Button variant="outline-info" onClick={refreshList}>Todos</Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>Nombre Completo</th>
+                          <th>Email</th>
+                          <th>Teléfono</th>
+                          <th>Dirección</th>
+                          <th>Localidad</th>
+                          <th>Estado</th>
+                          <th></th>
                         </tr>
-                      ))
-                    }
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-            <Row>
-              <Pagination className="justify-content-center">
-                {items}
-              </Pagination>
-            </Row>
-          </Container>
-        ) : (
-          <Container>
-            <Row>
-              <Col>
-                <Alert variant="danger" onClose={() => history.push("/")} dismissible>
-                  <Alert.Heading>Oh! No tienes permisos para ver esta página!</Alert.Heading>
-                  <p>
-                    Por favor inicia sesión para acceder.
-                  </p>
-                </Alert>
-              </Col>
-            </Row>
-          </Container>
-        )
-      }
+                      </thead>
+                      <tbody>
+                        {
+                          usuarios.map(usuario => (
+                            <tr key={usuario._id}>
+                              <td>{usuario.nombre}</td>
+                              <td>{usuario.email}</td>
+                              <td>{usuario.telefono}</td>
+                              <td className="text-capitalize">{usuario.direccion.calle} {usuario.direccion.numero}</td>
+                              <td className="text-capitalize">{usuario.direccion.localidad}</td>
+                              <td className={usuario.verificado ? "text-success" : "text-danger"}>{usuario.verificado ? "Verificado" : "No verficado"}</td>
+                              <td><button className="btn btn-warning" type="button" onClick={() => handleShow(usuario)}>Eliminar</button></td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                    </Table>
+                  </Col>
+                </Row>
+                <Row>
+                  <Pagination className="justify-content-center">
+                    {items}
+                  </Pagination>
+                </Row>
+              </Container>
+            ) : (
+              <AccessDenied />
+            )
+          }
+        </div>
+      ) : (
+        <AccessDenied />
+      )}
     </div>
-
-
   );
 }
 

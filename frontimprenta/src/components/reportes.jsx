@@ -9,8 +9,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
 
 import ReporteDataService from "../services/servicio-reporte";
+import AccessDenied from "../components/403.jsx";
 
-const Reportes = () => {
+const Reportes = ({ usuario }) => {
 
   const [fechas, setFechas] = useState([]);
   const [ventasTotales, setVentasTotales] = useState([]);
@@ -224,201 +225,207 @@ const Reportes = () => {
   //console.log(fechasCategorias);
 
   return (
-    <Container>
-      <Row className="justify-content-md-center py-4">
-        <Col xs lg="2">
+    <div>
+      {usuario ? (
+        <Container>
+          <Row className="justify-content-md-center py-4">
+            <Col xs lg="2">
 
-        </Col>
-        <Col md="auto">
-          <div>
-            <h6 className="display-6">Total Ventas por período: </h6>
-          </div>
-          <Chart options={{
-            chart: {
-              id: 'ventas-periodo'
-            },
-            plotOptions: {
-              bar: {
-                borderRadius: 2,
-                dataLabels: {
-                  position: 'top', // top, center, bottom
-                },
-              }
-            },
-            xaxis: {
-              categories: fechas,
-            },
-            yaxis: {
-              labels: {
-                formatter: function (value) {
-                  return "$ " + value;
-                }
-              },
-            },
-            dataLabels: {
-              enabled: true,
-              style: {
-                colors: ['#333']
-              },
-              offsetY: -20,
-            },
-          }} series={[{
-            name: 'Ventas',
-            data: ventasTotales
-          },
-          ]} type="bar" width={500} height={320} />
-        </Col>
-        <Col xs lg="3" className="d-flex align-items-center">
-          <Form.Label>Filtrar por...</Form.Label>
-          <InputGroup className="mb-3">
-            <FormControl as="select" onChange={onChangeFiltrarPeriodo}>
-              <option value="day" key="1">Día</option>
-              <option value="month" key="2">Mes</option>
-              <option value="year" key="3">Año</option>
-            </FormControl>
-          </InputGroup>
-        </Col>
-      </Row>
-      <Row className="justify-content-md-center mb-4">
-        <Col md="auto">
-          <Form.Label>Filtrar desde:</Form.Label>
-          <DatePicker
-            selected={fechaDesde}
-            onChange={(date) => setFechaDesde(date)}
-            selectsStart
-            startDate={fechaDesde}
-            endDate={fechaHasta}
-            maxDate={new Date()}
-            locale={es}
-            dateFormat="dd/MM/yyyy"
-          />
-        </Col>
-        <Col md="auto">
-          <Form.Label>Filtrar hasta:</Form.Label>
-          <DatePicker
-            selected={fechaHasta}
-            onChange={(date) => setFechaHasta(date)}
-            selectsEnd
-            startDate={fechaDesde}
-            endDate={fechaHasta}
-            minDate={fechaDesde}
-            maxDate={new Date()}
-            locale={es}
-            dateFormat="dd/MM/yyyy"
-          />
-        </Col>
-        <Col md="auto" className="my-2">
-          <Button variant="outline-secondary" onClick={buscarPorFechas}>Buscar</Button>
-        </Col>
-        <Col md="auto" className="my-2">
-          <Form.Text id="ayudaFiltroPeriodo" muted>
-            Seleccione el rango de fechas las cuales desea conocer las ventas totales para dicho período.
-            ATENCIÓN: Sólo se mostrarán los primeros 15 resultados.
-          </Form.Text>
-        </Col>
-
-      </Row>
-      <Row>
-        <Col xs lg="2">
-        </Col>
-        <Col md="auto">
-          <div>
-            <h6 className="display-6">Productos más vendidos: </h6>
-          </div>
-          <Chart options={{
-            chart: {
-              type: 'polarArea',
-            },
-            labels: productos,
-            stroke: {
-              colors: ['#fff']
-            },
-            yaxis: {
-              labels: {
-                formatter: function (value) {
-                  if (mayores === 'ventas') {
-                    return "$ " + value;
-                  } else {
-                    return value;
-                  }
-                }
-              },
-            },
-            fill: {
-              opacity: 0.8
-            },
-            responsive: [{
-              breakpoint: 480,
-              options: {
+            </Col>
+            <Col md="auto">
+              <div>
+                <h6 className="display-6">Total Ventas por período: </h6>
+              </div>
+              <Chart options={{
                 chart: {
-                  width: 200
+                  id: 'ventas-periodo'
                 },
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }]
-          }} series={cantidadesProductos} type="polarArea" width={500} height={320} />
-        </Col>
-        <Col xs lg="2" className="d-flex align-items-center">
-          <Row>
-            <label>Filtrar por...</label>
-          </Row>
-          <Row>
-            <InputGroup className="mb-3">
-              <FormControl as="select" onChange={onChangeFiltrarProducto}>
-                <option value="cantidades" key="1">Cantidades</option>
-                <option value="ventas" key="2">Ventas</option>
-              </FormControl>
-            </InputGroup>
-          </Row>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs lg="2">
-        </Col>
-        <Col md="auto">
-          <div>
-            <h6 className="display-6">Ventas por Categoría: </h6>
-          </div>
-          <Chart options={{
-            chart: {
-              id: 'ventas-categoria'
-            },
-            xaxis: {
-              categories: formatoFechasCategorias()
-            },
-            yaxis: {
-              labels: {
-                formatter: function (value) {
-                  return "$ " + value;
-                }
+                plotOptions: {
+                  bar: {
+                    borderRadius: 2,
+                    dataLabels: {
+                      position: 'top', // top, center, bottom
+                    },
+                  }
+                },
+                xaxis: {
+                  categories: fechas,
+                },
+                yaxis: {
+                  labels: {
+                    formatter: function (value) {
+                      return "$ " + value;
+                    }
+                  },
+                },
+                dataLabels: {
+                  enabled: true,
+                  style: {
+                    colors: ['#333']
+                  },
+                  offsetY: -20,
+                },
+              }} series={[{
+                name: 'Ventas',
+                data: ventasTotales
               },
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'smooth'
-            },
-          }} series={[{
-            name: 'Imprenta',
-            data: imprenta
-          },
-          {
-            name: 'Estampado',
-            data: estampado
-          },
-          {
-            name: 'Cartelería',
-            data: carteleria
-          },
-          ]} type="area" width={500} height={320} />
-        </Col>
-        <Col xs lg="2">
-        </Col>
-      </Row>
-    </Container>
+              ]} type="bar" width={500} height={320} />
+            </Col>
+            <Col xs lg="3" className="d-flex align-items-center">
+              <Form.Label>Filtrar por...</Form.Label>
+              <InputGroup className="mb-3">
+                <FormControl as="select" onChange={onChangeFiltrarPeriodo}>
+                  <option value="day" key="1">Día</option>
+                  <option value="month" key="2">Mes</option>
+                  <option value="year" key="3">Año</option>
+                </FormControl>
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center mb-4">
+            <Col md="auto">
+              <Form.Label>Filtrar desde:</Form.Label>
+              <DatePicker
+                selected={fechaDesde}
+                onChange={(date) => setFechaDesde(date)}
+                selectsStart
+                startDate={fechaDesde}
+                endDate={fechaHasta}
+                maxDate={new Date()}
+                locale={es}
+                dateFormat="dd/MM/yyyy"
+              />
+            </Col>
+            <Col md="auto">
+              <Form.Label>Filtrar hasta:</Form.Label>
+              <DatePicker
+                selected={fechaHasta}
+                onChange={(date) => setFechaHasta(date)}
+                selectsEnd
+                startDate={fechaDesde}
+                endDate={fechaHasta}
+                minDate={fechaDesde}
+                maxDate={new Date()}
+                locale={es}
+                dateFormat="dd/MM/yyyy"
+              />
+            </Col>
+            <Col md="auto" className="my-2">
+              <Button variant="outline-secondary" onClick={buscarPorFechas}>Buscar</Button>
+            </Col>
+            <Col md="auto" className="my-2">
+              <Form.Text id="ayudaFiltroPeriodo" muted>
+                Seleccione el rango de fechas las cuales desea conocer las ventas totales para dicho período.
+                ATENCIÓN: Sólo se mostrarán los primeros 15 resultados.
+              </Form.Text>
+            </Col>
+
+          </Row>
+          <Row>
+            <Col xs lg="2">
+            </Col>
+            <Col md="auto">
+              <div>
+                <h6 className="display-6">Productos más vendidos: </h6>
+              </div>
+              <Chart options={{
+                chart: {
+                  type: 'polarArea',
+                },
+                labels: productos,
+                stroke: {
+                  colors: ['#fff']
+                },
+                yaxis: {
+                  labels: {
+                    formatter: function (value) {
+                      if (mayores === 'ventas') {
+                        return "$ " + value;
+                      } else {
+                        return value;
+                      }
+                    }
+                  },
+                },
+                fill: {
+                  opacity: 0.8
+                },
+                responsive: [{
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200
+                    },
+                    legend: {
+                      position: 'bottom'
+                    }
+                  }
+                }]
+              }} series={cantidadesProductos} type="polarArea" width={500} height={320} />
+            </Col>
+            <Col xs lg="2" className="d-flex align-items-center">
+              <Row>
+                <label>Filtrar por...</label>
+              </Row>
+              <Row>
+                <InputGroup className="mb-3">
+                  <FormControl as="select" onChange={onChangeFiltrarProducto}>
+                    <option value="cantidades" key="1">Cantidades</option>
+                    <option value="ventas" key="2">Ventas</option>
+                  </FormControl>
+                </InputGroup>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs lg="2">
+            </Col>
+            <Col md="auto">
+              <div>
+                <h6 className="display-6">Ventas por Categoría: </h6>
+              </div>
+              <Chart options={{
+                chart: {
+                  id: 'ventas-categoria'
+                },
+                xaxis: {
+                  categories: formatoFechasCategorias()
+                },
+                yaxis: {
+                  labels: {
+                    formatter: function (value) {
+                      return "$ " + value;
+                    }
+                  },
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                stroke: {
+                  curve: 'smooth'
+                },
+              }} series={[{
+                name: 'Imprenta',
+                data: imprenta
+              },
+              {
+                name: 'Estampado',
+                data: estampado
+              },
+              {
+                name: 'Cartelería',
+                data: carteleria
+              },
+              ]} type="area" width={500} height={320} />
+            </Col>
+            <Col xs lg="2">
+            </Col>
+          </Row>
+        </Container>
+      ) : (
+        <AccessDenied />
+      )}
+    </div>
   );
 }
 

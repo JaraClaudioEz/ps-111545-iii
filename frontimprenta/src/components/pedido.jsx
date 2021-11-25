@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
+import AccessDenied from "../components/403.jsx";
 import ItemPedido from "./item-pedido";
 //import BotonMP from "./botonMP";
 import OrdenDataService from "../services/servicio-orden.js";
@@ -116,62 +117,67 @@ const Pedido = ({ pedido, agregarAlPedido, handleQuitarItemPedido, handleVaciarP
 
 
   return (
-    <Container>
-      {
-        !pedido ? (
-          <div>
-            <Row className="my-2">
-              <Col>
-                <h4 className="display-4">Lista productos de tu pedido:</h4>
-              </Col>
-            </Row>
-            <Row className="my-2">
-              <Col sm={8}>
-                <PedidoVacio />
-              </Col>
-              <Col sm={4}>
-                <div>
-                  <p>Subtotal (0) items:</p>
-                  <p>$ 0</p>
-                </div>
-                <div className="d-grid gap-2">
-                  <Button variant="dark" size="lg" disabled>Proceder a la Compra</Button>
-                  <Button variant="warning" size="lg" disabled>Vaciar Pedido</Button>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        ) : (
-          <div>
-            <Row className="my-2">
-              <Col>
-                <h4 className="display-4">Lista productos de tu pedido:</h4>
-              </Col>
-            </Row>
-            <Row className="my-2">
-              <Col sm={8}>
-                {
-                  !pedido.items.length ? <PedidoVacio /> : <PedidoCompleto />
-                }
-              </Col>
-              <Col sm={4}>
-                <div>
-                  <p>Subtotal ({!pedido ? 0 : pedido.items.length}) items:</p>
-                  <p>$ {!pedido ? 0 : pedido.importe}</p>
-                </div>
-                <div className="d-grid gap-2">
-                  <Button variant="dark" size="lg" onClick={submitCheckout}>Proceder a la Compra</Button>
-                  <Button variant="warning" size="lg" onClick={() => handleVaciarPedido()}>Vaciar Pedido</Button>
-                  <form id={FORM_ID} method="GET" />
-                </div>
-              </Col>
-            </Row>
-          </div>
+    <div>
+      {usuario ? (
+        <Container>
+          {
+            !pedido ? (
+              <div>
+                <Row className="my-2">
+                  <Col>
+                    <h4 className="display-4">Lista productos de tu pedido:</h4>
+                  </Col>
+                </Row>
+                <Row className="my-2">
+                  <Col sm={8}>
+                    <PedidoVacio />
+                  </Col>
+                  <Col sm={4}>
+                    <div>
+                      <p>Subtotal (0) items:</p>
+                      <p>$ 0</p>
+                    </div>
+                    <div className="d-grid gap-2">
+                      <Button variant="dark" size="lg" disabled>Proceder a la Compra</Button>
+                      <Button variant="warning" size="lg" disabled>Vaciar Pedido</Button>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            ) : (
+              <div>
+                <Row className="my-2">
+                  <Col>
+                    <h4 className="display-4">Lista productos de tu pedido:</h4>
+                  </Col>
+                </Row>
+                <Row className="my-2">
+                  <Col sm={8}>
+                    {
+                      !pedido.items.length ? <PedidoVacio /> : <PedidoCompleto />
+                    }
+                  </Col>
+                  <Col sm={4}>
+                    <div>
+                      <p>Subtotal ({!pedido ? 0 : pedido.items.length}) items:</p>
+                      <p>$ {!pedido ? 0 : pedido.importe}</p>
+                    </div>
+                    <div className="d-grid gap-2">
+                      <Button variant="dark" size="lg" onClick={submitCheckout}>Proceder a la Compra</Button>
+                      <Button variant="warning" size="lg" onClick={() => handleVaciarPedido()}>Vaciar Pedido</Button>
+                      <form id={FORM_ID} method="GET" />
+                    </div>
+                  </Col>
+                </Row>
+              </div>
 
-        )
-      }
-
-    </Container>
+            )
+          }
+        </Container>
+      ) : (
+        <AccessDenied />
+      )}
+    </div>
   );
 }
 

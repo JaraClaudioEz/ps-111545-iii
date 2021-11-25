@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import { Container, Col, Row, Alert} from 'react-bootstrap';
 
-const NotFound = () => {
+const AccessDenied = () => {
 
     const history = useHistory();
 
@@ -9,10 +9,10 @@ const NotFound = () => {
         <Container className="py-4">
             <Row>
                 <Col>
-                    <Alert variant="danger" onClose={() => history.push("/")} dismissible>
-                        <Alert.Heading>404 Página no Encontrada</Alert.Heading>
+                    <Alert variant="danger" onClose={() => history.push("/autorizacion")} dismissible>
+                        <Alert.Heading>403 Acceso Denegado</Alert.Heading>
                         <p>
-                            La dirección que intentas ingresar no se encuentra.
+                            No tienes permisos para acceder a la página que intentas ingresar. Debes iniciar sesión.
                         </p>
                     </Alert>
                 </Col>
@@ -21,5 +21,5 @@ const NotFound = () => {
     );
 }
 
-export default NotFound;
+export default AccessDenied;
 
