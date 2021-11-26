@@ -20,6 +20,19 @@ app.use("/api/v1/imprenta/usuarios", usuario)
 app.use("/api/v1/imprenta/pedidos", pedido)
 app.use("/api/v1/imprenta/ordenes", orden)
 app.use("/api/v1/imprenta/reportes", reporte)
-app.use("*", (req, res) => res.status(404).json({ error: "Página no encontrada"}))
+//app.use("*", (req, res) => res.status(404).json({ error: "Página no encontrada" }))
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "/frontimprenta/build")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "frontimprenta", "build", "index.html"));
+    });
+}
+else {
+    app.get("/", (req, res) => {
+        res.send("Api running");
+    });
+};
 
 export default app
