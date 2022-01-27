@@ -1,5 +1,15 @@
 import express from "express"
 import cors from "cors"
+import path from "path"
+
+const __dirname = path.resolve();
+/*
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+*/
 
 import imprenta from "./api/imprenta.route.js"
 import imagen from "./api/imagen.route.js"
