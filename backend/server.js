@@ -23,10 +23,10 @@ app.use("/api/v1/imprenta/reportes", reporte)
 //app.use("*", (req, res) => res.status(404).json({ error: "Página no encontrada" }))
 
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "/frontimprenta/build")));
+    app.use(express.static(path.join(__dirname, "/client/build")));
 
     app.get("*", (req, res) => {
-        res.sendFile(path.join(__dirname, "frontimprenta", "build", "index.html"));
+        res.sendFile(path.join(__dirname, "client", "build", "index.html"));
     });
 }
 else {
