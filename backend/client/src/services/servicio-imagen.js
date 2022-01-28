@@ -1,21 +1,21 @@
-import https from "../https-commons";
+import http from "../https-commons";
 
 class ImganeDataService {
 
     getImagenesIG() {
-        return https.get("/imagenes");
+        return http.get("/imagenes");
     };
 
     addImagen(formData) {
-        return https.post("/imagenes", formData);
+        return http.post("/imagenes", formData);
     };
 
     updateImagen(formData, id) {
-        return https.put(`/imagenes/${id}`, formData);
+        return http.put(`/imagenes/${id}`, formData);
     };
 
     deleteImagen(id) {
-        return https.delete(`/imagenes?id=${id}`);
+        return http.delete(`/imagenes?id=${id}`);
     };
 };
 

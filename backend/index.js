@@ -8,7 +8,7 @@ import fs from 'fs';
 dotenv.config();
 
 const options = {
-    key: fs.readFileSync(process.env.SSL_KEY), 
+    key: fs.readFileSync(process.env.SSL_KEY),
     cert: fs.readFileSync(process.env.SSL)
 };
 
@@ -31,7 +31,12 @@ mongoose.connect(
         process.exit(1);
     })
     .then(async client => {
+        /*
         https.createServer(options, app).listen(port, () => {
+            console.log(`Listening on port ${port}`);
+        });
+        */
+        app.listen(port, () => {
             console.log(`Listening on port ${port}`);
         });
     });
