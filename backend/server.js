@@ -39,3 +39,5 @@ else {
 };
 
 export default app
+
+//"start": "nodemon server.js",
